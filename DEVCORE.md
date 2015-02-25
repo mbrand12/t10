@@ -25,11 +25,15 @@ Also expect typos and grammar errors, and other errors... expect errors.
     * [Rooms](#rooms)
     * [Hero](#hero)
     * [Engine](#engine)
+    * [Items](#items)
+    * [Events](#events)
+    * [Characters](#characters)
   * [Key Concepts](#key-concepts)
     * [Class and method hierarchy suggestion](#class-and-method-hierarchy-suggestion)
   * [Implementation details](#implementation-details)
     * [Misc ideas](#misc-ideas)
-    * [Specifics](#specifics)
+    * [Rooms and dungeon generation](#rooms-and-dungeon-generation)
+    * [Verbs, nouns and modifiers](#verbs-nouns-and-modifiers)
 * [Development](#development)
   * [Development details and motivations](#development-details-and-motivations)
     * [Folder structure](#folder-structure)
@@ -104,6 +108,12 @@ reveals bits and peaces of the plot. Only once Hero knows the whole story will
 the door to the Final Room open.Narrative will be in 1st person present tense
 for the most parts.
 
+I will also try to craft the narrative in such way that there is no immersion
+breaking. So hero won't suffer 1 damage or heal 1 damage but there will be a
+description of his state. There will be no help commands etc. Same goes for
+saving and loading. English is not my primary language but it will be a fun
+challenge.
+
 #### Dungeon
 
 The dungeon contains nine rooms which randomly change every time a new game is
@@ -138,6 +148,23 @@ loading the game. Game can be saved only after hero exits the room. Upon game
 over there will be a load game option. Every time Hero exits a room he will
 have the chance to save.
 
+#### Items
+
+Hero will be able to pick up items in the room and place it in satchel, then
+use them when some event occurs. Possible considerations for consumable items
+as well?
+
+#### Events
+
+Each room can have one or more events. Some events will be random upon dungeon
+generation, others will have a chance occurrence, some will be fixed based on
+the room type etc.
+
+#### Characters
+
+Each room can have events where the Hero can meet a character that will either
+help or challenge the Hero, they may be item rewards included.
+
 ### Key Concepts
 
 Extracted from ideas.
@@ -150,12 +177,17 @@ Nouns:
 - Plot
 - Hit points
 - Engine
+- Item
+- Satchel/Inventory
+- Event
+- Character
 
 Verbs:
 
 - Save/Load
 - Recover/Damage
 - Enter/Exit
+- Add/Remove item
 
 #### Class and method hierarchy suggestion
 
@@ -177,12 +209,80 @@ capitalized.
   - save()
   - load()
   - start()
+- Item
+  - Consumable
+- Inventory
+  - add_item()
+  - remove_item()
 
 ### Implementation details
 
 #### Misc ideas
 
-#### Specifics
+#### Rooms and dungeon generation
+
+My initial idea is to use Rooms and then subclass it for every new room. This
+will help me in designing dungeon generator. Inheritance is mostly looked down
+upon so I am considering using modules instead, will see.
+
+I decided that every room should have up to 4 doors. The problem I have is how
+to implement movement of the hero and orientation. Just writing go south is not
+really intuitive since the player should then know where south is which can be
+fixed with a compass but another idea I have is to use markings/crest on each
+of the four doors.
+
+Each crest corresponds to one of the sides so for example dragon crest is for
+north etc.
+
+The problem is that if a room has fixed exits the algorithm needed for
+generation would be very complex (far far beyond my ability) so rather then
+absolute internal orientation the idea is to have relative orientation to a
+single door that will be marked as origin door (the door which lead to the room
+that generated this room).
+
+Now that the exits to the room can be rotated rather than being fixed the
+problem of creating an algorithm boils down to insuring that there is no
+occurrence where all the room exits will read to one-door room preventing the
+hero to reach all the rooms.
+
+Since the game contains 10 challenges I fixed the number of rooms to 10 in
+total plus Entrance.
+
+Since each room is limited by doors then I can categorize rooms based on the
+number of doors it has and then tweak the number of each room category and fill
+the rest with one-door rooms.
+
+So after a bunch of drawings etc. a dungeon should have:
+
+- 1 4-door room
+- 2 3-door rooms
+- 3 2-door rooms
+- 5 1-door rooms
+
+So now the algorithm boils down to:
+
+- Generate Entrance room then randomly generate room that isn't one-door room.
+- For each of the door of the current room generate another room.
+- If a new room is a one-door room check if the current room will have one door
+  left for a non-one-door room.
+- Add each room to a list of rooms in order to know which is the next room to
+  move to.
+- Insure that every room is properly connected to the other room.
+
+There will probably be a bunch of other checks to insure that the dungeon is
+properly built but this is the most important gist of it.
+
+#### Verbs, nouns and modifiers
+
+The basic idea is to use words as symbols sorted into verbs, nouns and modifiers
+to trigger different stuff. For example verbs should activate methods of the
+same name. To allow more freedom the basic idea is to allow synonyms for
+words.
+
+Nouns should mostly be points of interest (wall, pedestal etc.) and item names.
+
+Modifiers should be used to modify how a certain noun should be used it will
+also carry actual modifiers that other methods may set up.
 
 ## Development
 
@@ -219,9 +319,9 @@ Currently my workflow is:
 
 When I get an idea I usually note it in a [Idea](#idea) section of the DEVCORE.
 Depending on how good and/or important idea it is, I will go trough the other
-steps. Though, more often than not the idea will be a implementation idea
-rather than conceptual, so I note it down in the [Implementation
-ideas](#implementation-ideas), this usually happens when I write documentation.
+steps. Though, more often than not the idea will be a implementation idea rather
+than conceptual, so I note it down in the [Implementation ideas
+](#implementation-details), this usually happens when I write documentation.
 
 In the mean time I also started using Vim. I did this in effort to get used to
 the command line more in general and to find a way to increase my productivity
@@ -356,7 +456,7 @@ and view it as a opportunity to develop good habits as well.
 [railstutorial]: https://www.railstutorial.org/
 [Fear of Programing]: http://www.confreaks.com/videos/1148-rubyconf2008-fear-of-programming
 [red-green-refactor]: http://www.jamesshore.com/Blog/Red-Green-Refactor.html
-[style guide]: (https://github.com/bbatsov/ruby-style-guide)
+[style guide]: https://github.com/bbatsov/ruby-style-guide
 [keep-a-changelog]: https://github.com/olivierlacan/keep-a-changelog
 [Pro git]: http://git-scm.com/book/en/v2
 [Git workflow]: http://nvie.com/posts/a-successful-git-branching-model/
@@ -366,3 +466,4 @@ and view it as a opportunity to develop good habits as well.
 [rubymonk]: https://rubymonk.com/
 [ungit]: https://github.com/FredrikNoren/ungit
 [Semantic Versioning]: http://semver.org/
+
