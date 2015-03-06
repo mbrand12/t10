@@ -1,7 +1,21 @@
 module T10
   class Room
-
     DOORS = 4
+
+    VERBS = {
+      exit: %i(exit leave escape enter)
+    }
+
+    NOUNS = {
+      door: %i(door passage passageway enterance)
+    }
+
+    MODIFIERS = {
+      e_dragon:  %i{dragon},
+      s_phoenix: %i{phoenix},
+      w_tiger:   %i{tiger},
+      n_turtle:  %i{turtle}
+    }
 
     @rooms = []
     class << self
@@ -30,6 +44,13 @@ module T10
       @doors[add_door(room)][2].add_origin_door(self)
     end
 
+    def words
+      [VERBS, NOUNS, MODIFIERS]
+    end
+
+    def interact(verbs, nouns, modifiers)
+      send(verbs[0], nouns, modifiers)
+    end
 
     protected
 
@@ -112,11 +133,40 @@ module T10
       crest = door[0] if door
     end
 
+    def exit(nouns, modifiers)
+      desc = []
+      door = get_door_data(modifiers)
+
+      unless door
+        return desc << "I want leave this room, but trough which door " \
+                       "should I leave."
+      end
+
+      crest, orb_cracked, _, next_room = door
+
+      unless next_room
+        return desc <<  "This door is sealed. I'll need to find another door."
+      end
+
+      desc.concat next_room.interact([:enter],[],[])
+    end
+
+    def enter(nouns, modifiers)
+      desc = []
+      desc << "ROOM_DESCRIPTION!"
+    end
+
     private
 
     def get_crest_from_relative(orientation)
       door = @doors.find { |_, v| v[1] == orientation}
       crest = door[0] if door
+    end
+
+    def get_door_data(modifiers)
+      door = @doors.find { |k, _| modifiers.include?(k) }
+      return nil unless door
+      door.flatten
     end
   end
 end
