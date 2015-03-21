@@ -131,6 +131,79 @@ Upon each doorway there is an animal crest Dragon, Phoenix, Tiger and Tortoise.
 When a hero looks upon a crest he will recall what room it leads to if he had
 visited it. It could be also used as a way of navigation.
 
+Following will be some very basic guidelines, so that I can have some direction
+while developing the rooms.
+
+##### EntranceRoom
+
+Idea is to introduce the player with the commands via narration. The hero is in
+front of a gate and everything is depressing. This leads the player to assume
+that this will be a dark and gloomy story, but weather it will be is left to be
+seen.
+
+##### R11 - EmptyRoom
+
+A seemingly empty room until the hero tries to leave.
+
+##### R12 - SimpleRoom
+
+The Hero finds the peace of the plot right away but the narration in the room
+might hint that there is a greater secret in there, even though there wont be,
+or maybe it will.
+
+##### R13 - ArmorRoom
+
+Hero gets trapped in the room by a big metal armor robot, hero needs to
+activate and equip the armor to battle the robot in order to get the peace that
+is powering it and to be able to get out. Narratively the Hero doesn't know
+what a robot is.
+
+##### R14 - BossRoom
+
+Hero needs all but one plot peace and some other items to be able to battle
+this boss. The hero will be able to engage the Boss but will lose if Hero
+doesn't have a specific item (or maybe an armor from the Armor room) etc.
+
+##### R21 - JungeRoom
+
+The hero needs to help the soldiers to get to the helicopter. For some reason
+the soldiers see Hero as their sergeant/commander and will follow their orders.
+Getting them to the chopper dispels the room and the Hero is able to proceed.
+
+##### R22 - TrapRoom
+
+A hallway like room filled with traps that the Hero must overcome to get to the
+other side, when the Hero returns from the room from the other side Hero must
+overcome the traps again but this time in reverse, the award is the plot peace
+and the free pass trough the hallway like room.
+
+##### R23 - MazeRoom
+
+A maze in which something hunts the Hero, if hero makes three mistakes the
+something kills the hero.
+
+##### R31 - HiddenDoorRoom
+
+At first the room looks just like a room with a door on each side and a peace
+that is relatively easy to find, then a much harder puzzle opens the hidden
+third door.
+
+##### R32 - MachineryRoom
+
+Hero gets to operate a complex machinery which can lead the Hero to the puzzle
+peace or any of the two doors. All the parts are evident, the room should focus
+on the machinery.
+
+##### R4 - HallRoom
+
+A big room in which many characters appear which Hero can talk to, some appear
+only when a puzzle is complete in some of the rooms. Some are there to provide
+hints and details to the story.
+
+##### EndRoom
+
+A room that is the same as the entrance room but much more positive.
+
 #### Hero
 
 Hero will have have hit points or chances. Hit points can be depleted by
