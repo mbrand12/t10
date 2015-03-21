@@ -1,3 +1,5 @@
+require 't10/save_event'
+
 module T10
   class Room
     DOORS = 4
@@ -45,6 +47,7 @@ module T10
       }
 
       @hero = nil
+      @current_event = nil
     end
 
     def connect_to(room = nil )
@@ -57,7 +60,18 @@ module T10
     end
 
     def interact(verbs, nouns, modifiers)
-      send(verbs.first, nouns, modifiers)
+      if @current_event
+        desc = @current_event.interact(verbs, nouns, modifiers)
+
+        if @current_event.complete
+          e_verb, e_nouns, e_modifiers = @current_event.get_back_data
+          send(e_verb, e_nouns, e_modifiers)
+        else
+          desc
+        end
+      else
+        send(verbs[0], nouns, modifiers)
+      end
     end
 
     def hero_here?
@@ -159,13 +173,19 @@ module T10
         return desc <<  "This door is sealed. I'll need to find another door."
       end
 
+      unless @current_event
+        @current_event = SaveEvent.new(:exit, nouns, modifiers)
+        return @current_event.intro
+      end
       nroom_modifiers = []
       desc.concat orb_event(orb_cracked)
+      desc.insert(-2, modifiers.pop) if modifiers.last.is_a?(String)
       if desc.pop
         @doors[crest][0] = true
         nroom_modifiers << :cracked << crest
       end
       nroom_modifiers << @hero
+      @current_event = nil
       desc.concat next_room.interact([:enter],[], nroom_modifiers)
       @hero = nil if next_room.hero_here?
       desc

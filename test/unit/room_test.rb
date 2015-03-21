@@ -42,6 +42,7 @@ class RoomTest < Minitest::Test
     room1.hero = hero
     hero.damage(1)
     room1.interact([:exit], [], [:to_right])
+    room1.interact([],[],[:no])
 
     assert room2.hero_here?,
       "Hero should be in the second room, after exiting the first one."
@@ -76,17 +77,40 @@ class RoomTest < Minitest::Test
     room1.hero = hero
     hero.damage(1)
     desc.concat room1.interact([:exit], [], [:to_left])
-
+    desc.concat room1.interact([],[],[:no])
     assert desc.any? {|d| d.match(/cracks/)}
 
     desc = []
     hero.damage(1)
     desc.concat room2.interact([:exit], [], [:origin])
+    desc.concat room2.interact([],[],[:no])
 
     assert desc.any? {|d| d.match(/cracked/)},
       "Hero should not be healed again if the orb in the hallway is cracked " \
       "from when Hero came from #{room1.class} to this #{room2.class} room."
 
+  end
+
+  def test_save_event
+
+    story = T10::Story
+
+    test_path = File.expand_path('../../data/save_event.yml', __FILE__)
+    story.instance_variable_set(:@save_path, test_path)
+
+    story.new_adventure
+    room1 = story.current_room
+
+
+    desc = []
+    desc.concat room1.interact([:exit], [], [:ahead])
+
+    desc.concat room1.interact([],[],[:yes])
+
+    assert desc.any? {|d| d.match(/washes/) },
+      "Text should contain description of the save event."
+
+    story.new_adventure
   end
 end
 
