@@ -5,7 +5,6 @@ module T10
   class Story
 
     @save_path = File.expand_path('../../../data/game.yml', __FILE__)
-    @save_path = nil
     @dungeon = nil
 
     def self.new_adventure
