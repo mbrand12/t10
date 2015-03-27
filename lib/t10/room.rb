@@ -1,4 +1,5 @@
 require 't10/save_event'
+require 't10/book'
 
 module T10
   class Room
@@ -164,13 +165,12 @@ module T10
       door = get_door_data(modifiers)
 
       unless door
-        return desc << "I want leave this room, but trough which door " \
-                       "should I leave."
+        return desc << Book.room[:which_door]
       end
       crest, orb_cracked, _, next_room = door
 
       unless next_room
-        return desc <<  "This door is sealed. I'll need to find another door."
+        return desc <<  Book.room[:sealed_door]
       end
 
       unless @current_event
@@ -204,24 +204,11 @@ module T10
     def orb_event(orb_cracked)
       desc = []
       if orb_cracked
-        desc << "As I go trough the hallway, out of some ancient habit, I " \
-                "touch the round stone, now cracked, hoping that even in" \
-                "that state it might provide me with some blessing." \
-                "It provides me with none." << false
+        desc << Book.room[:orb_cracked]<< false
       elsif !orb_cracked && !@hero.at_full_health? && @hero.chance_heal(1)
-        desc << "As I go trough the hallway, out of habit, I touch the round " \
-                "stone, which emits a gentle glow, and my hopes of it " \
-                "restoring me come true. Feeling that I can take " \
-                "#{@hero.at_full_health? ? "three" : "two"} more hits " \
-                " before I perish, I proceed. "\
-                "However, the orb suddenly cracks and the hallway becomes a " \
-                "darker place urging me to find whatever comfort I can in the "\
-                "room before me." << true
+        desc << Book.room[:orb_heal] % [hit_points: @hero.hit_points] << true
       else
-        desc << "As I pass trough the hallway the faint light from the round "\
-                "orb grants me respite. I touch the orb and note how warm it "\
-                "is and turn my attention over to the next room, leaving the "\
-                "glowing orb as it casts my shadow upon the door." << false
+        desc << Book.room[:orb_no_heal] << false
       end
     end
 

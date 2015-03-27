@@ -1,4 +1,6 @@
 require 't10/story'
+require 't10/book'
+
 module T10
   class SaveEvent
 
@@ -19,8 +21,7 @@ module T10
     end
 
     def intro
-      [] << "As I am exiting the room I begin to wonder: " \
-            "\"Should I remember my adventure up to this point or not. \""
+      [] << Book.save_event[:save_intro]
     end
 
     private
@@ -30,13 +31,11 @@ module T10
       if modifiers.include?(:yes)
         Story.save_adventure
         @complete = true
-        @get_back_data[2] << "A feeling washes over me, as if I am going to " \
-                             "remember this adventure, up to this point, " \
-                             "for quite some time."
+        @get_back_data[2] << Book.save_event[:save_confirmed]
       elsif modifiers.include?(:no)
         @complete = true
       else
-        desc << "Hmm, the answer to this one should be either yes or no."
+        desc << Book.save_event[:save_wrong_answer]
       end
     end
   end
