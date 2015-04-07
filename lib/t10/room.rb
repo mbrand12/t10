@@ -247,5 +247,6 @@ module T10
       end
     end
   end
+  require 't10/rooms/entrance_room'
 end
 
