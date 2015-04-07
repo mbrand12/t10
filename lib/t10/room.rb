@@ -79,6 +79,10 @@ module T10
       true if @hero
     end
 
+    def desc_name; fail NotImplementedError; end
+
+    def desc_short; fail NotImplementedError; end
+
     protected
 
     def add_door(room)
