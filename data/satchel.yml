@@ -1,0 +1,8 @@
+---
+:help: >
+  The satchel I have obtained can be used to place or put items in it. I can
+  also inspect or use the items from the satchel.
+:not_obtained: >
+  I don't have it on me.
+:inspect_blank: >
+  In the satchel I have:

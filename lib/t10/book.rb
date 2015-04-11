@@ -3,15 +3,15 @@ require 'yaml'
 module T10
   class Book
     def self.method_missing(symbol)
-      if symbol == :room
-        get_text("@#{symbol}", "../../../data/#{symbol}.yml")
-      elsif symbol == :storyteller
+      if symbol == :room || symbol == :storyteller || symbol == :satchel
         get_text("@#{symbol}", "../../../data/#{symbol}.yml")
       elsif symbol.to_s =~ /^.*_room/
         get_text("@#{symbol}", "../../../data/rooms/#{symbol}.yml")
       elsif symbol.to_s =~ /^.*_event/
         get_text("@#{symbol}", "../../../data/events/#{symbol}.yml")
-      else
+      elsif symbol.to_s =~ /^.*_item/
+        get_text("@#{symbol}", "../../../data/items/#{symbol}.yml")
+     else
         super
       end
     end

@@ -1,9 +1,12 @@
+require 't10/satchel'
+
 module T10
   class Hero
     MAX_HP = 3
 
     attr_reader :hit_points
     attr_reader :dead
+    attr_reader :satchel
 
     alias_method :dead?, :dead
 
@@ -11,6 +14,7 @@ module T10
       @hit_points = MAX_HP
       @dead = false
       @luck = 10
+      @satchel = nil
     end
 
     def damage(dmg)
@@ -38,6 +42,10 @@ module T10
 
     def at_full_health?
       @hit_points == MAX_HP
+    end
+
+    def obtain_satchel
+      @satchel = Satchel.new
     end
   end
 end
