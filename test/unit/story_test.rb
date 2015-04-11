@@ -29,4 +29,15 @@ class StoryTest < Minitest::Test
     refute @story.ongoing_adventure?,
       "Should return false when there are no rooms in the dungeon."
   end
+
+  def test_hero_in_entrance_room_on_new_adventure
+    test_path = File.expand_path('../../data/empty_save.yml', __FILE__)
+    @story.instance_variable_set(:@save_path, test_path)
+
+    @story.new_adventure
+    ent_room = @story.instance_variable_get(:@dungeon).first
+
+    assert ent_room.class == Entrance && ent_room.hero_here?,
+      "Hero should be placed in entrance room upon new adventure."
+  end
 end

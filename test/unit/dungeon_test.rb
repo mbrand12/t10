@@ -44,9 +44,4 @@ class DungeonTest < Minitest::Test
     assert room_clases.include?(Entrance) && room_clases.include?(EndRoom),
       "Dungeon must have an Entrance and Exit"
   end
-
-  def test_hero_in_first_room
-    assert @generated_rooms[0].hero_here?,
-      "Hero should be in the first room of the dungeon."
-  end
 end

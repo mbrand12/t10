@@ -18,7 +18,6 @@ module T10
       shuffle_rooms
 
       starting_room = Entrance.new
-      starting_room.hero = Hero.new
       @dungeon_rooms = [starting_room]
       @dungeon_rooms[0].connect_to(nil)
 

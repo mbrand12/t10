@@ -8,9 +8,11 @@ module T10
     @dungeon = nil
 
     def self.new_adventure
-
       check_save_file
+
+      hero = Hero.new
       @dungeon = Dungeon.generate
+      @dungeon.first.hero = hero
 
       data = {
         dungeon: []
@@ -40,6 +42,7 @@ module T10
     def self.ongoing_adventure?
       check_save_file
       data = YAML.load_file(@save_path)
+      return false unless data.is_a?(Hash)
       data.key?(:dungeon) && data[:dungeon].any? && data[:dungeon].size == 12
     end
 
