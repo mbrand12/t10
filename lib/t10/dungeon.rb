@@ -17,7 +17,7 @@ module T10
       populate_types
       shuffle_rooms
 
-      starting_room = Entrance.new
+      starting_room = T10::Rooms::EntranceRoom.new
       @dungeon_rooms = [starting_room]
       @dungeon_rooms[0].connect_to(nil)
 
@@ -39,8 +39,8 @@ module T10
           T10::Room.rooms.select { |r| r::DOORS == k.slice(5).to_i }
       end
 
-      @rooms_by_type[:door_1].delete EndRoom
-      @rooms_by_type[:door_2].delete Entrance
+      @rooms_by_type[:door_1].delete T10::Rooms::EndRoom
+      @rooms_by_type[:door_2].delete T10::Rooms::EntranceRoom
     end
 
     def self.shuffle_rooms
@@ -87,7 +87,7 @@ module T10
         if sampled_room_type
           sampled_rooms << @rooms_by_type[sampled_room_type].shift
         else
-          sampled_rooms << EndRoom
+          sampled_rooms << T10::Rooms::EndRoom
         end
       end
       sampled_rooms

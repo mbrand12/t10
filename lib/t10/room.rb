@@ -248,5 +248,16 @@ module T10
     end
   end
   require 't10/rooms/entrance_room'
+  require 't10/rooms/end_room'
+  require 't10/rooms/armor_room'
+  require 't10/rooms/boss_room'
+  require 't10/rooms/empty_room'
+  require 't10/rooms/hall_room'
+  require 't10/rooms/hidden_door_room'
+  require 't10/rooms/jungle_room'
+  require 't10/rooms/machinery_room'
+  require 't10/rooms/maze_room'
+  require 't10/rooms/simple_room'
+  require 't10/rooms/trap_room'
 end
 

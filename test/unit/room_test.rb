@@ -3,8 +3,8 @@ require 'test_helper'
 class RoomTest < Minitest::Test
 
   def test_adding_one_room_too_much
-    room1 = R11.new
-    room2 = R12.new
+    room1 = T10::Rooms::EmptyRoom.new
+    room2 = T10::Rooms::SimpleRoom.new
 
     room1.connect_to(nil)
 
@@ -15,8 +15,8 @@ class RoomTest < Minitest::Test
   end
 
   def test_adding_duplicate_rooms
-    room1 = R31.new
-    room2 = R22.new
+    room1 = T10::Rooms::HiddenDoorRoom.new
+    room2 = T10::Rooms::TrapRoom.new
 
     room1.connect_to(nil)
     room1.connect_to(room2)
@@ -32,8 +32,8 @@ class RoomTest < Minitest::Test
 
   def test_exiting_room
     hero = T10::Hero.new
-    room1 = R21.new
-    room2 = R13.new
+    room1 = T10::Rooms::JungleRoom.new
+    room2 = T10::Rooms::ArmorRoom.new
 
     room1.connect_to(nil)
     room1.connect_to(room2)
@@ -53,8 +53,8 @@ class RoomTest < Minitest::Test
   end
 
   def test_exiting_room_no_direction
-    room1 = R21.new
-    room2 = R11.new
+    room1 = T10::Rooms::JungleRoom.new
+    room2 = T10::Rooms::EmptyRoom.new
 
     room1.connect_to(nil)
     room1.connect_to(room2)
@@ -67,8 +67,8 @@ class RoomTest < Minitest::Test
     hero = T10::Hero.new
     hero.instance_variable_set(:@luck, 1000)
 
-    room1 = R32.new
-    room2 = R4.new
+    room1 = T10::Rooms::MachineryRoom.new
+    room2 = T10::Rooms::HallRoom.new
 
     room1.connect_to(nil)
     room1.connect_to(room2)
@@ -93,6 +93,8 @@ class RoomTest < Minitest::Test
 
   def test_save_event
 
+    skip
+
     story = T10::Story
 
     test_path = File.expand_path('../../data/save_event.yml', __FILE__)
@@ -100,7 +102,6 @@ class RoomTest < Minitest::Test
 
     story.new_adventure
     room1 = story.current_room
-
 
     desc = []
     desc.concat room1.interact([:exit], [], [:ahead])

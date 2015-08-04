@@ -4,7 +4,7 @@ class EntranceRoomTest < Minitest::Test
 
   def setup
     @en_room = T10::Rooms::EntranceRoom.new
-    @next_room = R13.new
+    @next_room = T10::Rooms::ArmorRoom.new
     @hero = T10::Hero.new
 
     @en_room.connect_to(nil)

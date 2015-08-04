@@ -37,7 +37,7 @@ class StoryTest < Minitest::Test
     @story.new_adventure
     ent_room = @story.instance_variable_get(:@dungeon).first
 
-    assert ent_room.class == Entrance && ent_room.hero_here?,
+    assert ent_room.class == T10::Rooms::EntranceRoom && ent_room.hero_here?,
       "Hero should be placed in entrance room upon new adventure."
   end
 end

@@ -27,112 +27,112 @@ class T10::Room
   end
 end
 
-class R11 < T10::Room
-  DOORS = 1
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class R12 < T10::Room
-  DOORS = 1
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class R13 < T10::Room
-  DOORS = 1
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class R14 < T10::Room
-  DOORS = 1
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class EndRoom < T10::Room
-  DOORS = 1
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class Entrance < T10::Room
-    DOORS = 2
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = true
-  end
-end
-
-class R21 < T10::Room
-  DOORS = 2
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = true
-    @has_ahead = false
-    @hero = hero
-  end
-end
-
-class R22 < T10::Room
-  DOORS = 2
-  def initialize(hero = nil)
-    @has_left = false
-    @has_right = false
-    @has_ahead = true
-  end
-end
-
-class R23 < T10::Room
-  DOORS = 2
-  def initialize(hero = nil)
-    @has_left = true
-    @has_right = false
-    @has_ahead = false
-  end
-end
-
-class R31 < T10::Room
-  DOORS = 3
-  def initialize(hero = nil)
-    @has_left = true
-    @has_right = true
-    @has_ahead = false
-  end
-end
-
-class R32 < T10::Room
-  DOORS = 3
-  def initialize(hero = nil)
-    @has_left = true
-    @has_right = false
-    @has_ahead = true
-  end
-end
-
-class R4 < T10::Room
-  DOORS = 4
-  def initialize(hero = nil)
-    @has_left = true
-    @has_right = true
-    @has_ahead = true
-  end
-end
+# class R11 < T10::Room
+#   DOORS = 1
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class R12 < T10::Room
+#   DOORS = 1
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class R13 < T10::Room
+#   DOORS = 1
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class R14 < T10::Room
+#   DOORS = 1
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class EndRoom < T10::Room
+#   DOORS = 1
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class Entrance < T10::Room
+#     DOORS = 2
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = true
+#   end
+# end
+#
+# class R21 < T10::Room
+#   DOORS = 2
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = true
+#     @has_ahead = false
+#     @hero = hero
+#   end
+# end
+#
+# class R22 < T10::Room
+#   DOORS = 2
+#   def initialize(hero = nil)
+#     @has_left = false
+#     @has_right = false
+#     @has_ahead = true
+#   end
+# end
+#
+# class R23 < T10::Room
+#   DOORS = 2
+#   def initialize(hero = nil)
+#     @has_left = true
+#     @has_right = false
+#     @has_ahead = false
+#   end
+# end
+#
+# class R31 < T10::Room
+#   DOORS = 3
+#   def initialize(hero = nil)
+#     @has_left = true
+#     @has_right = true
+#     @has_ahead = false
+#   end
+# end
+#
+# class R32 < T10::Room
+#   DOORS = 3
+#   def initialize(hero = nil)
+#     @has_left = true
+#     @has_right = false
+#     @has_ahead = true
+#   end
+# end
+#
+# class R4 < T10::Room
+#   DOORS = 4
+#   def initialize(hero = nil)
+#     @has_left = true
+#     @has_right = true
+#     @has_ahead = true
+#   end
+# end
 
