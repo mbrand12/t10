@@ -1,0 +1,83 @@
+---
+:enter: >
+  I always find myself here, looking at this gate, not remembering anything
+  about myself. I do remember how to look at the things, touch and open things,
+  just to name a few. There is even, left, right, and behind sometimes for me
+  to look at. But in the end just enough to know that I know nothing at all,
+  about this place and about myself I feel static, and will move only with
+  purpose.
+:enter_visited: >
+  The gate's door won't open no matter how much I push, pull or intend to pass.
+  As far as it is concerned, its purpose has been fulfilled, and it has decided
+  to spend the rest of its days in blissful stillness. I return to the previous
+  room, with the understanding that if I want to get out of here I need to find
+  another way.
+:look_gate: >
+  The gate, like the whole wall, is bland, existing there just to exist. Like a
+  choice so obvious that it needs no more for it to be than it already is. On
+  to of its arch, however, there is a crest, a %{crest} shaped crest.
+:look_crest: >
+  A %{crest} shaped crest matches its surroundings, faded out like most things
+  that once where impressive but with time they become just a reminder of a
+  former glory. As I stared at it, for just a moment, the %{crest} stared back.
+:look_wall: >
+  To both my left and my right spans a wall so tall, or just tall enough, that
+  I am unable to determine weather it is just a wall or this gate or a wall of
+  some dungeon as well. Seemingly infinite, on both sides, I can't tell where
+  the wall ends robbing me of the choice to simply go around it.
+:look_path: >
+  Behind me a path. A gray path, only but a darker shade of the land
+  surrounding it, which in itself is desolate. The whole scene is so impossibly
+  flat that it seems like the path leads nowhere and just melts in the distance
+  with the surrounding gloom.
+:look_nothing: >
+  With nothing specific to look at, I look around taking in the dull atmosphere
+  as I ponder my next decision.
+:touch_wall: >
+  The wall is warm to the touch, it is also not possible for me to climb it.
+:touch_crest: >
+  I am unable to reach it.
+:touch_path: >
+  I poke the ground, it decides to do nothing about it.
+:touch_gate: >
+  The gate, or more precisely the door, is made of wood, ancient but not worn
+  out. Up my attempt to touch the door, it gently opens being just out of my
+  reach. Warm and pleasant air envelopes me, luring me inside.
+:touch_open_gate: >
+  The door is opened, touching it would mean entering so I decide against
+  touching the door.
+:touch_nothing: >
+  With no idea on what to poke or touch, I tap myself just to confirm that this
+  isn't a dream. It isn't, now I can only hope it isn't a nightmare as well.
+:open_gate: >
+  There is no handle, but the door opens silently as if it knows my intention,
+  I see nothing but vague shapes inside.
+:open_opened_gate: >
+  The door of the gate is already open.
+:open_nothing: >
+  Other than the gate door there is really nothing here to open.
+:enter_gate: >
+  As I go in closely to take look of what is inside. The door swiftly, but
+  gently considering its weight, closes and pushes me into the hallway.
+
+  The gentleness of the door still brings me pain, and with it some velocity.
+  So as I stumble forward, I place my hand on a cold round stone on the
+  pedestal and instantly feel better, like I can take %{hero_max_hp_m1} hits
+  but the next one would be the end of me.
+
+  The round stone, a symbol of impermanence upon it, cracked and lost its glow.
+  And sound of the orb cracking and the door closing a much deeper echo of
+  finality shakes the dungeon as if an uncertainty has become a certainty,
+  never to change as long as I am in here, wherever here is.
+:enter_path: >
+  I know not what will venturing in this dungeon bring me, it might be a
+  blessing or a fate even worse than this one now. So I chose the known rather
+  than unknown and walk on the path which direction and obstacles I can clearly
+  see, and there are none. A path which beginning and the end I know very well.
+  A path which is rich as my memories, I will learn nothing new.
+
+  I walk so long that time loses meaning, everything does. After some time,
+  eons perhaps, I look left and right and see nothing but the path, and after a
+  while nothing but the path remains.
+:enter_nothing: >
+  I can't enter it.

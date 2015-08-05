@@ -41,7 +41,9 @@ class DungeonTest < Minitest::Test
 
   def test_entrance_and_end_rooms
     room_clases = @generated_rooms.map(&:class)
-    assert room_clases.include?(Entrance) && room_clases.include?(EndRoom),
+    assert room_clases.include?(T10::Rooms::EntranceRoom) &&
+       room_clases.include?(T10::Rooms::EndRoom),
+
       "Dungeon must have an Entrance and Exit"
   end
 end
