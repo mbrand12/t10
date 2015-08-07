@@ -57,10 +57,20 @@ module T10
     end
 
     def words
-      [VERBS, NOUNS, MODIFIERS]
+      if @current_event
+        @current_event.words
+      else
+        [VERBS, NOUNS, MODIFIERS]
+      end
     end
 
     def interact(verbs, nouns, modifiers)
+
+      @current_event = nil if modifiers.include?(:game_load)
+
+      return Book.room[:no_words] if modifiers.include?(:no_words)
+      return Book.room[:no_words] if verbs.empty? && !@current_event
+
       if @current_event
         desc = @current_event.interact(verbs, nouns, modifiers)
 

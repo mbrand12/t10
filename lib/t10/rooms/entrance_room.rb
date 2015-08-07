@@ -7,14 +7,14 @@ module T10
       VERBS =  {
         look:  %i(look study stare),
         touch: %i(touch poke tap),
-        exit:  %i(exit leave escape enter),
         open:  %i(open)
       }
 
       NOUNS = {
         gate:  %i(gate doorway),
         path:  %i(path pathway ground),
-        wall:  %i(wall)
+        wall:  %i(wall),
+        crest: %i(crest)
       }
 
       def initialize
@@ -25,6 +25,15 @@ module T10
 
         @visited = false
         @gate_open = false
+      end
+
+      def words
+        if @current_event
+          super
+        else
+          verbs, nouns, modifiers = super
+          [VERBS.update(verbs), NOUNS.update(nouns),MODIFIERS.update(modifiers)]
+        end
       end
 
       protected

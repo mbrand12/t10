@@ -1,0 +1,15 @@
+---
+:intro: >
+  An old voice is telling you a story of a Hero so vividly that you experience
+  it as your own...
+:load_adventure: >
+  The Storyteller suddenly stops with the tale, looks at you and asks:
+:load_query: >
+  Where was I? (load adventure yes/no? WARRNING!: no will overwrite the
+  current adventure savefile)
+:load_query_yes: >
+  Ah, yes. I remmember...
+:load_query_no: >
+  Hmm... forgot it. Better start over then.
+:load_query_neither: >
+  Eh!? Didn't hear you there. I said:

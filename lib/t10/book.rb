@@ -5,6 +5,8 @@ module T10
     def self.method_missing(symbol)
       if symbol == :room
         get_text("@#{symbol}", "../../../data/#{symbol}.yml")
+      elsif symbol == :storyteller
+        get_text("@#{symbol}", "../../../data/#{symbol}.yml")
       elsif symbol.to_s =~ /^.*_room/
         get_text("@#{symbol}", "../../../data/rooms/#{symbol}.yml")
       elsif symbol.to_s =~ /^.*_event/
