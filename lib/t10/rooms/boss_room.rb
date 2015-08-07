@@ -8,6 +8,10 @@ module T10
         @has_right = false
         @has_ahead = false
       end
+
+      def desc_name
+        "forgotten realm "
+      end
     end
   end
 end

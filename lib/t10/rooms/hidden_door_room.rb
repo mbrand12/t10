@@ -8,6 +8,10 @@ module T10
         @has_right = true
         @has_ahead = false
       end
+
+      def desc_name
+        "hidden door room"
+      end
     end
   end
 end

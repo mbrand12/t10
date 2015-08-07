@@ -41,7 +41,7 @@ module T10
       end
 
       while(T10::Story.current_room)
-        print "#{T10::Story.current_room.class} "
+        print "#{T10::Story.current_room.desc_name} "
         print "> "
         T10::Thesaurus.add_words(*T10::Story.current_room.words)
         verbs, nouns, modifiers =  T10::Thesaurus.scan(gets.chomp)

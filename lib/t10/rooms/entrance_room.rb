@@ -27,6 +27,10 @@ module T10
         @gate_open = false
       end
 
+      def desc_name
+        "[x] the gate"
+      end
+
       def words
         if @current_event
           super

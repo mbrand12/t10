@@ -8,6 +8,10 @@ module T10
         @has_right = false
         @has_ahead = false
       end
+
+      def desc_name
+        "maze"
+      end
     end
   end
 end

@@ -68,8 +68,9 @@ module T10
 
       @current_event = nil if modifiers.include?(:game_load)
 
-      return Book.room[:no_words] if modifiers.include?(:no_words)
-      return Book.room[:no_words] if verbs.empty? && !@current_event
+      if !@current_event && (verbs.empty? || modifiers.include?(:no_words))
+        return Book.room[:no_words]
+      end
 
       if @current_event
         desc = @current_event.interact(verbs, nouns, modifiers)
