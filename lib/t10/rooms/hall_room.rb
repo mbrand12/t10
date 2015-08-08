@@ -8,6 +8,10 @@ module T10
         @has_right = true
         @has_ahead = true
       end
+
+      def desc_name
+        "great hall"
+      end
     end
   end
 end

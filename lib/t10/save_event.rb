@@ -6,7 +6,7 @@ module T10
 
     MODIFIERS = {
       yes: %i(yes remember),
-      no:  %i(no)
+      no:  %i(no not)
     }
 
     attr_reader :get_back_data, :complete
@@ -22,6 +22,10 @@ module T10
 
     def intro
       [] << Book.save_event[:save_intro]
+    end
+
+    def words
+      [{},{},MODIFIERS]
     end
 
     private

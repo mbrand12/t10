@@ -93,18 +93,18 @@ class RoomTest < Minitest::Test
 
   def test_save_event
 
-    skip
-
     story = T10::Story
 
     test_path = File.expand_path('../../data/save_event.yml', __FILE__)
     story.instance_variable_set(:@save_path, test_path)
 
     story.new_adventure
+    story.current_room.interact([:enter],[],[])
+    story.current_room.interact([:exit],[:gate],[])
     room1 = story.current_room
 
     desc = []
-    desc.concat room1.interact([:exit], [], [:ahead])
+    desc.concat room1.interact([:exit], [], [:origin])
 
     desc.concat room1.interact([],[],[:yes])
 
