@@ -35,9 +35,10 @@ module T10
     end
 
     def self.return_keywords(word_candidates, keyword_hash)
+
       result_array = []
-      word_candidates.each do |word|
-        keyword_hash.each do |k,v|
+      keyword_hash.each do |k,v|
+        word_candidates.each do |word|
           if v.include?(word)
             result_array << k
             word_candidates.delete(word)
