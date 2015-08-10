@@ -12,7 +12,7 @@ module T10
 
     def initialize
       @inventory = []
-      add_item(:amulet)
+      add_item(T10::Items::AmuletItem.item_name)
     end
 
     def interact(verbs, nouns, modifiers)
@@ -21,8 +21,9 @@ module T10
     end
 
     def words
-      [VERBS, NOUNS, MODIFIERS]
+      [VERBS, NOUNS.merge(get_inventory_words), MODIFIERS]
     end
+
     protected
 
     def add_item(item_name)
@@ -51,8 +52,8 @@ module T10
       desc = []
       if nouns.empty?
         desc <<  T10::Book.satchel[:inspect_blank] << list_item_names
-      elsif nouns.include?(:amulet)
-        desc << @inventory.first.desc
+      elsif item = find_item(nouns)
+        desc << item.desc
       end
     end
 
@@ -78,6 +79,18 @@ module T10
       item_names = []
       @inventory.each { |item| item_names << item.desc_name}
       item_names
+    end
+
+    def get_inventory_words
+      inv_words = {}
+      @inventory.each {|item| inv_words.update(item.class.item_words) }
+      inv_words
+    end
+
+    def find_item(nouns)
+      @inventory.find do |item|
+        nouns.include?(item.class.item_name)
+      end
     end
   end
 end
