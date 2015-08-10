@@ -39,6 +39,8 @@ module T10
     attr_writer :hero
 
     def initialize()
+      @visited = false
+
       @has_left  = false
       @has_right = false
       @has_ahead = false
@@ -52,6 +54,9 @@ module T10
 
       @hero = nil
       @current_event = nil
+
+      @items = []
+      @shiny_obtained = false
     end
 
     def connect_to(room = nil )
@@ -64,9 +69,10 @@ module T10
         @current_event.words
       elsif @hero && @hero.satchel
         verbs, nouns, mods = @hero.satchel.words
+        nouns = nouns.merge(get_items_hash)
         [VERBS.merge(verbs), NOUNS.merge(nouns), MODIFIERS.merge(mods)]
       else
-        [VERBS, NOUNS, MODIFIERS]
+        [VERBS, NOUNS.merge(get_items_hash), MODIFIERS]
       end
     end
 
@@ -86,7 +92,15 @@ module T10
         end
       elsif nouns.include?(:satchel)
         nouns -= [:satchel]
-        @hero.satchel.interact(verbs, nouns, modifiers)
+        modifiers = @items.map {|item| item.item_name }
+        desc = @hero.satchel.interact(verbs, nouns, modifiers)
+        if desc.last.is_a?(Symbol)
+          symbol = desc.last
+          remove_item(symbol)
+          @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
+          desc.pop
+        end
+        desc
       elsif verbs.empty? || !VERBS.include?(verbs[0]) ||
             modifiers.include?(:no_words)
         Book.room[:no_words]
@@ -224,6 +238,19 @@ module T10
     end
 
     private
+
+    def remove_item(item_name)
+      @items.delete_if {|item| item.item_name == item_name}
+    end
+
+    def get_items_hash
+      return {} if @items.empty?
+
+      result_hash = {}
+      @items.each {|item| result_hash.update(item.item_words)}
+      result_hash
+    end
+
 
     def orb_event(orb_cracked)
       desc = []

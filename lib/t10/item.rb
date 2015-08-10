@@ -35,6 +35,11 @@ module T10
       @quantity += 1
     end
 
+    def decrease_quantity(quantity = 1)
+      return false if @quantity = 0
+      @quantity -= 1
+    end
+
     def increase_quality(quality = 1)
       return false if @quality == @max_quality
       @quality += 1
@@ -44,6 +49,7 @@ module T10
 
     def desc_short; fail NotImplementedError; end
     def desc_long; fail NotImplementedError; end
+    def desc_name; fail NotImplementedError; end
   end
   require 't10/items/amulet_item'
   require 't10/items/shiny_item'

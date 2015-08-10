@@ -1,6 +1,8 @@
 ---
 :desc_name: >
-  shiny piece
+  a shiny piece
+:desc_name_qn: >
+  %{item_quantity} shiny pieces
 :desc_short_qn: >
   %{item_quantity} shiny pieces. I feel like I should do something with them
   rather than having them just bunched up like this, might lose some by

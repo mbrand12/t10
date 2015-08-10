@@ -17,9 +17,8 @@ module T10
         @max_quantity = 10
       end
 
-
       def desc_name
-        Book.amulet_item[:desc_name]
+        Book.amulet_item[:desc_name].chomp
       end
 
       def desc_short
@@ -33,7 +32,6 @@ module T10
       end
 
       def desc_long
-        @checked = true
         Book.amulet_item[:desc_long]
       end
     end

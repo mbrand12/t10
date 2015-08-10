@@ -23,7 +23,6 @@ module T10
         @has_left  = false
         @has_right = false
 
-        @visited = false
         @gate_open = false
       end
 

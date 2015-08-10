@@ -6,10 +6,10 @@ module T10
       end
 
       def self.item_words
-        {shiny: %i(shiny)}
+        {shiny: %i(shiny piece)}
       end
 
-      def initialize(quantity)
+      def initialize
         @quantity = 1
         @quality  = 0
 
@@ -17,7 +17,11 @@ module T10
       end
 
       def desc_name
-        Book.shiny_item[:desc_name]
+        if @quantity == 1
+          Book.shiny_item[:desc_name].chomp
+        else
+          Book.shiny_item[:desc_name_qn].chomp % [item_quantity: @quantity]
+        end
       end
 
       def desc_short
@@ -29,8 +33,6 @@ module T10
       end
 
       def desc_long
-        @checked = true
-
         if @quantity == 1
           Book.shiny_item[:desc_long]
         else
