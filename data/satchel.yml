@@ -12,3 +12,15 @@
   Maybe it is already in my satchel.
 :put_item: >
   I place %{item_name} in my satchel.
+:use_blank: >
+  I don't have that item in my satchel.
+:use_item: >
+  I used %{item_name} from my satchel.
+:use_already: >
+  I used that item already.
+:use_cant_yet: >
+  I can't use that item yet.
+:use_cant_there: >
+  I can't use that item there.
+:use_no_item: >
+  I don't have that in my inventory.

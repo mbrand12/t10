@@ -36,7 +36,7 @@ module T10
     end
 
     def decrease_quantity(quantity = 1)
-      return false if @quantity = 0
+      return false if @quantity == 0
       @quantity -= 1
     end
 

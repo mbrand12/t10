@@ -56,6 +56,7 @@ module T10
       @current_event = nil
 
       @items = []
+      @key_item_slots = []
       @shiny_obtained = false
     end
 
@@ -92,13 +93,34 @@ module T10
         end
       elsif nouns.include?(:satchel)
         nouns -= [:satchel]
-        modifiers = @items.map {|item| item.item_name }
+
+        modifiers = @items.map {|item| item.item_name } if verbs.include?(:put)
+
+        if verbs.include?(:use)
+          if key_item_word = key_item_fits(nouns)
+            modifiers = [key_item_word]
+          elsif @key_item_slots.none? {|k,_| nouns.include?(k)}
+            modifiers = [:no_item_to_use]
+          else
+            modifiers = [:no_use]
+          end
+        end
+
         desc = @hero.satchel.interact(verbs, nouns, modifiers)
+
         if desc.last.is_a?(Symbol)
           symbol = desc.last
-          remove_item(symbol)
-          @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
           desc.pop
+
+          if removed_item = remove_item(symbol)
+            desc << item_obtained(removed_item)
+          end
+
+          if key_item = remove_key_item_slot(symbol)
+            desc << item_used(key_item)
+          end
+
+          @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
         end
         desc
       elsif verbs.empty? || !VERBS.include?(verbs[0]) ||
@@ -237,10 +259,27 @@ module T10
       desc = []
     end
 
+    def item_used(item_class); fail NotImplementedError; end
+    def item_obtained(item_class); fail NotImplementedError; end
+
     private
 
+    def key_item_fits(nouns)
+      key_item_words = @key_item_slots.find {|k,v| nouns.include?(k)}
+      return false unless key_item_words
+      key_item_words[0] if nouns.any? {|noun| key_item_words[1].include?(noun)}
+    end
+
     def remove_item(item_name)
-      @items.delete_if {|item| item.item_name == item_name}
+      deleted = []
+      @items.delete_if {|item| deleted << item if item.item_name == item_name}
+      deleted.first
+    end
+
+    def remove_key_item_slot(item_name)
+      deleted = []
+      @key_item_slots.delete_if {|k,v| deleted << k if k == item_name}
+      deleted.first
     end
 
     def get_items_hash

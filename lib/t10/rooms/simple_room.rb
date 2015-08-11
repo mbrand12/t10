@@ -35,6 +35,12 @@ module T10
 
       protected
 
+      def item_obtained(item_class)
+        if item_class == T10::Items::ShinyItem
+          T10::Book.simple_room[:obtained_shiny]
+        end
+      end
+
       def enter(nouns, modifiers)
         super
         if @visited
