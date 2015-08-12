@@ -4,6 +4,7 @@ module T10
       DOORS = 3
 
       def initialize
+        super
         @has_left = true
         @has_right = true
         @has_ahead = false

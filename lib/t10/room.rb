@@ -6,11 +6,14 @@ module T10
     DOORS = 4
 
     VERBS = {
-      exit: %i(exit leave escape enter)
+      exit: %i(exit leave escape enter),
+      enter: %i()
     }
 
     NOUNS = {
-      door: %i(door passage passageway enterance)
+      door:    %i(door passage passageway enterance),
+      satchel: %i(satchel inventory stash)
+
     }
 
     MODIFIERS = {
@@ -36,6 +39,8 @@ module T10
     attr_writer :hero
 
     def initialize()
+      @visited = false
+
       @has_left  = false
       @has_right = false
       @has_ahead = false
@@ -49,6 +54,10 @@ module T10
 
       @hero = nil
       @current_event = nil
+
+      @items = []
+      @key_item_slots = []
+      @shiny_obtained = false
     end
 
     def connect_to(room = nil )
@@ -59,8 +68,12 @@ module T10
     def words
       if @current_event
         @current_event.words
+      elsif @hero && @hero.satchel
+        verbs, nouns, mods = @hero.satchel.words
+        nouns = nouns.merge(get_items_hash)
+        [VERBS.merge(verbs), NOUNS.merge(nouns), MODIFIERS.merge(mods)]
       else
-        [VERBS, NOUNS, MODIFIERS]
+        [VERBS, NOUNS.merge(get_items_hash), MODIFIERS]
       end
     end
 
@@ -68,9 +81,6 @@ module T10
 
       @current_event = nil if modifiers.include?(:game_load)
 
-      if !@current_event && (verbs.empty? || modifiers.include?(:no_words))
-        return Book.room[:no_words]
-      end
 
       if @current_event
         desc = @current_event.interact(verbs, nouns, modifiers)
@@ -81,6 +91,41 @@ module T10
         else
           desc
         end
+      elsif nouns.include?(:satchel)
+        nouns -= [:satchel]
+
+        modifiers = @items.map {|item| item.item_name } if verbs.include?(:put)
+
+        if verbs.include?(:use)
+          if key_item_word = key_item_fits(nouns)
+            modifiers = [key_item_word]
+          elsif @key_item_slots.none? {|k,_| nouns.include?(k)}
+            modifiers = [:no_item_to_use]
+          else
+            modifiers = [:no_use]
+          end
+        end
+
+        desc = @hero.satchel.interact(verbs, nouns, modifiers)
+
+        if desc.last.is_a?(Symbol)
+          symbol = desc.last
+          desc.pop
+
+          if removed_item = remove_item(symbol)
+            desc << item_obtained(removed_item)
+          end
+
+          if key_item = remove_key_item_slot(symbol)
+            desc << item_used(key_item)
+          end
+
+          @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
+        end
+        desc
+      elsif verbs.empty? || !VERBS.include?(verbs[0]) ||
+            modifiers.include?(:no_words)
+        Book.room[:no_words]
       else
         send(verbs[0], nouns, modifiers)
       end
@@ -214,7 +259,37 @@ module T10
       desc = []
     end
 
+    def item_used(item_class); fail NotImplementedError; end
+    def item_obtained(item_class); fail NotImplementedError; end
+
     private
+
+    def key_item_fits(nouns)
+      key_item_words = @key_item_slots.find {|k,v| nouns.include?(k)}
+      return false unless key_item_words
+      key_item_words[0] if nouns.any? {|noun| key_item_words[1].include?(noun)}
+    end
+
+    def remove_item(item_name)
+      deleted = []
+      @items.delete_if {|item| deleted << item if item.item_name == item_name}
+      deleted.first
+    end
+
+    def remove_key_item_slot(item_name)
+      deleted = []
+      @key_item_slots.delete_if {|k,v| deleted << k if k == item_name}
+      deleted.first
+    end
+
+    def get_items_hash
+      return {} if @items.empty?
+
+      result_hash = {}
+      @items.each {|item| result_hash.update(item.item_words)}
+      result_hash
+    end
+
 
     def orb_event(orb_cracked)
       desc = []

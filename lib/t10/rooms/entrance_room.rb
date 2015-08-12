@@ -23,12 +23,11 @@ module T10
         @has_left  = false
         @has_right = false
 
-        @visited = false
         @gate_open = false
       end
 
       def desc_name
-        "[x] the gate"
+        "][ the gate"
       end
 
       def words
@@ -36,7 +35,8 @@ module T10
           super
         else
           verbs, nouns, modifiers = super
-          [VERBS.update(verbs), NOUNS.update(nouns),MODIFIERS.update(modifiers)]
+          nouns = nouns.reject {|k,_| k == :satchel}
+          [VERBS.merge(verbs), NOUNS.merge(nouns),MODIFIERS.merge(modifiers)]
         end
       end
 
@@ -126,8 +126,10 @@ module T10
         desc << Book.entrance_room[:open_gate] unless @gate_open
         desc << Book.entrance_room[:enter_gate] %
           [hero_max_hp_m1: Hero::MAX_HP - 1]
+        desc << Book.entrance_room[:obtain_satchel]
         desc.concat next_room.interact([:enter],[], nroom_modifiers)
 
+        @hero.obtain_satchel if next_room.hero_here?
         @hero = nil if next_room.hero_here?
         desc
       end

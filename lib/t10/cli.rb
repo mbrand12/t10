@@ -56,7 +56,10 @@ module T10
     def self.scribe(description, page_splash = true)
       puts '='*38 + '[x]' + '='*39 if page_splash
 
-      description = description.join("\n") if description.is_a? Array
+      if description.is_a? Array
+        description = description.join("\n~"+" "*78+"~\n")
+      end
+
       if description.length >= 80
         puts format(description)
       else
