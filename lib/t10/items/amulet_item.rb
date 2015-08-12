@@ -13,8 +13,8 @@ module T10
       def initialize
         @quantity = 1
         @quality = 0
-        @max_quality = 1
-        @max_quantity = 10
+        @max_quality = 10
+        @max_quantity = 1
       end
 
       def desc_name
@@ -33,6 +33,14 @@ module T10
 
       def desc_long
         Book.amulet_item[:desc_long]
+      end
+
+      def desc_combined(q_or_q)
+        if q_or_q == 1
+          Book.amulet_item[:desc_combined]
+        else
+          Book.amulet_item[:desc_combined_qn] % [q_or_q: q_or_q]
+        end
       end
     end
   end

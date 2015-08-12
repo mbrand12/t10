@@ -16,6 +16,7 @@ module T10
 
     def initialize
       @inspected = false
+      @combined = false
     end
 
     def self.item_name; fail NotImplementedError; end
@@ -32,17 +33,18 @@ module T10
 
     def increase_quantity(quantity = 1)
       return false if @quantity == @max_quantity
-      @quantity += 1
+      @quantity += quantity
     end
 
     def decrease_quantity(quantity = 1)
-      return false if @quantity == 0
-      @quantity -= 1
+      return false if @quantity == 0 || @quantity < quantity
+      @quantity -= quantity
     end
 
     def increase_quality(quality = 1)
-      return false if @quality == @max_quality
-      @quality += 1
+      return false if @quality == @max_quality ||
+                      @quality + quality > @max_quality
+      @quality += quality
     end
 
     protected
@@ -50,6 +52,7 @@ module T10
     def desc_short; fail NotImplementedError; end
     def desc_long; fail NotImplementedError; end
     def desc_name; fail NotImplementedError; end
+    def desc_combined(quality_or_quantity); fail NotImplementedError; end
   end
   require 't10/items/amulet_item'
   require 't10/items/shiny_item'

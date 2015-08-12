@@ -10,10 +10,10 @@ module T10
       end
 
       def initialize
-        @quantity = 1
+        @quantity = 10 # TODO: set back to 1!!!!
         @quality  = 0
-
-        @checked = false
+        @max_quality = 0
+        @max_quantity = 10
       end
 
       def desc_name

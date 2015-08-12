@@ -1,7 +1,8 @@
 ---
 :help: >
   The satchel I have obtained can be used to place or put items in it. I can
-  also inspect or use the items from the satchel.
+  also inspect or use the items from the satchel, and lastly I might even be
+  able to combine an item with another item in the satchel.
 :not_obtained: >
   I don't have it on me.
 :inspect_blank: >
@@ -24,3 +25,10 @@
   I can't use that item there.
 :use_no_item: >
   I don't have that in my inventory.
+:combine_not_enough: >
+  Two items are required for me to even attempt to combine them.
+:combine_too_many: >
+  To many items to combine. I can combine only two at a time... everybody has
+  limitations.
+:combine_new: >
+  I made a %{item_name} and placed it in my satchel.
