@@ -1,8 +1,11 @@
 require 't10/save_event'
 require 't10/book'
+require 't10/room_connecting_tools'
 
 module T10
   class Room
+    include T10::RoomConnectingTools
+
     DOORS = 4
 
     VERBS = {
@@ -13,18 +16,17 @@ module T10
     NOUNS = {
       door:    %i(door passage passageway enterance),
       satchel: %i(satchel inventory stash)
-
     }
 
     MODIFIERS = {
-      e_dragon:  %i{dragon},
-      s_phoenix: %i{phoenix},
-      w_tiger:   %i{tiger},
-      n_turtle:  %i{turtle},
-      to_left:   %i{left leftmost},
-      to_right:  %i{right rightmost},
-      ahead:     %i{ahead straight},
-      origin:    %i{back behind}
+      e_dragon:  %i(dragon),
+      s_phoenix: %i(phoenix),
+      w_tiger:   %i(tiger),
+      n_turtle:  %i(turtle),
+      to_left:   %i(left leftmost),
+      to_right:  %i(right rightmost),
+      ahead:     %i(ahead straight),
+      origin:    %i(back behind)
     }
 
     @rooms = []
@@ -36,9 +38,9 @@ module T10
       @rooms << room_implementations
     end
 
-    attr_writer :hero
+    attr_writer :hero # hmm...
 
-    def initialize()
+    def initialize
       @visited = false
 
       @has_left  = false
@@ -53,16 +55,18 @@ module T10
       }
 
       @hero = nil
+
       @current_event = nil
 
-      @items = []
+      @room_items = []
       @key_item_slots = []
       @shiny_obtained = false
     end
 
-    def connect_to(room = nil )
-      return add_origin_door unless room
-      @doors[add_door(room)][2].add_origin_door(self)
+    def desc_name; fail NotImplementedError; end
+
+    def hero_here?
+      true if @hero
     end
 
     def words
@@ -70,60 +74,22 @@ module T10
         @current_event.words
       elsif @hero && @hero.satchel
         verbs, nouns, mods = @hero.satchel.words
-        nouns = nouns.merge(get_items_hash)
+        nouns = nouns.merge(get_room_items_words)
         [VERBS.merge(verbs), NOUNS.merge(nouns), MODIFIERS.merge(mods)]
       else
-        [VERBS, NOUNS.merge(get_items_hash), MODIFIERS]
+        [VERBS, NOUNS.merge(get_room_items_words), MODIFIERS]
       end
     end
 
     def interact(verbs, nouns, modifiers)
-
       @current_event = nil if modifiers.include?(:game_load)
 
-
       if @current_event
-        desc = @current_event.interact(verbs, nouns, modifiers)
-
-        if @current_event.complete
-          e_verb, e_nouns, e_modifiers = @current_event.get_back_data
-          send(e_verb, e_nouns, e_modifiers)
-        else
-          desc
-        end
+        event_interact(verbs, nouns, modifiers)
       elsif nouns.include?(:satchel)
-        nouns -= [:satchel]
-
-        modifiers = @items.map {|item| item.item_name } if verbs.include?(:put)
-
-        if verbs.include?(:use)
-          if key_item_word = key_item_fits(nouns)
-            modifiers = [key_item_word]
-          elsif @key_item_slots.none? {|k,_| nouns.include?(k)}
-            modifiers = [:no_item_to_use]
-          else
-            modifiers = [:no_use]
-          end
-        end
-
-        desc = @hero.satchel.interact(verbs, nouns, modifiers)
-
-        if desc.last.is_a?(Symbol)
-          symbol = desc.last
-          desc.pop
-
-          if removed_item = remove_item(symbol)
-            desc << item_obtained(removed_item)
-          end
-
-          if key_item = remove_key_item_slot(symbol)
-            desc << item_used(key_item)
-          end
-
-          @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
-        end
-        desc
-      elsif verbs.empty? || !VERBS.include?(verbs[0]) ||
+        satchel_interact(verbs, nouns, modifiers)
+      elsif verbs.empty? ||
+            [:inspect, :put, :use, :combine].include?(verbs[0]) ||
             modifiers.include?(:no_words)
         Book.room[:no_words]
       else
@@ -131,93 +97,17 @@ module T10
       end
     end
 
-    def hero_here?
-      true if @hero
-    end
-
-    def desc_name; fail NotImplementedError; end
-
-    def desc_short; fail NotImplementedError; end
-
     protected
 
-    def add_door(room)
+    def item_used(item_class); fail NotImplementedError; end
+    def item_obtained(item_class); fail NotImplementedError; end
 
-      if @doors.find {|_, v| v[2].class == room.class}
-        fail StandardError, "Duplicate rooms now allowed!"
+    def enter(nouns, modifiers)
+      @hero = modifiers.pop if modifiers.last.is_a?(Hero)
+      if modifiers.include?(:cracked)
+        @doors[get_crest_from_absolute(modifiers.pop)][0] = true
       end
-
-      left_crest  = get_crest_from_relative(:to_left)
-      right_crest = get_crest_from_relative(:to_right)
-      ahead_crest = get_crest_from_relative(:ahead)
-
-      case
-      when @has_left && @doors[left_crest][2].nil?
-        @doors[left_crest][2] = room
-        left_crest
-      when @has_right && @doors[right_crest][2].nil?
-        @doors[right_crest][2] = room
-        right_crest
-      when @has_ahead && @doors[ahead_crest][2].nil?
-        @doors[ahead_crest][2] = room
-        ahead_crest
-      else
-        fail StandardError,
-          "All doors for room #{self.class} occupied." \
-          " #{room.class} not added."
-      end
-    end
-
-    def add_origin_door(origin_room = nil)
-      crest = nil
-      if origin_room
-        crest = origin_room.get_crest_leading_to(self)
-
-        unless crest
-          fail StandardError,
-            "#{origin_room} should lead to this (#{self.class} room) before " \
-            "#{self.class} can lead to #{origin_room}"
-        end
-      else
-        crest = [:e_dragon, :s_phoenix, :w_tiger, :n_turtle].sample
-      end
-
-      case crest
-      when :e_dragon
-        @doors = {
-          e_dragon:  [false, :ahead, nil],
-          s_phoenix: [false, :to_right, nil],
-          w_tiger:   [false, :origin, origin_room],
-          n_turtle:  [false, :to_left, nil]
-        }
-      when :s_phoenix
-        @doors = {
-          e_dragon:  [false, :to_left, nil],
-          s_phoenix: [false, :ahead, nil],
-          w_tiger:   [false, :to_right, nil],
-          n_turtle:  [false, :origin, origin_room]
-        }
-      when :w_tiger
-        @doors = {
-          e_dragon:  [false, :origin, origin_room],
-          s_phoenix: [false, :to_left, nil],
-          w_tiger:   [false, :ahead, nil],
-          n_turtle:  [false, :to_right, nil]
-        }
-      when :n_turtle
-        @doors = {
-          e_dragon:  [false, :to_right, nil],
-          s_phoenix: [false, :origin, origin_room],
-          w_tiger:   [false, :to_left, nil],
-          n_turtle:  [false, :ahead, nil]
-        }
-      end
-      self
-    end
-
-    def get_crest_leading_to(room)
-      door = @doors.find {|_, v| v[2].class == room.class}
-      crest = door[0] if door
+      desc = []
     end
 
     def exit(nouns, modifiers)
@@ -230,7 +120,7 @@ module T10
       crest, orb_cracked, _, next_room = door
 
       unless next_room
-        return desc <<  Book.room[:sealed_door]
+        return desc << Book.room[:sealed_door]
       end
 
       unless @current_event
@@ -246,78 +136,107 @@ module T10
       end
       nroom_modifiers << @hero
       @current_event = nil
-      desc.concat next_room.interact([:enter],[], nroom_modifiers)
+      desc.concat next_room.interact([:enter], [], nroom_modifiers)
       @hero = nil if next_room.hero_here?
       desc
     end
 
-    def enter(nouns, modifiers)
-      @hero = modifiers.pop if modifiers.last.is_a?(Hero)
-      if modifiers.include?(:cracked)
-        @doors[get_crest_from_absolute(modifiers.pop)][0] = true
-      end
-      desc = []
+    def get_desc_crest_from_relative(orientation)
+      door = @doors.find { |_, v| v[1] == orientation }
+      door[0].slice(2,door[0].length-2) if door
     end
-
-    def item_used(item_class); fail NotImplementedError; end
-    def item_obtained(item_class); fail NotImplementedError; end
 
     private
 
+    def get_room_items_words
+      return {} if @room_items.empty?
+
+      result_hash = {}
+      @room_items.each { |item| result_hash.update(item.item_words) }
+      result_hash
+    end
+
+    def event_interact(verbs, nouns, modifiers)
+      @current_event.interact(verbs, nouns, modifiers)
+
+      if @current_event.complete
+        e_verb, e_nouns, e_modifiers = @current_event.get_back_data
+        send(e_verb, e_nouns, e_modifiers)
+      end
+    end
+
+    def satchel_interact(verbs, nouns, modifiers)
+      nouns -= [:satchel]
+
+      if verbs.include?(:put)
+        modifiers = @room_items.map(&:item_name)
+      elsif verbs.include?(:use)
+        modifiers = key_item_fits(nouns)
+      end
+
+      desc = @hero.satchel.interact(verbs, nouns, modifiers)
+
+      if desc.last.is_a?(Symbol)
+        symbol = desc.pop
+
+        if removed_item_class = remove_item(symbol)
+          desc << item_obtained(removed_item_class)
+        elsif key_item_class = remove_key_item_slot(symbol)
+          desc << item_used(key_item_class)
+        end
+        @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
+      end
+      desc
+    end
+
     def key_item_fits(nouns)
-      key_item_words = @key_item_slots.find {|k,v| nouns.include?(k)}
-      return false unless key_item_words
-      key_item_words[0] if nouns.any? {|noun| key_item_words[1].include?(noun)}
+      key_item_words = @key_item_slots.find { |k, _| nouns.include?(k) }
+      return [] unless key_item_words
+
+      if nouns.any? { |noun| key_item_words[1].include?(noun) }
+        [key_item_words[0]]
+      end
     end
 
     def remove_item(item_name)
       deleted = []
-      @items.delete_if {|item| deleted << item if item.item_name == item_name}
+      @room_items.delete_if do |item|
+        deleted << item if item.item_name == item_name
+      end
       deleted.first
     end
 
     def remove_key_item_slot(item_name)
       deleted = []
-      @key_item_slots.delete_if {|k,v| deleted << k if k == item_name}
+      @key_item_slots.delete_if do |k, _|
+        deleted << k if k == item_name
+      end
       deleted.first
     end
 
-    def get_items_hash
-      return {} if @items.empty?
-
-      result_hash = {}
-      @items.each {|item| result_hash.update(item.item_words)}
-      result_hash
-    end
-
-
-    def orb_event(orb_cracked)
-      desc = []
-      if orb_cracked
-        desc << Book.room[:orb_cracked]<< false
-      elsif !orb_cracked && !@hero.at_full_health? && @hero.chance_heal(1)
-        desc << Book.room[:orb_heal] % [hit_points: @hero.hit_points] << true
-      else
-        desc << Book.room[:orb_no_heal] << false
-      end
-    end
-
-    def get_crest_from_relative(orientation)
-      door = @doors.find { |_, v| v[1] == orientation }
-      door[0] if door
-    end
-
     def get_crest_from_absolute(other_room_crest)
-      door = @doors.find { |k, v| k == orient(other_room_crest) }
+      door = @doors.find { |k, _| k == orient(other_room_crest) }
       door[0] if door
     end
 
     def get_door_data(modifiers)
-      door = @doors.find do
-        |k, v| modifiers.include?(k) || modifiers.include?(v[1])
+      door = @doors.find do |k, v|
+        modifiers.include?(k) || modifiers.include?(v[1])
       end
       return nil unless door
       door.flatten
+    end
+
+    def orb_event(orb_cracked)
+      desc = []
+      if orb_cracked
+        desc << Book.room[:orb_cracked] << false
+      elsif !orb_cracked && !@hero.at_full_health? && @hero.chance_heal(1)
+        orb_text = Book.room[:orb_heal] % [hit_points: @hero.hit_points]
+        desc << orb_text << true
+      else
+        desc << Book.room[:orb_no_heal] << false
+      end
     end
 
     def orient(room_crest)
@@ -346,4 +265,3 @@ module T10
   require 't10/rooms/simple_room'
   require 't10/rooms/trap_room'
 end
-

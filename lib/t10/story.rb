@@ -10,6 +10,7 @@ module T10
     def self.new_adventure
       check_save_file
 
+      #TODO: any point to here being crated here instead of entrance room?
       hero = Hero.new
       @dungeon = Dungeon.generate
       @dungeon.first.hero = hero

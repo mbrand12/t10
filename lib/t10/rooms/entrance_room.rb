@@ -111,11 +111,6 @@ module T10
 
       private
 
-      def get_desc_crest_from_relative(orientation)
-        door = @doors.find { |_, v| v[1] == orientation }
-        door[0].slice(2,door[0].length-2) if door
-      end
-
       def enter_dungeon
         desc = []
 

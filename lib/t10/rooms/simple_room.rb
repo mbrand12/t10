@@ -15,7 +15,7 @@ module T10
         @has_right = false
         @has_ahead = false
 
-        @items = [
+        @room_items = [
           T10::Items::ShinyItem
         ]
       end
