@@ -10,7 +10,7 @@ module T10
       end
 
       def initialize
-        @quantity = 10 # TODO: set back to 1!!!!
+        @quantity = 1
         @quality  = 0
         @max_quality = 0
         @max_quantity = 10
