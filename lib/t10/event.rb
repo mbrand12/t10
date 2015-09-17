@@ -13,4 +13,5 @@ module T10
     def outro; fail NotImplementedError; end
   end
   require 't10/events/save_event'
+  require 't10/events/armor_event'
 end
