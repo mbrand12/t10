@@ -1,5 +1,3 @@
-require 't10/room'
-
 module T10
   class Dungeon
     ROOM_TYPE_LIMIT = [0, 4, 3, 2, 1]
@@ -17,7 +15,7 @@ module T10
       populate_types
       shuffle_rooms
 
-      starting_room = T10::Rooms::EntranceRoom.new
+      starting_room = Rooms::EntranceRoom.new
       @dungeon_rooms = [starting_room]
       @dungeon_rooms[0].connect_to(nil)
 
@@ -36,11 +34,11 @@ module T10
     def self.populate_types
       @rooms_by_type.each do |k, _|
         @rooms_by_type[k] =
-          T10::Room.rooms.select { |r| r::DOORS == k.slice(5).to_i }
+          Room.rooms.select { |r| r::DOORS == k.slice(5).to_i }
       end
 
-      @rooms_by_type[:door_1].delete T10::Rooms::EndRoom
-      @rooms_by_type[:door_2].delete T10::Rooms::EntranceRoom
+      @rooms_by_type[:door_1].delete Rooms::EndRoom
+      @rooms_by_type[:door_2].delete Rooms::EntranceRoom
     end
 
     def self.shuffle_rooms
@@ -87,7 +85,7 @@ module T10
         if sampled_room_type
           sampled_rooms << @rooms_by_type[sampled_room_type].shift
         else
-          sampled_rooms << T10::Rooms::EndRoom
+          sampled_rooms << Rooms::EndRoom
         end
       end
       sampled_rooms

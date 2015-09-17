@@ -13,7 +13,7 @@ module T10
       def initialize
         @quantity = 1
         @quality = 0
-        @max_quality = 10
+        @max_quality = 2 # when all rms devd should be 10
         @max_quantity = 1
       end
 

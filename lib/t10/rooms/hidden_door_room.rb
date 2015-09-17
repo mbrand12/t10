@@ -6,8 +6,8 @@ module T10
       def initialize
         super
         @has_left = true
-        @has_right = true
-        @has_ahead = false
+        @has_right = false
+        @has_ahead = true
       end
 
       def desc_name

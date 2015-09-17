@@ -3,7 +3,10 @@ module T10
     class EndRoom < Room
       DOORS = 1
 
-      VERBS = {}
+      VERBS = {
+        look: %i(look glare stare),
+        touch: %i(touch poke tap)
+      }
 
       NOUNS = {
         wall: %i(wall),
@@ -19,7 +22,7 @@ module T10
         @has_ahead = false
 
         @key_item_slots = {
-          T10::Items::AmuletItem.item_name => %i(hole wall)
+          Items::AmuletItem.item_name => %i(hole wall)
         }
       end
 
@@ -37,21 +40,39 @@ module T10
       end
 
       def item_used(item_symbol)
-        if item_symbol == T10::Items::AmuletItem.item_name
+        if item_symbol == Items::AmuletItem.item_name
           @hero = nil
-          T10::Book.end_room[:used_amulet]
+          Book.end_room[:used_amulet]
         end
       end
 
       def enter(nouns, modifiers)
         super
         if @visited
-          [] << T10::Book.end_room[:enter_visited]
+          Book.end_room[:enter_visited]
         else
           @visited = true
-          [] << T10::Book.end_room[:enter]
+          Book.end_room[:enter]
         end
+      end
 
+      def look(nouns, modifiers)
+        if nouns.empty?
+          crests = [:e_dragon, :s_phoenix, :n_turtle, :w_tiger]
+          if modifiers.empty? || crests.include?(modifiers.first)
+            Book.end_room[:look_nothing]
+          else
+            Book.end_room["look_#{modifiers.first}".to_sym]
+          end
+        end
+      end
+
+      def touch(nouns, modifiers)
+        if nouns.empty?
+          Book.end_room[:touch_nothing]
+        else
+          Book.end_room["touch_#{nouns.first}".to_sym]
+        end
       end
     end
   end

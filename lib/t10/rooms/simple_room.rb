@@ -58,73 +58,78 @@ module T10
       protected
 
       def item_obtained(item_class)
-        if item_class == T10::Items::ShinyItem
-          T10::Book.simple_room[:obtained_shiny]
+        if item_class == Items::ShinyItem
+          Book.simple_room[:obtained_shiny]
         end
       end
 
       def enter(nouns, modifiers)
         super
         if @visited
-          [] << T10::Book.simple_room[:enter_visited]
+          Book.simple_room[:enter_visited]
         else
           @visited = true
-          [] << T10::Book.simple_room[:enter]
+          Book.simple_room[:enter]
         end
       end
 
       def look(nouns, modifiers)
         if @meal_appeared
-          [] << T10::Book.simple_room[:look_meal_appeared]
+          Book.simple_room[:look_meal_appeared]
         elsif @meal_eaten && nouns.include?(:desk)
           @shiny_obtained = true
           @room_items << T10::Items::ShinyItem
-          [] << T10::Book.simple_room[:look_desk_after] <<
-                interact([:put], [:satchel, :shiny], [])
+          [Book.simple_room[:look_desk_after] <<
+                interact([:put], [:satchel, :shiny], [])]
         elsif nouns.empty?
-          [] << T10::Book.simple_room[:look_nothing]
+          crests = [:e_dragon, :s_phoenix, :n_turtle, :w_tiger]
+          if modifiers.empty? || crests.include?(modifiers.first)
+            Book.simple_room[:look_nothing]
+          else
+            Book.simple_room["look_#{modifiers.first}".to_sym]
+          end
         elsif nouns.include?(:crest)
-          [] << T10::Book.simple_room[:look_crest] %
+          Book.simple_room[:look_crest] %
                 [crest: get_desc_crest_from_relative(:origin)]
         elsif nouns.include?(:meal) && @meal_eaten
-          [] << T10::Book.simple_room[:look_meal_eaten]
+          Book.simple_room[:look_meal_eaten]
         else
-          [] << T10::Book.simple_room["look_#{nouns.first}".to_sym]
+          Book.simple_room["look_#{nouns.first}".to_sym]
         end
       end
 
       def touch(nouns, modifiers)
         if @meal_appeared
-          [] << Book.simple_room[:touch_meal_appeared]
+          Book.simple_room[:touch_meal_appeared]
         elsif nouns.empty?
           @touch_counter += 1
           if @touch_counter == 10
             @touch_counter = 0
-            [] << T10::Book.simple_room[:touch_nothing_10th]
+            Book.simple_room[:touch_nothing_10th]
           else
-            [] << T10::Book.simple_room[:touch_nothing]
+            Book.simple_room[:touch_nothing]
           end
         else
-          [] << T10::Book.simple_room["touch_#{nouns.first}".to_sym]
+          T10::Book.simple_room["touch_#{nouns.first}".to_sym]
         end
       end
 
       def sit(nouns, modifiers)
         if @meal_appeared
-          [] << Book.simple_room[:sit_meal_appeared]
+          Book.simple_room[:sit_meal_appeared]
         elsif nouns.empty?
-          [] << T10::Book.simple_room[:sit_nothing]
+          Book.simple_room[:sit_nothing]
         elsif @meal_eaten && ( nouns.include?(:chair) || nouns.include?(:bed) )
-          [] << T10::Book.simple_room[:sit_overstayed]
+          Book.simple_room[:sit_overstayed]
         elsif nouns.include?(:chair)
           @meal_appeared = true
-          [] << T10::Book.simple_room[:sit_chair]
+          Book.simple_room[:sit_chair]
         elsif nouns.include?(:bed)
-          [] << T10::Book.simple_room[:sit_bed]
+          Book.simple_room[:sit_bed]
         elsif nouns.include?(:desk)
-          [] << T10::Book.simple_room[:sit_desk]
+          Book.simple_room[:sit_desk]
         else
-          [] << T10::Book.simple_room[:sit_no]
+          Book.simple_room[:sit_no]
         end
       end
 
@@ -132,26 +137,26 @@ module T10
         if @meal_appeared && nouns.include?(:meal)
           @meal_eaten = true
           @meal_appeared = false
-          [] << T10::Book.simple_room[:eat_meal_appeared]
+          Book.simple_room[:eat_meal_appeared]
         elsif nouns.empty?
-          [] << T10::Book.simple_room[:eat_nothing]
+          Book.simple_room[:eat_nothing]
         elsif nouns.include?(:meal)
-          [] << T10::Book.simple_room[:eat_meal]
+          Book.simple_room[:eat_meal]
         else
-          [] << T10::Book.simple_room[:eat_no]
+          Book.simple_room[:eat_no]
         end
       end
 
       def extinguish(nouns, modifiers)
         if nouns.empty?
-          [] << T10::Book.simple_room[:extinguish_nothing]
+          Book.simple_room[:extinguish_nothing]
         elsif @meal_eaten && nouns.include?(:candle)
           @hero = nil
-          [] << T10::Book.simple_room[:extinguish_candle_end]
+          Book.simple_room[:extinguish_candle_end]
         elsif nouns.include?(:candle)
-          [] << T10::Book.simple_room[:extinguish_candle]
+          Book.simple_room[:extinguish_candle]
         else
-          [] << T10::Book.simple_room[:extinguish_no]
+          Book.simple_room[:extinguish_no]
         end
       end
     end

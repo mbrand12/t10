@@ -1,4 +1,3 @@
-require 't10/book'
 require 't10/room_connecting_tools'
 
 module T10
@@ -24,7 +23,7 @@ module T10
       n_turtle:  %i(turtle),
       to_left:   %i(left leftmost),
       to_right:  %i(right rightmost),
-      ahead:     %i(ahead straight),
+      ahead:     %i(ahead straight forward),
       origin:    %i(back behind)
     }
 
@@ -36,8 +35,6 @@ module T10
     def self.inherited(room_implementations)
       @rooms << room_implementations
     end
-
-    attr_writer :hero # hmm...
 
     def initialize
       @visited = false
@@ -114,16 +111,16 @@ module T10
       door = get_door_data(modifiers)
 
       unless door
-        return desc << Book.room[:which_door]
+        return Book.room[:which_door]
       end
       crest, orb_cracked, _, next_room = door
 
       unless next_room
-        return desc << Book.room[:sealed_door]
+        return Book.room[:sealed_door]
       end
 
       if @current_event == nil && !modifiers.include?(:no_save)
-        @current_event = T10::Events::SaveEvent.new(:exit, nouns, modifiers)
+        @current_event = Events::SaveEvent.new(:exit, nouns, modifiers)
         return @current_event.intro
       end
       nroom_modifiers = []
@@ -137,7 +134,7 @@ module T10
       end
       nroom_modifiers << @hero
       @current_event = nil
-      desc.concat next_room.interact([:enter], [], nroom_modifiers)
+      desc << next_room.interact([:enter], [], nroom_modifiers)
       @hero = nil if next_room.hero_here?
       desc
     end
@@ -159,7 +156,7 @@ module T10
 
     def event_interact(verbs, nouns, modifiers)
 
-      desc = [] <<  @current_event.interact(verbs, nouns, modifiers)
+      desc = [@current_event.interact(verbs, nouns, modifiers)]
 
       if @current_event.complete
         e_verb, e_nouns, e_modifiers = @current_event.get_back_data
@@ -179,7 +176,7 @@ module T10
 
       desc = @hero.satchel.interact(verbs, nouns, modifiers)
 
-      if desc.last.is_a?(Symbol)
+      if desc.is_a?(Array) && desc.last.is_a?(Symbol)
         symbol = desc.pop
 
         if removed_item_class = remove_item(symbol)
@@ -187,7 +184,7 @@ module T10
         elsif key_item_class = remove_key_item_slot(symbol)
           desc << item_used(key_item_class)
         end
-        @shiny_obtained = true if symbol == T10::Items::ShinyItem.item_name
+        @shiny_obtained = true if symbol == Items::ShinyItem.item_name
       end
       desc
     end
@@ -198,6 +195,8 @@ module T10
 
       if nouns.any? { |noun| key_item_words[1].include?(noun) }
         [key_item_words[0]]
+      else
+        []
       end
     end
 
@@ -231,14 +230,13 @@ module T10
     end
 
     def orb_chance(orb_cracked)
-      desc = []
       if orb_cracked
-        desc << Book.room[:orb_cracked] << false
+        [Book.room[:orb_cracked], false]
       elsif !orb_cracked && !@hero.at_full_health? && @hero.chance_heal(1)
         orb_text = Book.room[:orb_heal] % [hit_points: @hero.hit_points]
-        desc << orb_text << true
+        [orb_text, true]
       else
-        desc << Book.room[:orb_no_heal] << false
+        [Book.room[:orb_no_heal], false]
       end
     end
 

@@ -126,7 +126,9 @@
   "Insufficient data, please provide deployment type as well.", the voice says.
 :deploy_depN_att: >
   The giant armor lowers its halberd form the battle stance and the voice
-  announces "Deploying repair nanomist" which seems to renew the giants armor a
+  announces:
+
+  "Deploying repair nanomist", which seems to renew the giants armor a
   little and the mist itself seems to temporary stop the stone giants attempts
   at attacking in anyway.
 :deploy_depN_shield: >

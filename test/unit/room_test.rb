@@ -39,9 +39,10 @@ class RoomTest < Minitest::Test
     room1.connect_to(room2)
 
     desc = []
-    room1.hero = hero
+
+    room1.instance_variable_set(:@hero, hero)
     hero.damage(1)
-    room1.interact([:exit], [], [:to_right])
+    room1.interact([:exit], [], [:to_left])
     room1.interact([],[],[:no])
 
     assert room2.hero_here?,
@@ -59,7 +60,7 @@ class RoomTest < Minitest::Test
     room1.connect_to(nil)
     room1.connect_to(room2)
 
-    assert room1.interact([:exit],[],[])[0].match(/which/),
+    assert room1.interact([:exit],[],[]).match(/which/),
       "If no direction is provided method must return appropriate description."
   end
 
@@ -74,7 +75,7 @@ class RoomTest < Minitest::Test
     room1.connect_to(room2)
 
     desc = []
-    room1.hero = hero
+    room1.instance_variable_set(:@hero, hero)
     hero.damage(1)
     room1.interact([:exit], [], [:to_left])
     desc.concat room1.interact([],[],[:no])

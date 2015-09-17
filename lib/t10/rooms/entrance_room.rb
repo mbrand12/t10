@@ -24,6 +24,8 @@ module T10
         @has_right = false
 
         @gate_open = false
+
+        @hero = Hero.new
       end
 
       def desc_name
@@ -46,10 +48,10 @@ module T10
         modifiers.pop if modifiers.last.is_a?(Hero) && @visited
         super
         if @visited
-          [] << Book.entrance_room[:enter_visited]
+          Book.entrance_room[:enter_visited]
         else
           @visited = true
-          [] << Book.entrance_room[:enter]
+          Book.entrance_room[:enter]
         end
       end
 
@@ -65,7 +67,7 @@ module T10
       end
 
       def look(nouns, modifiers)
-        if nouns.include?(:gate)
+        if nouns.include?(:gate) || modifiers.include?(:ahead)
           [] << Book.entrance_room[:look_gate] %
             [crest: get_desc_crest_from_relative(:ahead)]
         elsif nouns.include?(:wall) ||

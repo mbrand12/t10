@@ -24,6 +24,14 @@
 :look_nothing: >
   With nothing specific to look at, I take in the scene. In front of me there is
   a giant armor, in the center of the room there is a black square pedestal.
+:look_to_left: >
+  Asaide from the wall there is pretty much nothing there.
+:look_to_righ: >
+  Nothing much going on there.
+:look_ahead: >
+  A pedestal and behind it an armored figure.
+:look_origin: >
+  A door between two pillars.
 :look_armor: >
   It is gigantic, on closer inspection it seems that it is just some armor for
   a gigantic being rather than a giant itself, thankfully. I would rather keep
@@ -102,8 +110,18 @@
   displeasure, probably, about my recent action. Its eyes glowing red now
   definitely fixated on me. I chuckle a little, amused and terrified by the
   current situation.
+
+  It seems that I am offered a quite limited amount of choices here. Going to
+  the giant armor's inviting hand seems like an option but so does exiting this
+  room, maybe I can out maneuver the stone giant, it doesn't look like it can
+  move fast enough.
 :go_nothing: >
   Where should I?
+:go_wall: >
+  I attempt going near the wall in order to out maneuver the opponent, thinking
+  that there is no way for a stone giant to move fast enough to do any harm.
+
+  At lest I got educated that bigger doesn't mean slower.
 :go_pedestal: >
   I stay in the center of the room, hoping that I will also sink into the
   ground and go somewhere else. But it seems that you have to be of the black
@@ -126,3 +144,8 @@
   foot.
 
   Foot wins.
+:go_satchel: >
+  Climbing into my satchel... just might work! If I can't see the enemy then
+  the enemy can't see me.
+
+  Wrong planet it seems.

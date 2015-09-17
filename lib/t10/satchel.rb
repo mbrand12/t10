@@ -1,4 +1,3 @@
-require 't10/item'
 module T10
   class Satchel
 
@@ -15,13 +14,13 @@ module T10
 
     def initialize
       @inventory = []
-      add_item(T10::Items::AmuletItem.item_name)
+      add_item(Items::AmuletItem.item_name)
 
       @recipes = {
-        T10::Items::AmuletItem.item_name =>
+        Items::AmuletItem.item_name =>
            [
-             T10::Items::AmuletItem.item_name,
-             T10::Items::ShinyItem.item_name
+             Items::AmuletItem.item_name,
+             Items::ShinyItem.item_name
            ].sort
       }
     end
@@ -39,48 +38,50 @@ module T10
 
     def inspect(nouns, modifiers)
       if nouns.empty?
-        [] << T10::Book.satchel[:inspect_blank] << list_item_names
+        [Book.satchel[:inspect_blank], list_item_names]
       elsif item = find_item(nouns)
-        [] << item.desc
+        item.desc
+      else
+        [Book.satchel[:inspect_blank],  list_item_names]
       end
     end
 
     def put(nouns, modifiers)
-      return [] << T10::Book.satchel[:put_blank] if nouns.empty?
+      return Book.satchel[:put_blank] if nouns.empty?
 
       item_word = room_contains_item(nouns, modifiers)
 
       if item_word && item = add_item(item_word)
-        desc = T10::Book.satchel[:put_item] % [item_name: item.desc_name]
-        [] << desc << item_word
+        desc = [Book.satchel[:put_item] % [item_name: item.desc_put]]
+        desc << item_word
       else
-        [] << T10::Book.satchel[:put_already]
+        Book.satchel[:put_already]
       end
     end
 
     def use(nouns, modifiers)
-      return [] << T10::Book.satchel[:use_blank] if nouns.empty?
-      return [] << T10::Book.satchel[:use_cant_there] if modifiers.empty?
+      return Book.satchel[:use_blank] if nouns.empty?
+      return Book.satchel[:use_cant_there] if modifiers.empty?
 
       if nouns.include?(modifiers[0]) && item = find_item(nouns)
-        if item.quality == item.max_quality || true  # TODO: R E M O V E WHEN YOU DEV ALL THE ROOMS!
+        if item.quality == item.max_quality
           remove_item(item)
-          desc = T10::Book.satchel[:use_item] % [item_name: item.desc_name]
-          [] << desc << modifiers[0]
+          desc = [Book.satchel[:use_item] % [item_name: item.desc_name]]
+          desc << modifiers[0]
         else
-          [] << T10::Book.satchel[:use_cant_yet]
+          Book.satchel[:use_cant_yet]
         end
       else
-        [] << T10::Book.satchel[:use_already]
+        Book.satchel[:use_already]
       end
     end
 
     def combine(nouns, modifiers)
       inv_words = get_inventory_words.keys
-      nouns.delete_if { |noun| !inv_words.include?(nouni) }
+      nouns.delete_if { |noun| !inv_words.include?(noun) }
 
-      return [] << T10::Book.satchel[:combine_not_enough] if nouns.length < 2
-      return [] << T10::Book.satchel[:combine_too_many] if nouns.length > 2
+      return Book.satchel[:combine_not_enough] if nouns.length < 2
+      return Book.satchel[:combine_too_many] if nouns.length > 2
 
       if recipe_hash = get_recipe(nouns)
         item_1 = find_item([recipe_hash[1][0]])
@@ -106,10 +107,10 @@ module T10
             new_q_or_q = item_2.quantity
             result_item.increase_quality(new_q_or_q)
           end
-          [] << result_item.desc_combined(new_q_or_q)
+          result_item.desc_combined(new_q_or_q)
         else
           item = add_item(recipe_hash[0])
-          [] << T10::Book.satchel[:combine_new] % [item_name: item.desc_name]
+          Book.satchel[:combine_new] % [item_name: item.desc_name]
         end
       end
     end
@@ -134,7 +135,7 @@ module T10
     end
 
     def help
-      [] << T10::Book.satchel[:help]
+      Book.satchel[:help]
     end
 
     def list_item_names

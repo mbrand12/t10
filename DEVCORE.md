@@ -304,14 +304,20 @@ really intuitive since the player should then know where south is which can be
 fixed with a compass but another idea I have is to use markings/crest on each
 of the four doors.
 
-Each crest corresponds to one of the sides so for example dragon crest is for
-north etc.
+Each crest corresponds to one of the sides so for example turtle crest is for
+north etc. The idea is that the player if necessary uses pen and paper to
+sketch the dungeon layout as exploring. The problem might arise when the rooms
+kind overlap on the written map. I sort of fixed that by not specifying the
+length of the hallways or the shape, it is kinda lacking but I don't think it
+needs the added complexity.
 
 The problem is that if a room has fixed exits the algorithm needed for
 generation would be very complex (far far beyond my ability) so rather then
 absolute internal orientation the idea is to have relative orientation to a
 single door that will be marked as origin door (the door which lead to the room
-that generated this room).
+that generated this room). What this basically means is that the inside of the
+room will, for example always have a exit on the left from where the Hero
+always stands, but on the outside that room will be rotated to fit the dungeon.
 
 Now that the exits to the room can be rotated rather than being fixed the
 problem of creating an algorithm boils down to insuring that there is no
@@ -337,7 +343,9 @@ So now the algorithm boils down to:
 - Generate Entrance room then randomly generate room that isn't one-door room.
 - For each of the door of the current room generate another room.
 - If a new room is a one-door room check if the current room will have one door
-  left for a non-one-door room.
+  left for a non-one-door room in order to prevent the possibility of a room
+  having just one-door rooms and not being connected to next non-one-door room
+  if there are any left.
 - Add each room to a list of rooms in order to know which is the next room to
   move to.
 - Insure that every room is properly connected to the other room.
@@ -356,6 +364,83 @@ Nouns should mostly be points of interest (wall, pedestal etc.) and item names.
 
 Modifiers should be used to modify how a certain noun should be used it will
 also carry actual modifiers that other methods may set up.
+
+All of the verbs, nouns and modifiers have their own synonyms to allow more
+freedom while expressing the commands etc.
+
+While games that are played via keyboard or controller have a more or less the
+same input, each room has their own rules for input so most of the classes had
+to be implemented following the verbs, nouns and modifiers idea.
+
+#### Events
+
+While from the design standpoint the idea of events was to create randomly
+assigned events to each room, from the implementation standpoint it was to
+separate logic based upon the choices the player can make during the text
+input.
+
+For example during the save game event the player can only chose yes and no,
+meaning that it can't chose to for example look around the room etc. So rather
+than using a bunch of flags and making an already bloated classes in even
+bigger ones (I currently lack knowledge and ideas to make them slimmer and
+better organized than this) I would simply make a new class and redirect the
+player text input to that class.
+
+The good thing about this is that it makes easier to implement NPC dialog for
+example and much complex events such as the armor battle.
+
+#### Armor Room Battle
+
+Armor room features the fist major event which boils down to a turn based
+battle. The challenge is/was to explain to the player what happens inside of
+the robot (or the "giant armor") without using any terms that might be
+considered sci-fi in the first person narration.
+
+The other challenge was designing a battle system which works more like a
+puzzle and to make figuring out how the armor works as a part of it by giving
+no idea what commands the player can issue but putting enough hints so that it
+doesn't become something that needs an outside source. The way I did this is by
+providing a random attack option when the player just types random stuff on the
+keyboard. The idea is to simulate the "panic" that Hero experiences etc.
+
+The battle itself boils down to finding out which moves are effective against
+what, which ones are useless and most useful but in very specific situations.
+For example once the player finds a proper use of a kick attack the player can
+basically keep the opponent in a loop and the battle practically becomes
+trivial. The idea is not to make the player frustrated by drawing out the
+battle too much, though additional balancing may be needed.
+
+While the battle has mostly random attack pattern there are some things that
+allow some prediction while still leaving enough chance for it to fail. For
+example as with every attack the details about opponent attacks are given the
+player should be able to see that the opponent never repeats an attack. Given
+that the opponent has only 3 attacks with certain moves the player can score
+critical damage.
+
+While the stats of the armor can be checked the opponent stats are not
+revealed. Both have 3 main stats (and the armor has one more). Those stats are
+basically health, ability/movement points, mana/magic points. The armor has an
+additional orange bar which is there mostly as a red herring that might come
+into play much later in some other room.
+
+The stats management becomes important because when the ap bar/vial empties the
+player cannot perform some of the actions, same goes for the opponent as well.
+
+One of my main goals was to try to sustain the narrative immersion as long as
+possible hence there are little "traditional" damage reports and such. The only
+place where it seemed ok to bring a little sci-fi flavor was with the robots
+voice ai.
+
+#### Simple room and satchel
+
+Simple room is build as an easy (well or at least easier than the armor room )
+way to get a shiny piece and combine it with the amulet. It is meant to test
+the basic features of inventory management such as inspecting, using, placing
+in the satchel and combining.
+
+The room it self consists of looking and trying to use as the things hinted in
+the descriptions or other things without making it too hard.
+
 
 ## Development
 
@@ -394,7 +479,8 @@ When I get an idea I usually note it in a [Idea](#idea) section of the DEVCORE.
 Depending on how good and/or important idea it is, I will go trough the other
 steps. Though, more often than not the idea will be a implementation idea rather
 than conceptual, so I note it down in the [Implementation ideas
-](#implementation-details), this usually happens when I write documentation.
+](#implementation-details), this usually happens when I write documentation,
+sometimes even after the fact as a reflection and clarification.
 
 In the mean time I also started using Vim. I did this in effort to get used to
 the command line more in general and to find a way to increase my productivity
@@ -421,6 +507,13 @@ choice. I mean, it does look more verbose maybe but it also looks less defined
 and less precise. But this is a beginners point of view I am sure that as I get
 more experience I would be able to understand why should I learn to RSpec too.
 
+My current opinion is that is really suck at testing and that I need to improve
+it. The problem is that for most parts I find it very hard to test specific
+classes and most of my test boil down to integration tests (even though the are
+still in the unit folder...) and in general it is very hard to get used to even
+when I can see the obvious good sides. Other is that I am mostly lazy and lack
+the habit of doing it, which I will try to overcome and create good habits.
+
 ##### 3. Implement
 
 Finaly, code! This is the fun part and the part that made me like programming;
@@ -446,7 +539,8 @@ the language good enough and not cutting methods into smaller parts.
 I will run `$ rubocop` from time to time to see the suggestions and will check
 the [style guide] or some repository which coding style I like and try to
 follow the guidelines. Tough I don't adhere to it totally, but try my best to
-be consistent.
+be consistent, and it provided me with some good suggestions or directions more
+than once.
 
 ##### 4. Document
 
@@ -516,7 +610,9 @@ in common. [The thing about git] helped me get much more comfortable with
 committing.
 
 I decided to use [git workflow] since I don't have any idea how to organize my
-project with git, and it really serves as a good guideline.
+project with git, and it really serves as a good guideline. Because I had many
+branches and was not really that much organized in where I commit what it
+proved as a good exercise to fix and move things.
 
 ## Conclusion
 
@@ -539,4 +635,3 @@ and view it as a opportunity to develop good habits as well.
 [rubymonk]: https://rubymonk.com/
 [ungit]: https://github.com/FredrikNoren/ungit
 [Semantic Versioning]: http://semver.org/
-

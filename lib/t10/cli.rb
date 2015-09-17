@@ -1,27 +1,26 @@
-require 't10/story'
 module T10
   module CLI
     def self.run
       splash
 
-      scribe T10::Book.storyteller[:intro]
+      scribe Book.storyteller[:intro]
 
-      if T10::Story.ongoing_adventure?
-        scribe T10::Book.storyteller[:load_adventure]
+      if Story.ongoing_adventure?
+        scribe Book.storyteller[:load_adventure]
         loop do
-          scribe T10::Book.storyteller[:load_query], false
+          scribe Book.storyteller[:load_query], false
           print ">"
           answer = gets.chomp
           if answer == "yes"
-            scribe T10::Book.storyteller[:load_query_yes], false
+            scribe Book.storyteller[:load_query_yes], false
             start_adventure
             break
           elsif answer == "no"
-            scribe T10::Book.storyteller[:load_query_no], false
+            scribe Book.storyteller[:load_query_no], false
             start_adventure(true)
             break
           else
-            scribe T10::Book.storyteller[:load_query_neither]
+            scribe Book.storyteller[:load_query_neither]
           end
         end
       else
@@ -31,34 +30,40 @@ module T10
 
     def self.start_adventure(new_adventure = false)
       if new_adventure
-        T10::Story.new_adventure
+        Story.new_adventure
       else
-        T10::Story.load_adventure
+        Story.load_adventure
       end
 
-      if T10::Story.current_room
-        scribe T10::Story.current_room.interact([:enter],[],[:game_load])
+      if Story.current_room
+        scribe Story.current_room.interact([:enter],[],[:game_load])
       end
 
-      while(T10::Story.current_room)
-        print "#{T10::Story.current_room.desc_name} "
+      while(Story.current_room)
+        print "#{Story.current_room.desc_name} "
         print "> "
-        T10::Thesaurus.add_words(*T10::Story.current_room.words)
-        verbs, nouns, modifiers =  T10::Thesaurus.scan(gets.chomp)
+        Thesaurus.add_words(*Story.current_room.words)
+        verbs, nouns, modifiers =  Thesaurus.scan(gets.chomp)
 
-        scribe T10::Story.current_room.interact(verbs, nouns, modifiers)
+        scribe Story.current_room.interact(verbs, nouns, modifiers)
 
       end
 
-      the_end unless T10::Story.current_room
+      the_end unless Story.current_room
     end
 
     def self.scribe(description, page_splash = true)
       puts '='*38 + '[x]' + '='*39 if page_splash
 
+      desc = []
       if description.is_a? Array
-        description = description.join("\n~"+" "*78+"~\n")
+        description.flatten.each do |w|
+          desc << w.split("\n") unless w.nil?
+        end
+      else
+        desc = description.split("\n")
       end
+      description = desc.join("\n~"+" "*78+"~\n")
 
       if description.length >= 80
         puts format(description)
@@ -89,7 +94,6 @@ module T10
       puts ' '*19 + '   | |  | | | |  __/ | |____| | | | (_| |'
       puts ' '*19 + '   |_|  |_| |_|\___| |______|_| |_|\__,_|'
       puts '='*38 + '[x]' + '='*39
-
     end
   end
 end

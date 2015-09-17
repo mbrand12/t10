@@ -1,5 +1,3 @@
-require 't10/book'
-
 module T10
   class Item
 
@@ -49,6 +47,7 @@ module T10
 
     protected
 
+    def desc_put; fail NotImplementedError; end
     def desc_short; fail NotImplementedError; end
     def desc_long; fail NotImplementedError; end
     def desc_name; fail NotImplementedError; end

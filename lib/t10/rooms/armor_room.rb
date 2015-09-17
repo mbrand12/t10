@@ -9,11 +9,19 @@ module T10
       }
 
       VERBS_2 = {
-        go: %i(go climb run)
+        go: %i(go climb run approach)
       }
 
       NOUNS = {
         crest: %i(crest),
+        armor: %i(armor armour armored armoured figure hand),
+        pedestal: %i(pedestal),
+        wall: %i(wall),
+        pillar: %i(pillar pillars),
+        stone: %i(stone statue)
+      }
+
+      NOUNS_2 = {
         armor: %i(armor armour armored armoured figure hand),
         pedestal: %i(pedestal),
         wall: %i(wall),
@@ -29,7 +37,7 @@ module T10
         @has_right = false
         @has_ahead = false
 
-        @room_items = [T10::Items::ShinyItem]
+        @room_items = [Items::ShinyItem]
 
         @battle_done = false
       end
@@ -40,9 +48,10 @@ module T10
         else
           verbs, nouns, mods = super
           if @shiny_obtained
-            verbs = verbs.merge(VERBS_2)
+            [VERBS_2.merge(verbs), NOUNS_2.merge(nouns), MODIFIERS.merge(mods)]
+          else
+            [VERBS.merge(verbs), NOUNS.merge(nouns), MODIFIERS.merge(mods)]
           end
-          [VERBS.merge(verbs), NOUNS.merge(nouns), MODIFIERS.merge(mods)]
         end
       end
 
@@ -53,9 +62,9 @@ module T10
       protected
 
       def item_obtained(item_class)
-        if item_class == T10::Items::ShinyItem
+        if item_class == Items::ShinyItem
           @shiny_obtained = true
-          T10::Book.armor_room[:obtained_shiny]
+          Book.armor_room[:obtained_shiny]
         end
       end
 
@@ -63,50 +72,64 @@ module T10
         modifiers.pop if modifiers.last.is_a?(Hero) && @battle_done
         super
         if @battle_done
-          desc = [T10::Book.armor_room[:enter_battle_done]]
+          desc = [Book.armor_room[:enter_battle_done]]
           if modifiers.include?(:game_load)
             desc << send(:exit, [], [:origin, :no_save])
           end
           des
         elsif @visited
-          [] << T10::Book.armor_room[:enter_visited]
+          Book.armor_room[:enter_visited]
         else
           @visited = true
-          [] << T10::Book.armor_room[:enter]
+          Book.armor_room[:enter]
+        end
+      end
+
+      def exit(nouns, modifiers)
+        if @shiny_obtained && !modifiers.include?(:battle_over)
+          @hero = nil
+          Book.armor_room[:go_door]
+        else
+          super
         end
       end
 
       def look(nouns, modifiers)
         if nouns.empty?
-          [] << T10::Book.armor_room[:look_nothing]
+          crests = [:e_dragon, :s_phoenix, :n_turtle, :w_tiger]
+          if modifiers.empty? || crests.include?(modifiers.first)
+            Book.armor_room[:look_nothing]
+          else
+            Book.armor_room["look_#{modifiers.first}".to_sym]
+          end
         elsif nouns.include?(:crest)
-          [] << T10::Book.armor_room[:look_crest] %
+          Book.armor_room[:look_crest] %
                 [crest: get_desc_crest_from_relative(:origin)]
-        elsif nouns.include?(:door)
-          [] << T10::Book.armor_room[:look_door] %
+        elsif nouns.include?(:door) || modifiers.include?(:origin)
+          Book.armor_room[:look_door] %
                 [crest: get_desc_crest_from_relative(:origin)]
         else
-          [] << T10::Book.armor_room["look_#{nouns.first}".to_sym]
+          Book.armor_room["look_#{nouns.first}".to_sym]
         end
       end
 
       def touch(nouns, modifiers)
         if nouns.empty?
-          [] << T10::Book.armor_room[:touch_nothing]
+          Book.armor_room[:touch_nothing]
         else
-          [] << T10::Book.armor_room["touch_#{nouns.first}".to_sym]
+          Book.armor_room["touch_#{nouns.first}".to_sym]
         end
       end
 
       def go(nouns, modifiers)
         if nouns.empty?
-          [] << T10::Book.armor_room[:go_nothing]
+          Book.armor_room[:go_nothing]
         elsif nouns.include?(:armor)
-          @current_event = T10::Events::ArmorEvent.new(:battle_over, nil, nil)
+          @current_event = Events::ArmorEvent.new(:battle_over, nil, nil)
           @current_event.intro
         else
           @hero = nil
-          [] << T10::Book.armor_room["go_#{nouns.first}".to_sym]
+          Book.armor_room["go_#{nouns.first}".to_sym]
         end
       end
 
@@ -122,7 +145,7 @@ module T10
           @battle_done = true
           desc << @current_event.outro
           @current_event = nil
-          desc << exit(nil, [:origin])
+          desc << exit(nil, [:origin, :battle_over])
         end
         desc
       end

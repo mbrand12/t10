@@ -56,14 +56,14 @@ module T10
       end
 
       def intro
-        T10::Book.armor_event[:event_intro]
+        Book.armor_event[:event_intro]
       end
 
       def outro
         if @get_back_data[2].include?(:battle_lost)
           ""
         elsif @get_back_data[2].include?(:battle_won)
-          T10::Book.armor_event[:battle_aftermath]
+          Book.armor_event[:battle_aftermath]
         end
       end
 
@@ -71,7 +71,7 @@ module T10
 
       def random(nouns, modifiers)
         unless nouns.include?(:something)
-          return [] << T10::Book.armor_event[:do_nothing]
+          return Book.armor_event[:do_nothing]
         end
 
         verb = ACTIONS.keys.sample
@@ -82,18 +82,18 @@ module T10
         com = "#{mods[0].capitalize unless mods[0].nil?} #{verb.capitalize}"
 
         if @first_random_command
-          desc << T10::Book.armor_event[:do_something] % [command: com]
+          desc << Book.armor_event[:do_something] % [command: com]
         else
           @first_random_command = true
-          desc << T10::Book.armor_event[:do_something_ft] % [command: com]
+          desc << Book.armor_event[:do_something_ft] % [command: com]
         end
         desc << send(verb, nil, mods)
       end
 
       def attack(nouns, modifiers)
-        return T10::Book.armor_event[:attack_no_ap] if @armor_ap == 0
+        return Book.armor_event[:attack_no_ap] if @armor_ap == 0
         if modifiers.empty? || !ACTIONS[:attack].include?(modifiers.first)
-          return T10::Book.armor_event[:attack_nothing]
+          return Book.armor_event[:attack_nothing]
         end
         desc = []
 
@@ -108,7 +108,7 @@ module T10
         attack_calc(armor_attack, stone_react)
 
         action = "attack_#{armor_attack}_#{stone_react}"
-        desc << T10::Book.armor_event[action.to_sym]
+        desc << Book.armor_event[action.to_sym]
 
         desc << status_check
 
@@ -117,7 +117,7 @@ module T10
 
       def guard(nouns, modifiers)
         if modifiers.empty? || !ACTIONS[:guard].include?(modifiers.first)
-          return T10::Book.armor_event[:defend_nothing]
+          return Book.armor_event[:defend_nothing]
         end
 
         desc = []
@@ -130,7 +130,7 @@ module T10
         action = "defend_#{armor_defend}_#{stone_react}"
         action = "defend_def_shield" if stone_react == "shield"
 
-        desc << T10::Book.armor_event[action.to_sym]
+        desc << Book.armor_event[action.to_sym]
 
         desc << status_check
 
@@ -139,11 +139,11 @@ module T10
 
       def deploy(nouns, modifiers)
         if @armor_mp < 2
-          return T10::Book.armor_event[:deploy_no_mp]
+          return Book.armor_event[:deploy_no_mp]
         end
 
         if modifiers.empty? || !ACTIONS[:deploy].include?(modifiers.first)
-          return T10::Book.armor_event[:deploy_nothing]
+          return Book.armor_event[:deploy_nothing]
         end
 
         desc = []
@@ -155,7 +155,7 @@ module T10
 
         action = "deploy_#{armor_deploy}_#{stone_react}"
 
-        desc << T10::Book.armor_event[action.to_sym]
+        desc << Book.armor_event[action.to_sym]
 
         desc << status_check
 
@@ -163,7 +163,7 @@ module T10
       end
 
       def check(nouns, modifiers)
-        return T10::Book.armor_event[:check_nothing] if nouns.empty?
+        return Book.armor_event[:check_nothing] if nouns.empty?
 
         if nouns.include?(:box)
 
@@ -175,26 +175,26 @@ module T10
           }
 
           if @box_first_time
-            T10::Book.armor_event[:check_box] % stats
+            Book.armor_event[:check_box] % stats
           else
             @box_first_time = true
-            T10::Book.armor_event[:check_box_ft] % stats
+            Book.armor_event[:check_box_ft] % stats
           end
         else
-          T10::Book.armor_event[:check_nothing]
+          Book.armor_event[:check_nothing]
         end
       end
 
       def stone_action(armor_action)
         if @stone_ap == 0
-         @stone_actions << @prev_stone_action unless @prev_stone_action.nil?
+          @stone_actions << @prev_stone_action unless @prev_stone_action.nil?
           if armor_action == "attH" || armor_action == "attV" ||
              armor_action == "attT"
             curr_stone_action = armor_action
             @prev_stone_action = curr_stone_action
             @stone_actions.delete(curr_stone_action)
           end
-          return "shield"
+        return "shield"
         end
 
         curr_stone_action = @stone_actions.sample
@@ -349,17 +349,13 @@ module T10
         if @armor_hp <= 0
           @get_back_data[2] = [:battle_lost]
           @complete = true
-          return T10::Book.armor_event[:battle_lost]
-        end
-
-        if @stone_hp <= 0
+          return Book.armor_event[:battle_lost]
+        elsif @stone_hp <= 0
           @get_back_data[2] = [:battle_won]
           @complete = true
-          return T10::Book.armor_event[:battle_won]
-        end
-
-        if @stone_ap == 0
-          return T10::Book.armor_event[:stone_no_ap]
+          return Book.armor_event[:battle_won]
+        elsif @stone_ap == 0
+          return Book.armor_event[:stone_no_ap]
         end
       end
     end

@@ -9,6 +9,14 @@
   back to the door to the left of me is a bed, a few paces in front of me a
   desk with a chair. The room itself seems a little bit narrower than it should
   be, but a higher ceiling compensates.
+:look_to_left: >
+  To the left of me is a bed.
+:look_to_righ: >
+  To the right of me is a wall.
+:look_ahead: >
+  A few paces in front of me there are a desk and a chair.
+:look_origin: >
+  Behind me there is a door.
 :look_wall: >
   It is made from the bricks similar to that on the outside of the dungeon but
   smaller.

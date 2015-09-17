@@ -19,7 +19,6 @@ class EntranceRoomTest < Minitest::Test
   end
 
   def test_exiting_room
-    @en_room.hero = @hero
     @en_room.interact([:enter], [], [])
     @en_room.interact([:exit], [:gate], [])
     assert !@en_room.hero_here? && @next_room.hero_here?,
@@ -27,7 +26,9 @@ class EntranceRoomTest < Minitest::Test
   end
 
   def test_entering_entrace_room_again
-    @next_room.hero = @hero
+    @next_room.instance_variable_set(:@hero, @hero)
+    @en_room.instance_variable_set(:@hero, nil)
+
     @en_room.interact([:enter], [], [])
     @next_room.interact([:exit], [], [:origin])
     @next_room.interact([], [], [:no])
@@ -37,7 +38,6 @@ class EntranceRoomTest < Minitest::Test
   end
 
   def test_extiting_path
-    @en_room.hero = @hero
     @en_room.interact([:exit], [:path], [])
 
     refute @en_room.hero_here? && @next_room.hero_here?,

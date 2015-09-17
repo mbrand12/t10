@@ -16,6 +16,10 @@ module T10
         @max_quantity = 10
       end
 
+      def desc_put
+        Book.shiny_item[:desc_put].chomp
+      end
+
       def desc_name
         if @quantity == 1
           Book.shiny_item[:desc_name].chomp

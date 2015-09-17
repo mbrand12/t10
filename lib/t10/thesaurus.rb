@@ -12,7 +12,6 @@ module T10
     end
 
     def self.scan(text)
-
       words = convert_to_sym_array(text)
 
       return [[],[],[:no_words]] if words.empty?
@@ -35,7 +34,6 @@ module T10
     end
 
     def self.return_keywords(word_candidates, keyword_hash)
-
       result_array = []
       keyword_hash.each do |k,v|
         word_candidates.each do |word|
@@ -48,6 +46,5 @@ module T10
       end
       [result_array, word_candidates]
     end
-
   end
 end

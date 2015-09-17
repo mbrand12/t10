@@ -1,5 +1,3 @@
-require 't10/satchel'
-
 module T10
   class Hero
     MAX_HP = 3

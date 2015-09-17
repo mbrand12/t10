@@ -5,8 +5,8 @@ module T10
 
       def initialize
         super
-        @has_left = false
-        @has_right = true
+        @has_left = true
+        @has_right = false
         @has_ahead = false
       end
 

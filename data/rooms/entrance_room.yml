@@ -2,9 +2,9 @@
 :enter: >
   I always find myself here, looking at this gate, not remembering anything
   about myself. I do remember how to look at the things, touch and open things,
-  just to name a few. There is even, left, right, and behind sometimes for me
-  to look at. But in the end just enough to know that I know nothing at all,
-  about this place and about myself I feel static, and will move only with
+  just to name a few. There is even, left, right, ahead and behind sometimes
+  for me to look at. But in the end just enough to know that I know nothing at
+  all, about this place and about myself. I feel static, and will move only with
   purpose.
 :enter_visited: >
   The gate's door won't open no matter how much I push, pull or intend to pass.
@@ -22,7 +22,7 @@
   former glory. As I stared at it, for just a moment, the %{crest} stared back.
 :look_wall: >
   To both my left and my right spans a wall so tall, or just tall enough, that
-  I am unable to determine weather it is just a wall or this gate or a wall of
+  I am unable to determine weather it is just a wall for this gate or a wall of
   some dungeon as well. Seemingly infinite, on both sides, I can't tell where
   the wall ends robbing me of the choice to simply go around it.
 :look_path: >
@@ -69,6 +69,9 @@
   And sound of the orb cracking and the door closing a much deeper echo of
   finality shakes the dungeon as if an uncertainty has become a certainty,
   never to change as long as I am in here, wherever here is.
+
+  I compose myself taking note of the door before me and decide to enter ahead
+  and exit this hallway.
 :enter_path: >
   I know not what will venturing in this dungeon bring me, it might be a
   blessing or a fate even worse than this one now. So I chose the known rather
@@ -84,4 +87,4 @@
 :obtain_satchel: >
   In the hallway I also notice a well worn but sturdy satchel, having nothng
   on myself to carry any useful things or items I might find I pick it up while
-  making a mental note to look in the satchel later on.
+  making a mental note to inspect the satchel later on.
