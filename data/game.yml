@@ -1,6 +1,6 @@
 ---
 :dungeon:
-- &4 !ruby/object:T10::Rooms::EntranceRoom
+- &5 !ruby/object:T10::Rooms::EntranceRoom
   visited: true
   has_left: false
   has_right: false
@@ -18,29 +18,29 @@
         :e_dragon:
         - false
         - :ahead
-        - &2 !ruby/object:T10::Rooms::JungleRoom
+        - &2 !ruby/object:T10::Rooms::TrapRoom
           visited: false
           has_left: false
-          has_right: true
-          has_ahead: false
+          has_right: false
+          has_ahead: true
           doors:
             :e_dragon:
             - false
             - :ahead
-            - 
-            :s_phoenix:
-            - false
-            - :to_right
-            - &1 !ruby/object:T10::Rooms::MachineryRoom
+            - &1 !ruby/object:T10::Rooms::HiddenDoorRoom
               visited: false
               has_left: true
-              has_right: false
-              has_ahead: true
+              has_right: true
+              has_ahead: false
               doors:
                 :e_dragon:
                 - false
-                - :to_left
-                - &10 !ruby/object:T10::Rooms::BossRoom
+                - :ahead
+                - 
+                :s_phoenix:
+                - false
+                - :to_right
+                - &12 !ruby/object:T10::Rooms::BossRoom
                   visited: false
                   has_left: false
                   has_right: false
@@ -48,28 +48,32 @@
                   doors:
                     :e_dragon:
                     - false
-                    - :ahead
+                    - :to_left
                     - 
                     :s_phoenix:
                     - false
-                    - :to_right
+                    - :ahead
                     - 
                     :w_tiger:
                     - false
-                    - :origin
-                    - *1
+                    - :to_right
+                    - 
                     :n_turtle:
                     - false
-                    - :to_left
-                    - 
+                    - :origin
+                    - *1
                   hero: 
                   current_event: 
                   room_items: []
                   key_item_slots: []
                   shiny_obtained: false
-                :s_phoenix:
+                :w_tiger:
                 - false
-                - :ahead
+                - :origin
+                - *2
+                :n_turtle:
+                - false
+                - :to_left
                 - &11 !ruby/object:T10::Rooms::SimpleRoom
                   visited: false
                   has_left: false
@@ -78,39 +82,35 @@
                   doors:
                     :e_dragon:
                     - false
-                    - :to_left
+                    - :to_right
                     - 
                     :s_phoenix:
                     - false
-                    - :ahead
-                    - 
+                    - :origin
+                    - *1
                     :w_tiger:
                     - false
-                    - :to_right
+                    - :to_left
                     - 
                     :n_turtle:
                     - false
-                    - :origin
-                    - *1
+                    - :ahead
+                    - 
                   hero: 
                   current_event: 
                   room_items:
-                  - !ruby/class 'T10::Items::ShinyItem'
+                  - &4 !ruby/class 'T10::Items::ShinyItem'
                   key_item_slots: []
                   shiny_obtained: false
-                :w_tiger:
-                - false
-                - :to_right
-                - 
-                :n_turtle:
-                - false
-                - :origin
-                - *2
               hero: 
               current_event: 
               room_items: []
               key_item_slots: []
               shiny_obtained: false
+            :s_phoenix:
+            - false
+            - :to_right
+            - 
             :w_tiger:
             - false
             - :origin
@@ -127,7 +127,7 @@
         :s_phoenix:
         - false
         - :to_right
-        - &8 !ruby/object:T10::Rooms::ArmorRoom
+        - &9 !ruby/object:T10::Rooms::ArmorRoom
           visited: true
           has_left: false
           has_right: false
@@ -160,11 +160,6 @@
                 quality: 0
                 max_quality: 10
                 max_quantity: 1
-              - !ruby/object:T10::Items::ShinyItem
-                quantity: 10
-                quality: 0
-                max_quality: 0
-                max_quantity: 10
               recipes:
                 :amulet:
                 - :amulet
@@ -172,26 +167,26 @@
           current_event: !ruby/object:T10::Events::SaveEvent
             get_back_data:
             - :exit
-            - 
+            - []
             - - :origin
-              - :no_save
             complete: false
-          room_items: []
+          room_items:
+          - *4
           key_item_slots: []
-          shiny_obtained: true
-          battle_done: true
+          shiny_obtained: false
+          battle_done: false
         :w_tiger:
         - true
         - :origin
-        - *4
+        - *5
         :n_turtle:
         - false
         - :to_left
-        - &5 !ruby/object:T10::Rooms::MazeRoom
+        - &6 !ruby/object:T10::Rooms::MachineryRoom
           visited: false
           has_left: true
           has_right: false
-          has_ahead: false
+          has_ahead: true
           doors:
             :e_dragon:
             - false
@@ -204,46 +199,20 @@
             :w_tiger:
             - false
             - :to_left
-            - &6 !ruby/object:T10::Rooms::HiddenDoorRoom
+            - &10 !ruby/object:T10::Rooms::EmptyRoom
               visited: false
-              has_left: true
-              has_right: true
+              has_left: false
+              has_right: false
               has_ahead: false
               doors:
                 :e_dragon:
                 - false
                 - :origin
-                - *5
+                - *6
                 :s_phoenix:
                 - false
                 - :to_left
-                - &9 !ruby/object:T10::Rooms::EmptyRoom
-                  visited: false
-                  has_left: false
-                  has_right: false
-                  has_ahead: false
-                  doors:
-                    :e_dragon:
-                    - false
-                    - :to_left
-                    - 
-                    :s_phoenix:
-                    - false
-                    - :ahead
-                    - 
-                    :w_tiger:
-                    - false
-                    - :to_right
-                    - 
-                    :n_turtle:
-                    - false
-                    - :origin
-                    - *6
-                  hero: 
-                  current_event: 
-                  room_items: []
-                  key_item_slots: []
-                  shiny_obtained: false
+                - 
                 :w_tiger:
                 - false
                 - :ahead
@@ -251,29 +220,55 @@
                 :n_turtle:
                 - false
                 - :to_right
-                - &7 !ruby/object:T10::Rooms::TrapRoom
+                - 
+              hero: 
+              current_event: 
+              room_items: []
+              key_item_slots: []
+              shiny_obtained: false
+            :n_turtle:
+            - false
+            - :ahead
+            - &7 !ruby/object:T10::Rooms::MazeRoom
+              visited: false
+              has_left: true
+              has_right: false
+              has_ahead: false
+              doors:
+                :e_dragon:
+                - false
+                - :to_right
+                - 
+                :s_phoenix:
+                - false
+                - :origin
+                - *6
+                :w_tiger:
+                - false
+                - :to_left
+                - &8 !ruby/object:T10::Rooms::JungleRoom
                   visited: false
                   has_left: false
-                  has_right: false
-                  has_ahead: true
+                  has_right: true
+                  has_ahead: false
                   doors:
                     :e_dragon:
                     - false
-                    - :to_right
-                    - 
-                    :s_phoenix:
-                    - false
                     - :origin
-                    - *6
-                    :w_tiger:
+                    - *7
+                    :s_phoenix:
                     - false
                     - :to_left
                     - 
-                    :n_turtle:
+                    :w_tiger:
                     - false
                     - :ahead
-                    - &12 !ruby/object:T10::Rooms::EndRoom
-                      visited: true
+                    - 
+                    :n_turtle:
+                    - false
+                    - :to_right
+                    - &13 !ruby/object:T10::Rooms::EndRoom
+                      visited: false
                       has_left: false
                       has_right: false
                       has_ahead: false
@@ -285,7 +280,7 @@
                         :s_phoenix:
                         - false
                         - :origin
-                        - *7
+                        - *8
                         :w_tiger:
                         - false
                         - :to_left
@@ -307,15 +302,15 @@
                   room_items: []
                   key_item_slots: []
                   shiny_obtained: false
+                :n_turtle:
+                - false
+                - :ahead
+                - 
               hero: 
               current_event: 
               room_items: []
               key_item_slots: []
               shiny_obtained: false
-            :n_turtle:
-            - false
-            - :ahead
-            - 
           hero: 
           current_event: 
           room_items: []
@@ -345,13 +340,13 @@
   shiny_obtained: false
   gate_open: false
 - *3
-- *5
-- *8
-- *2
 - *6
-- *1
 - *9
-- *7
+- *2
 - *10
+- *7
+- *1
+- *8
 - *11
 - *12
+- *13

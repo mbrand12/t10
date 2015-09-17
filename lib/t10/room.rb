@@ -122,13 +122,13 @@ module T10
         return desc << Book.room[:sealed_door]
       end
 
-      unless @current_event
+      if @current_event == nil && !modifiers.include?(:no_save)
         @current_event = T10::Events::SaveEvent.new(:exit, nouns, modifiers)
         return @current_event.intro
       end
       nroom_modifiers = []
 
-      @current_event = nil if @current_event.complete?
+      @current_event = nil if @current_event && @current_event.complete?
 
       desc.concat orb_chance(orb_cracked)
       if desc.pop

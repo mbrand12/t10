@@ -41,7 +41,10 @@
   It is a shiny piece.
 :look_door: >
   A only door out from this place adorned by two stone pillars, made from the
-  similar material as the surrounding walls.
+  similar material as the surrounding walls. Slightly above the door a rather old
+  %{crest} crest with no remarkable features.
+:look_crest: >
+  A %{crest} crest, nothing special about it.
 :look_wall: >
   The wall of this, if I can even call it, room is covered by huge blocks not
   much different from those outside of the dungeon.
@@ -70,6 +73,8 @@
   I touch the shiny. It feels ordinary almost plain.
 :touch_door: >
   Like most doors in this dungeon, nothing really out of the ordinary.
+:touch_crest: >
+  Can't really reach it, but even if I could I doubt it would be of use.
 :touch_wall: >
   The wall here looks as reinforced as the one outside of the dungeon.
 :touch_pillar: >

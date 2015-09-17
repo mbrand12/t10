@@ -13,6 +13,7 @@ module T10
       }
 
       NOUNS = {
+        crest: %i(crest),
         armor: %i(armor armour armored armoured figure hand),
         pedestal: %i(pedestal),
         wall: %i(wall),
@@ -62,7 +63,11 @@ module T10
         modifiers.pop if modifiers.last.is_a?(Hero) && @battle_done
         super
         if @battle_done
-          [] << T10::Book.armor_room[:enter_battle_done]
+          desc = [T10::Book.armor_room[:enter_battle_done]]
+          if modifiers.include?(:game_load)
+            desc << send(:exit, [], [:origin, :no_save])
+          end
+          des
         elsif @visited
           [] << T10::Book.armor_room[:enter_visited]
         else
@@ -74,6 +79,12 @@ module T10
       def look(nouns, modifiers)
         if nouns.empty?
           [] << T10::Book.armor_room[:look_nothing]
+        elsif nouns.include?(:crest)
+          [] << T10::Book.armor_room[:look_crest] %
+                [crest: get_desc_crest_from_relative(:origin)]
+        elsif nouns.include?(:door)
+          [] << T10::Book.armor_room[:look_door] %
+                [crest: get_desc_crest_from_relative(:origin)]
         else
           [] << T10::Book.armor_room["look_#{nouns.first}".to_sym]
         end
