@@ -1,0 +1,199 @@
+---
+:event_intro: >
+  I run to the left lowered hand of the giant armor and climb on it. The giant
+  armor raises with me in its hand, then steam starts to blow from its chest
+  piece and it opens revealing a cabin of sorts containing one, I can only
+  guess, chair.
+
+  Leaving me with no choice the armor practically dumps me in the cabin and the
+  chest piece closes, leaving me in total darkness, but not for long.
+
+  An eerie lights shines in the small cabin and I sit on the chair since there
+  is little space to do anything else. In front of me a sort of a mirror
+  appears that shows me the stone giant with its sword and shield poised to
+  attack.
+
+  I feel movement as the giant armor reaches to its back and wields a giant
+  halberd.
+
+  In front of me an unknown mechanism raises a box filled with vials, various
+  switches and pressure plates. A voice then speaks:
+
+  "Control panel on-line, relinquishing command to the pilot."
+
+  Guessing that I am this Pilot I try to do something to command this big armor
+  to move and start interacting with the box, however nothing happens. As on cue
+  the voice announces:
+
+  "Pilot skill level Cadet::Beginner. Activating voice command mode".
+:do_something_ft: >
+  "Well do something!", I shout at the voice in frustration as I have no idea
+  what commands should I utter. And in response I get:
+
+  " Selecting random command. Command: %{command} "
+:do_something: >
+  " Selecting random command. Command: %{command} ", the voice announces with a
+  hint of pride.
+:attack_nothing: >
+  The voice says: "Insufficient data, please provide direction or type as well."
+:attack_attH_attH: >
+  The stone giant swings its sword horizontally making use of the shield to
+  deflect the attacks coming from the shield side, however the giant armor's
+  attack comes from the opposite side in a wide horizontal arc and hits the
+  giant's arm effectively nullifying the stone giant's attack and dealing
+  damage as well.
+:attack_attH_attV: >
+  In the anticipation of a vertical attack the stone giant's shield rises while
+  a fast upwards vertical swing comes from below, both attacks land on their
+  mark as the halberd hits horizontally.
+:attack_attH_attT: >
+  Even with the shield raised up in the anticipation of a vertical attack the
+  giant armor's halberd comes to slow in its horizontal arc. The stone giant's
+  thrust attack deals damage and nullifies the giant armor's attack.
+:attack_attH_shield: >
+  I decide to tackle the giant's shield stance with a horizontal attack. The
+  giant expertly catches the attack on the shield and responds with a
+  horizontal attack of its own, armor takes critical damage.
+:attack_attV_attH: >
+  The giant armor lift its halberd and it bring it down with considerable force
+  hitting the stone giant in the head just as the stone giant's sword following
+  it horizontal arc hits the giant armor in the body shaking the cabin I am in.
+  Both sides suffer damage.
+:attack_attV_attV: >
+  A downward vertical attack is deflected and then punished by the stone giant's
+  upward vertical attack.
+:attack_attV_attT: >
+  A powerful downward smash is effortlessly blocked by the stone giant's thrust
+  maneuver, involving raising the shield about its head and performing a thrust
+  attack.
+:attack_attV_shield: >
+  I order the armor to attack vertically hoping to catch the opponent unawares
+  but the giant seems to be waiting for it raises the shield and responds with
+  a vicious upward swing damaging the armor.
+:attack_attT_attH: >
+  A thrust attack while fast is anticipated by stone giant's horizontal attack
+  and punished.
+:attack_attT_attV: >
+  A halberd's thrust attack proves ineffective as it is met and deflected by
+  the shield and followed by a upward vertical attack by the stone giant.
+:attack_attT_attT: >
+  Making the use of its long reach the giant armor's trust attack out ranges
+  both the shield in position to receive a vertical attack and the thrust
+  attack that follows it dealing critical damage to the stone giant.
+:attack_attT_shield: >
+  A thrust attack is repelled effortlessly and a same thrust attack from the
+  giant come as a response.
+:attack_kick_att: >
+  I issue a kick attack command only to find it useless against the giants own
+  attack, the armor receives damage for my mistake.
+:attack_kick_shield: >
+  The giant might have expected a well placed halberd attack to defend against
+  but instead it receives a full weight of the kick placed squarely in the
+  center of the shield which in turn violently crashes against the giant
+  damaging it.
+:defend_nothing: >
+  The voice says "Insufficient data, please provide direction as well."
+:defend_defH_attH: >
+  As the stone giant attacks the giant armor assumes a defensive stance placing
+  the halberd horizontally in anticipation of a vertical attack but the attack
+  that comes is horizontal as well and it damages the armor.
+:defend_defH_attV: >
+  Unleashing a vicious upwards swing the stone giant is successfully parried by
+  the giant armor's horizontal defensive stance. In retaliation the giant armor
+  performs a powerful thrust heavily damaging the stone giant.
+:defend_defH_attT: >
+  Defensive attempts by the giant armor are rendered futile as the stone giant
+  performs a trust attack.
+:defend_defV_attH: >
+  In expectation of the horizontal attack by the stone giant I order the giant
+  armor to defend vertically. The giant armor places the halberd vertically with
+  the blade down, parries the horizontal attack by the stone giant and reposts
+  an upwards swing heavily damaging the stone giant.
+:defend_defV_attV: >
+  The vertical defensive position assumed by the giant armor in order to block
+  horizontal attack does nothing to stop the vertical upward swing from the
+  stone armor.
+:defend_defV_attT: >
+  Defensive attempts by the giant armor are rendered futile as the stone giant
+  performs a trust attack.
+:defend_def_shield: >
+  Both sides take up a defensive stance and stay like that for what would seem
+  infinity. Seeing that no offensive action will come from the armor, giant
+  poises to attack.
+:shield_stance: >
+  The giant now takes up a defensive stance with the shield directly in front.
+:deploy_nothing: >
+  "Insufficient data, please provide deployment type as well.", the voice says.
+:deploy_depN_att: >
+  The giant armor lowers its halberd form the battle stance and the voice
+  announces "Deploying repair nanomist" which seems to renew the giants armor a
+  little and the mist itself seems to temporary stop the stone giants attempts
+  at attacking in anyway.
+:deploy_depN_shield: >
+  While the stone giant recovers behind a shield I use the chance to order the
+  giant armor to deploy the recovering mist, renewing the giants armor a little.
+:attack_no_ap: >
+  "Insufficient movement fluid, recommending defensive options to regain fluids"
+  the voice announces.
+:deploy_no_mp: >
+  "Insufficient nano fluids" the voice announces.
+:stone_no_ap: >
+  The stone giant raises its shield and assumes a defensive stance.
+:check_nothing: >
+  What should I check?
+:check_box_ft: >
+  The box in front of me appears quite curious and probably risking utter
+  destruction I start pressing plates and fiddling with knobs and levers to
+  which the voice reacts:
+
+  "Direct command denied for Cadet::Beginner please use voice commands instead."
+
+  Somewhat disappointed about this I turn my attention to a total of four vials
+  embedded in this command box each with a different color with numbered notches
+  bellow, or in the case of the vertical vial on the side.
+
+  Each vial has at least some fluid in it of a different color. The topmost
+  horizontal one has a red fluid pointing to notch number %{hp} on the scale,
+  the second has green fluid pointing to notch number %{ap} while the third,
+  blue, one to the %{mp} number. All the vials are not full to their maximum
+  capacity but the vertical vial seems to be completely empty bar the orange
+  fluid somewhere around notch numbered zero.
+
+  Something tells me that I should check this box frequently, maybe it will
+  help me learn now this armor actually work, before the lumbering figure in
+  front of me crushes me to a pulp
+:check_box: >
+  The red vial is at %{hp} number notch.
+
+  The green vial is at %{ap} number notch.
+
+  The blue vial is at %{mp} number notch.
+
+  The orange vial is at %{sp} number notch.
+:battle_lost: >
+  With no fluid left in the red vial the giant armor falls on its knees. I feel
+  a hollow sound as the stone giant victoriously kicks the armor to the ground.
+  The voice calmly announces that the "hull has been breached" and as the stone
+  giant's sole of the foot approaches the cabin becomes too small for me to
+  exist in it as I am now.
+:battle_won: >
+  The lights from stone giants' eyes start to flicker and fade. The giant form,
+  now without that mystic energy to keep it still starts slowly collapsing into
+  a rubble.
+
+  The table in front of me shifts a little revealing a golden plate of some
+  sort with a glowing orange mirror in the middle of it. Seeing how it is
+  practically offered to me I take it.
+:battle_aftermath: >
+  With a hint of pride the voice announces "Threat neutralized, entering
+  recovery mode"  And with that being said the cabin finally opens, the armor
+  grabs me surprisingly gently and places me on the floor and assumes the
+  position it had before all this have started.
+
+  Having my fill of this place I carefully move trough the rubble trying not to
+  touch anything for the risk of it collapsing on me or the door. But as a what
+  is seems a final act of defiance the part of the leg that still remained
+  upright started collapsing just as I was near the door.
+
+  Not wasting a moment I rushed trough the door and the door closed with a loud
+  bang, announcing that it will not open anytime soon.
