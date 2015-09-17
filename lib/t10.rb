@@ -5,4 +5,4 @@ require 't10/story'
 require 't10/book'
 require 't10/thesaurus'
 require 't10/satchel'
-
+require 't10/event'

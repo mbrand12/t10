@@ -2,9 +2,10 @@
 :save_intro: >
   As I am exiting the room I begin to wonder: "Should I remember my adventure
   up to this point or not?"
-:save_confirmed: >
+:save_yes: >
   A feeling washes over me, as if I am going to remember this adventure, up to
   this point, for quite some time.
+:save_no: >
+  I decide that remembering this part is not that important.
 :save_wrong_answer: >
   Hmm, the answer to this one should be either yes or no.
-

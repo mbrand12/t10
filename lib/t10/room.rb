@@ -1,4 +1,3 @@
-require 't10/save_event'
 require 't10/book'
 require 't10/room_connecting_tools'
 
@@ -124,12 +123,14 @@ module T10
       end
 
       unless @current_event
-        @current_event = SaveEvent.new(:exit, nouns, modifiers)
+        @current_event = T10::Events::SaveEvent.new(:exit, nouns, modifiers)
         return @current_event.intro
       end
       nroom_modifiers = []
-      desc.concat orb_event(orb_cracked)
-      desc.insert(-2, modifiers.pop) if modifiers.last.is_a?(String)
+
+      @current_event = nil if @current_event.complete?
+
+      desc.concat orb_chance(orb_cracked)
       if desc.pop
         @doors[crest][0] = true
         nroom_modifiers << :cracked << crest
@@ -157,12 +158,14 @@ module T10
     end
 
     def event_interact(verbs, nouns, modifiers)
-      @current_event.interact(verbs, nouns, modifiers)
+
+      desc = [] <<  @current_event.interact(verbs, nouns, modifiers)
 
       if @current_event.complete
         e_verb, e_nouns, e_modifiers = @current_event.get_back_data
-        send(e_verb, e_nouns, e_modifiers)
+        return desc << send(e_verb, e_nouns, e_modifiers)
       end
+      desc
     end
 
     def satchel_interact(verbs, nouns, modifiers)
@@ -227,7 +230,7 @@ module T10
       door.flatten
     end
 
-    def orb_event(orb_cracked)
+    def orb_chance(orb_cracked)
       desc = []
       if orb_cracked
         desc << Book.room[:orb_cracked] << false

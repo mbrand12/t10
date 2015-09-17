@@ -76,16 +76,16 @@ class RoomTest < Minitest::Test
     desc = []
     room1.hero = hero
     hero.damage(1)
-    desc.concat room1.interact([:exit], [], [:to_left])
+    room1.interact([:exit], [], [:to_left])
     desc.concat room1.interact([],[],[:no])
-    assert desc.any? {|d| d.match(/cracks/)}
+    assert desc.flatten.any? {|d| d.match(/cracks/) if d.is_a?(String)}
 
     desc = []
     hero.damage(1)
-    desc.concat room2.interact([:exit], [], [:origin])
+    room2.interact([:exit], [], [:origin])
     desc.concat room2.interact([],[],[:no])
 
-    assert desc.any? {|d| d.match(/cracked/)},
+    assert desc.flatten.any? {|d| d.match(/cracked/) if d.is_a?(String)},
       "Hero should not be healed again if the orb in the hallway is cracked " \
       "from when Hero came from #{room1.class} to this #{room2.class} room."
 
@@ -104,11 +104,11 @@ class RoomTest < Minitest::Test
     room1 = story.current_room
 
     desc = []
-    desc.concat room1.interact([:exit], [], [:origin])
+    room1.interact([:exit], [], [:origin])
 
     desc.concat room1.interact([],[],[:yes])
 
-    assert desc.any? {|d| d.match(/washes/) },
+    assert desc.flatten.any? {|d| d.match(/washes/) if d.is_a?(String) },
       "Text should contain description of the save event."
 
     story.new_adventure
