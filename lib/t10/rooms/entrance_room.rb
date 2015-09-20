@@ -1,7 +1,12 @@
 module T10
   module Rooms
+    # The starting room (area) for the hero.
+    #
+    # The :look and :touch {VERBS} are the main way of getting new hints and
+    # description and should be implemented in all rooms.
     class EntranceRoom < Room
 
+      # The number of available doors, origin door included.
       DOORS = 2
 
       VERBS =  {
@@ -28,10 +33,12 @@ module T10
         @hero = Hero.new
       end
 
+      # @return [String] the text that will show on the command prompt.
       def desc_name
         "][ the gate"
       end
 
+      # See {Room#words}
       def words
         if @current_event
           super
@@ -42,7 +49,7 @@ module T10
         end
       end
 
-      protected
+      private
 
       def enter(nouns, modifiers)
         modifiers.pop if modifiers.last.is_a?(Hero) && @visited
@@ -55,63 +62,61 @@ module T10
         end
       end
 
-      def exit(nouns, modifiers)
+      def exit(nouns, _modifiers)
         if nouns.include?(:gate)
           enter_dungeon
         elsif nouns.include?(:path)
           @hero = nil
-          [] << Book.entrance_room[:enter_path]
+          Book.entrance_room[:enter_path]
         else
-          [] << Book.entrance_room[:enter_nothing]
+          Book.entrance_room[:enter_nothing]
         end
       end
 
       def look(nouns, modifiers)
         if nouns.include?(:gate) || modifiers.include?(:ahead)
-          [] << Book.entrance_room[:look_gate] %
+          Book.entrance_room[:look_gate] %
             [crest: get_desc_crest_from_relative(:ahead)]
         elsif nouns.include?(:wall) ||
             modifiers.include?(:to_left) || modifiers.include?(:to_right)
-          [] << Book.entrance_room[:look_wall]
+          Book.entrance_room[:look_wall]
         elsif nouns.include?(:path) || modifiers.include?(:origin)
-          [] << Book.entrance_room[:look_path]
+          Book.entrance_room[:look_path]
         elsif nouns.include?(:crest)
-          [] << Book.entrance_room[:look_crest] %
+          Book.entrance_room[:look_crest] %
             [crest: get_desc_crest_from_relative(:ahead)]
         else
-          [] << Book.entrance_room[:look_nothing]
+          Book.entrance_room[:look_nothing]
         end
       end
 
       def touch(nouns, modifiers)
         if nouns.include?(:gate)
           if @gate_open
-            [] << Book.entrance_room[:touch_open_gate]
+            Book.entrance_room[:touch_open_gate]
           else
             @gate_open = true
-            [] << Book.entrance_room[:touch_gate]
+            Book.entrance_room[:touch_gate]
           end
         elsif nouns.empty?
-          [] << Book.entrance_room[:touch_nothing]
+         Book.entrance_room[:touch_nothing]
         else
-          [] << Book.entrance_room["touch_#{nouns.pop}".to_sym]
+          Book.entrance_room["touch_#{nouns.pop}".to_sym]
         end
       end
 
       def open(nouns, modifiers)
         if nouns.include?(:gate)
           if @gate_open
-            [] << Book.entrance_room[:open_opened_gate]
+            Book.entrance_room[:open_opened_gate]
           else
             @gate_open = true
-            [] << Book.entrance_room[:open_gate]
+            Book.entrance_room[:open_gate]
           end
         else
-          [] << Book.entrance_room[:open_nothing]
+          Book.entrance_room[:open_nothing]
         end
       end
-
-      private
 
       def enter_dungeon
         desc = []
@@ -124,7 +129,7 @@ module T10
         desc << Book.entrance_room[:enter_gate] %
           [hero_max_hp_m1: Hero::MAX_HP - 1]
         desc << Book.entrance_room[:obtain_satchel]
-        desc.concat next_room.interact([:enter],[], nroom_modifiers)
+        desc << next_room.interact([:enter],[], nroom_modifiers)
 
         @hero.obtain_satchel if next_room.hero_here?
         @hero = nil if next_room.hero_here?

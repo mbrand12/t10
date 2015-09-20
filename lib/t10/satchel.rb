@@ -1,6 +1,14 @@
 module T10
+  # This class provides inventory feature trough the similar interface that the
+  # subclasses of {Room} and {Event} use. It provides basic operations in order
+  # to manipulate items ({Item} subclasses) such as inspecting the item,
+  # putting the item in the satchel, combining the item and using the item. The
+  # methods for the manipulation should not be accessed directly but trough
+  # {Satchel#interact}.
   class Satchel
-
+    # Holds the allowed verb keywords and its corresponding synonyms. The
+    # synonyms are used when scanning user input and the keywords correspond to
+    # the method names.
     VERBS = {
       inspect: %i(inspect),
       put: %i(put place pick),
@@ -12,6 +20,9 @@ module T10
 
     MODIFIERS = {}
 
+    # Adds amulet item upon creation and adds it to the @inventory. The
+    #   @recipes hash holds the result of combination as a key and the
+    # ingredients as a value.
     def initialize
       @inventory = []
       add_item(Items::AmuletItem.item_name)
@@ -25,18 +36,43 @@ module T10
       }
     end
 
+    # This method provides the necessary keywords and synonyms array of hashes
+    # that are then used to match the user input.
+    #
+    # @return [Array<Hash>] An array of the hash of keywords and synonyms.
     def words
       [VERBS, NOUNS.merge(get_inventory_words), MODIFIERS]
     end
 
+    # This method accepts the allowed verbs, nouns and modifiers and calls
+    # the respective methods based on the first verb. Since the verbs that
+    # are used for matching are combined with verbs from the {Room} subclass
+    # the method first removes those symbols not found in {VERBS} key values.
+    # See {Room#interact} for more details.
+    #
+    # @param verbs [Array<Symbol>] An array of accepted verbs from user input.
+    # @param nouns [Array<Symbol>] ^ see above.
+    # @param modifiers [Array<Symbol>] An array of symbols which vary based
+    #                                  the verb.
+    # @return [String] a description of the action performed by the verb.
     def interact(verbs, nouns, modifiers)
-      return help if verbs.empty? || !VERBS.keys.include?(verbs[0])
-      send(verbs[0], nouns, modifiers)
+      verbs.each { |v| verbs.delete(v) unless VERBS.keys.include?(v) }
+      return help if verbs.empty?
+      send(verbs.first, nouns, modifiers)
     end
 
     protected
 
-    def inspect(nouns, modifiers)
+    # This method is used to return descriptions of the items in the satchel
+    # and it is meant to be accessed trough {Satchel#interact}, same goes for
+    # {Satchel#put}, {Satchel#combine}, {Satchel#use}.
+    #
+    # The method searches the items in @inventory that matches via `find_item`
+    # private method and returns a description of the found item.
+    #
+    # @param nouns [Array<Symbol>] An array of accepted nouns from user input.
+    # @return [String] A description of the item.
+    def inspect(nouns, _modifiers)
       if nouns.empty?
         [Book.satchel[:inspect_blank], list_item_names]
       elsif item = find_item(nouns)
@@ -46,6 +82,19 @@ module T10
       end
     end
 
+    # This method is used to put the items from the rooms in the @inventory and
+    # it is meant to be accessed trough {Satchel#interact}.
+    #
+    # The modifiers parameter should be filled with keywords from the items
+    # the room contains (or that can be obtained in that room). This method then
+    # compares the keywords in the modifiers with keywords in nouns to see
+    # if the item that should be put is in the room and then informs the player
+    # of the action.
+    #
+    # @param nouns [Array<Symbol>] An array of accepted nouns from user input.
+    # @param modifiers [Array<Symbol>] An array of item keywords that the
+    #                                  current room has.
+    # @return [String] A description of the item.
     def put(nouns, modifiers)
       return Book.satchel[:put_blank] if nouns.empty?
 
@@ -59,6 +108,26 @@ module T10
       end
     end
 
+    # This method is used to use the items from the @inventory in a room and
+    # it is meant to be accessed trough {Satchel#interact}.
+    #
+    # The item can only be used if the item is in the @inventory and if it is a
+    # key item (which is assigned to modifiers from `@key_item_slots` from
+    # {Room}) and if the current {Item} quality matches the max quality.
+    #
+    # Example of user input:
+    #
+    #     Use(verb) amulet(noun) from the satchel(noun) on the wall(modifier).
+    #
+    #  The noun "satchel" is used to trigger {Satchel#interact}, while the
+    #  "wall" serves as a modifier received from the @key_item_slots variable
+    #  of the {Room}, or more precisely {Rooms::EndRoom}.
+    #
+    # @param nouns [Array<Symbol>] An array of accepted nouns from user input.
+    # @param modifiers [Array<Symbol>] An array of item keyword slots from the
+    #                            current room.
+    # @return [String, Array<String,Symbol>] A descriptions of the item use
+    #                                        and the keyword of the item used.
     def use(nouns, modifiers)
       return Book.satchel[:use_blank] if nouns.empty?
       return Book.satchel[:use_cant_there] if modifiers.empty?
@@ -76,7 +145,27 @@ module T10
       end
     end
 
-    def combine(nouns, modifiers)
+    # This method is used for combining the items in the @inventory into either
+    # a new item or to increase the quality of an existing item while removing
+    # one item or in case of the new item both items. The method is meant to be
+    # accessed trough {Satchel#interact}.
+    #
+    # The method can only combine 2 items and only if the keywords for the
+    # items in questions are included in the @recipes value array. The method
+    # then deletes the used item (or items) and increases the quality of the
+    # item (or keep the default one if it is a new item).
+    #
+    # Example of user input:
+    #
+    #      "Combine(verb) amulet(noun) with the shiny(noun) pieces(noun) from
+    #      the satchel(noun)."
+    #
+    # The "satchel" is a trigger word to call {Satchel#interact} while
+    # "shiny", "pieces" are synonyms for the noun keyword :shiny.
+    #
+    # @param nouns [Array<Symbol>] An array of accepted nouns from user input.
+    # @return [String] A description for the combined item.
+    def combine(nouns, _modifiers)
       inv_words = get_inventory_words.keys
       nouns.delete_if { |noun| !inv_words.include?(noun) }
 

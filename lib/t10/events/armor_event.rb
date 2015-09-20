@@ -1,5 +1,8 @@
 module T10
   module Events
+    # The Armor event boils down to a turn based battle in which the goal for
+    # the player is do discover the commands necessary to beat the opponent.
+    # Check the DEVCORE.md file for more details.
     class ArmorEvent < Event
       VERBS = {
         random: %i(do),
@@ -67,7 +70,7 @@ module T10
         end
       end
 
-      protected
+      private
 
       def random(nouns, modifiers)
         unless nouns.include?(:something)

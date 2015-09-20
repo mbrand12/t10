@@ -1,5 +1,13 @@
 module T10
+  # The class which ensures that everything outputs properly to the console and
+  # it also holds the game's main loop.
   module CLI
+    # Method is called when user runs `$ ruby bin/t10`
+    #
+    # The scribe method is made to work similar to puts but with a specific
+    # width formating and other fluff.
+    #
+    # @return [void]
     def self.run
       splash
 
@@ -28,6 +36,14 @@ module T10
       end
     end
 
+    # The method starts the adventure either from the save file or a new
+    # adventure.
+    #
+    # The method makes use of the {Room#words} {Room#interact} interface. The
+    # game ends if the hero can't be found in any of the rooms.
+    #
+    # @param new_adventure [Boolean] if true will trigger a new adventure.
+    # @return [void]
     def self.start_adventure(new_adventure = false)
       if new_adventure
         Story.new_adventure
@@ -51,6 +67,8 @@ module T10
 
       the_end unless Story.current_room
     end
+
+    private
 
     def self.scribe(description, page_splash = true)
       puts '='*38 + '[x]' + '='*39 if page_splash

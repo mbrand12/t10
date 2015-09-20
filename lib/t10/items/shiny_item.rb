@@ -1,5 +1,9 @@
 module T10
   module Items
+    # Shiny item a key item that is in every room (every implemented room)
+    # except for the {Rooms::EntranceRoom} and {Rooms::EndRoom}. The shiny
+    # pieces are meant to be collected and then combined with the
+    # {Items::AmuletItem}.  For the details on methods and such check {Item}.
     class ShinyItem < Item
       def self.item_name
         :shiny

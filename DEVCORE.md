@@ -564,7 +564,7 @@ ideas and options show themselves trough work, having to edit the documentation
 as well brakes the pace for me.
 
 YARD really helps in a way that it provides an immediate feedback with the `$
-yard` command so that rather than spending to much time thinking about
+yard server` command so that rather than spending to much time thinking about
 documentation abstractly I just can tinker with the look and feel and check the
 official tag documentation on a per need basis. I understand that this is
 nothing new and that people have been doing it this way for quite some time but
@@ -574,6 +574,19 @@ Documentation definitely helps me design better because when I can't explain
 the point of the method or what it does, chances are I made a mistake in my
 design somewhere, or maybe I am just bad at explaining things.
 
+Being somewhat close to the end of the documentation of at least some parts of
+the code I can say that documenting is much harder than I though it will be.
+It is very hard to know when to stop adding "useful" info is one of those hard
+things as well as which methods and classes to document. The other is that one
+can clearly see the very bad design ideas while trying to explain it to the
+"viewer".
+
+The thing that I dislike rather than just find troublesome is that the comments
+really bloat the classes (which are already huge). I think that I will be able
+to see the true value of this when somebody else reads the documentation or
+enough time passes that I forget most of the stuff about this project and read
+it again.
+
 ##### 5. Change log
 
 Change logs where always problematic for me. Actually both change logs and
@@ -581,10 +594,10 @@ keeping with different versions and backups in case something broke. For the
 second one, git and GitHub made it much much easier (and somewhat more
 complicated at the same time, more about that later).
 
-For the change log, olivierlacan's [keep-a-changelog] is a really helpful guide,
-that also had acquainted me with git tags and made many other things make more
-sense. Thought, learning what to put in a change log is as problematic as what to
-document and how much to document.
+For the change log, olivierlacan's [keep-a-changelog] is a really helpful
+guide, that also had acquainted me with git tags and made many other things
+make more sense. Thought, learning what to put in a change log is as
+problematic as what to document and how much to document.
 
 ##### 6. Git
 

@@ -1,5 +1,8 @@
 module T10
   module Rooms
+    # Simple room is first room made to test how the items are obtained as well
+    # as the satchel functionality. The goal here is to get the shiny piece by
+    # following the hints given by the descriptions.
     class SimpleRoom < Room
       DOORS = 1
 
@@ -42,6 +45,7 @@ module T10
         @meal_eaten = false
       end
 
+      # See {Rooms::EntranceRoom#words}
       def words
         if @current_event
           super
@@ -51,17 +55,21 @@ module T10
         end
       end
 
+      # See {Room#desc_name}
       def desc_name
         @shiny_obtained ? "[] simple room" : "[+] simple room"
       end
 
       protected
 
+      # See {Room#item_obtained} 
       def item_obtained(item_class)
         if item_class == Items::ShinyItem
           Book.simple_room[:obtained_shiny]
         end
       end
+
+      private
 
       def enter(nouns, modifiers)
         super
@@ -79,7 +87,7 @@ module T10
         elsif @meal_eaten && nouns.include?(:desk)
           @shiny_obtained = true
           @room_items << T10::Items::ShinyItem
-          [Book.simple_room[:look_desk_after] <<
+          [Book.simple_room[:look_desk_after],
                 interact([:put], [:satchel, :shiny], [])]
         elsif nouns.empty?
           crests = [:e_dragon, :s_phoenix, :n_turtle, :w_tiger]

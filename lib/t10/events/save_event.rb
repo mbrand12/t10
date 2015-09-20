@@ -3,7 +3,10 @@ require 't10/book'
 
 module T10
   module Events
-    class SaveEvent  < Event
+    # The save event is triggered every time the hero exits a room (except
+    # during the exit of the {Rooms::EntranceRoom}), positive reply ends up in
+    # game save.
+    class SaveEvent < Event
 
       MODIFIERS = {
         yes: %i(yes remember),
@@ -14,14 +17,17 @@ module T10
         super
       end
 
+      # See {Event#interact}
       def interact(verb, nouns, modifiers)
         send(:save, nouns, modifiers)
       end
 
+      # See {Event#intro}
       def intro
         [] << Book.save_event[:save_intro]
       end
 
+      # See {Event#words}
       def words
         [{},{},MODIFIERS]
       end

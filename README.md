@@ -5,28 +5,39 @@
 
 A text adventure game as an exercise 45 from [LRTHW] by Zed Shaw. Hero will go
 trough ten rooms and solve trials and tests to open the final room and find the
-answers within.
+answers within. The game is witten in ruby.
 
 You can read development details in the DEVCORE.md document.
 
+At this point only 2 rooms are fully implemented (entrance and exit as well).
+
 ## Features
 
-- Hero has limited hit points (can be damaged and healed)
+- Hero, has limited hit points (can be damaged and healed)
 - Randomly generated room layout on every new game.
 - Save/Load support
+- Inventory
+- Events
 
 ## Documentation
 
-Documentation is written using the YARD format. So either install the [YARD] gem
-and run `$ yard` in the project directory, or read the source files.
+Documentation is written using the YARD syntax. So either install the [YARD] gem
+and run `$ yard` in the main project directory, or read the source files.
 
-## Installing
+Or read it online at: http://www.rubydoc.info/github/mbrand12/t10
 
-> TODO: Have something worth installing.
+## Installing & Running
 
+- Install ruby if you haven't.
+- Clone using:
+     `$ git clone -b master git@github.com:mbrand12/t10.git`
+     or
+     `$ git clone -b master https://git@github.com/mbrand12/t10.git`
+- Run `$ ruby bin/t10` in the main project directory.
 ## Usage
 
-> TODO: Have something usable.
+Use `enter left, right, ahead or back` to navigate trough the dungeon after
+entering it. I'll leave how to enter and exit the dungeon to you :)
 
 ## Changelog
 

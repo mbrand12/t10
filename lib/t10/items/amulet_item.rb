@@ -1,7 +1,9 @@
 module T10
   module Items
+    # Amulet item is a token usable item in the game, However it can only be
+    # used when it is completed by combining it with all the {Items::ShinyItem}
+    # pieces.  For the details on the methods and such see {Item}.
     class AmuletItem < Item
-
       def self.item_name
         :amulet
       end

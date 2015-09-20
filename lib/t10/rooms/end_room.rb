@@ -1,5 +1,7 @@
 module T10
   module Rooms
+    # A room made for the place where the amulet can be used after all the
+    # shiny pieces are collected and ending the game.
     class EndRoom < Room
       DOORS = 1
 
@@ -36,15 +38,20 @@ module T10
       end
 
       def desc_name
-        "beyond the dungeon"
+        "wall room"
       end
 
+      protected
+
+      # see {Room#item_used}
       def item_used(item_symbol)
         if item_symbol == Items::AmuletItem.item_name
           @hero = nil
           Book.end_room[:used_amulet]
         end
       end
+
+      private
 
       def enter(nouns, modifiers)
         super

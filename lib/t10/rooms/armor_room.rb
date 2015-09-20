@@ -1,5 +1,7 @@
 module T10
   module Rooms
+    # The armor room is first room where a major event is implemented. Read
+    # more about it at #{Events::ArmorEvent} and DEVCORE.md.
     class ArmorRoom < Room
       DOORS = 1
 
@@ -42,6 +44,7 @@ module T10
         @battle_done = false
       end
 
+      # See {Room#words}
       def words
         if @current_event
           super
@@ -55,6 +58,7 @@ module T10
         end
       end
 
+      # See {Room#desc_name}
       def desc_name
         @shiny_obtained ? "[] armor room" : "[+] armor room"
       end
@@ -67,6 +71,8 @@ module T10
           Book.armor_room[:obtained_shiny]
         end
       end
+
+      private
 
       def enter(nouns, modifiers)
         modifiers.pop if modifiers.last.is_a?(Hero) && @battle_done
@@ -125,7 +131,7 @@ module T10
         if nouns.empty?
           Book.armor_room[:go_nothing]
         elsif nouns.include?(:armor)
-          @current_event = Events::ArmorEvent.new(:battle_over, nil, nil)
+          @current_event = Events::ArmorEvent.new(:battle_over, [], [])
           @current_event.intro
         else
           @hero = nil
@@ -133,7 +139,6 @@ module T10
         end
       end
 
-      private
 
       def battle_over(nouns, modifiers)
         desc = []
