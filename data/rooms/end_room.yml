@@ -1,0 +1,38 @@
+---
+:enter: >
+  I enter a room with a opposite wall being so close to the door that I can
+  hardly turn around. On the wall before me there is a hole.
+:enter_visited: >
+  I am back at the room with the uncomfortably close wall.
+:look_nothing: >
+  This is a small room, if it is a room at all.
+:look_to_left: >
+  To the left of me is a wall. I can hardly turn to face it.
+:look_to_right: >
+  To the right of me is a wall, I can hardly turn to face it.
+:look_ahead: >
+  In front of me is a wall with a hole in the center of it in the shape of
+  something familiar.
+:look_origin: >
+  The is a door to my back.
+:look_door: >
+  Nothing special about the door nor the the old %{crest} crest above it.
+:look_crest: >
+  An old %{crest} shaped crest.
+:look_wall: >
+  The wall on the sides in pretty much the typical wall in here. The wall in
+  front of me is somewhat different but not by much, bar the hole in the middle
+  of it.
+:look_hole: >
+  The shape of this hole seems very familiar to me...
+:touch_nothing: >
+  With nothing to touch the back of my neck.
+:touch_wall: >
+  The walls are warm to the touch, the one in front of me is slightly colder.
+:touch_hole: >
+  I can feel some markings on the edges of the hole but I can't read them.
+:used_amulet: >
+  As I place the amulet in the center hole of a big wall. As I do that lines of
+  blue light rush trough the cracks and the wall disappears, introducing me to
+  a clear blue sky and a path in front of me, which while long at least is full
+  of life and hope.

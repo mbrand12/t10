@@ -1,0 +1,19 @@
+---
+:desc_put: >
+  a shiny piece
+:desc_name: >
+  a shiny piece
+:desc_name_qn: >
+  %{item_quantity} shiny pieces
+:desc_short_qn: >
+  %{item_quantity} shiny pieces. I feel like I should do something with them
+  rather than having them just bunched up like this, might lose some by
+  accident.
+:desc_short: >
+  A shiny piece. Precious for others, shiny for me.
+:desc_long: >
+  A small, but really shiny piece. Its glow is fainter now but still shiny
+  enough that I can't look at it for long. It looks as a part of something
+  bigger.
+:desc_long_qn: >
+  I happen to have %{item_quantity} of them.

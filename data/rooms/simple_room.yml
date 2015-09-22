@@ -1,0 +1,176 @@
+---
+:enter: >
+  I enter a simple room by all accounts. With a bed, chair and desk. Yet for
+  all the loneliness a room like this should exude, it actually feels peaceful.
+:enter_visited: >
+  I am back in the plain and peaceful room.
+:look_nothing: >
+  With no idea what to look at I decide to look at everything. Standing with my
+  back to the door to the left of me is a bed, a few paces in front of me a
+  desk with a chair. The room itself seems a little bit narrower than it should
+  be, but a higher ceiling compensates.
+:look_to_left: >
+  To the left of me is a bed.
+:look_to_right: >
+  To the right of me is a wall.
+:look_ahead: >
+  A few paces in front of me there are a desk and a chair.
+:look_origin: >
+  Behind me there is a door.
+:look_wall: >
+  It is made from the bricks similar to that on the outside of the dungeon but
+  smaller.
+:look_ceiling: >
+  I gaze up and see the ceiling it is higher but I can still see every brick.
+:look_brick: >
+  They all look same to me...
+:look_door: >
+  A simple door, like pretty much everything here. The only thing not fitting
+  this room is a crest above the door.
+:look_crest: >
+  A %{crest} crest.
+:look_bed: >
+  A fairy simple one person bed. Looks well maintained and clean.
+:look_chair: >
+  A common wooden chair with no padding, it is a type of chair more used for
+  work than resting.
+:look_desk: >
+  A well used work desk, probably older than anything in this room, it has no
+  drawers. A neat pile of papers on one end and an inkwell. A candle on the
+  desk illuminates the whole room faintly.
+:look_desk_after: >
+  On the desk now, right where the meal was, is a paper from the pile. In the
+  middle of it, with a beautiful cursive handwriting reads:
+
+  "Please do not extinguish the light again."
+
+  Shortly after I have read it, the ink slowly disappears and instead of the
+  dot at the end of the note I find a shiny piece.
+:look_papers: >
+  A neat stack of papers, not really useful.
+:look_inkwell: >
+  An inkwell, it is empty.
+:look_candle: >
+  A candle that looks like it is not made of wax, even though I can see the fire
+  it seems like no wax is being melt. The candleholder looks like it is a part
+  of the desk with no way to remove it.
+:look_candleholder: >
+  It has no specific markings on it, it is a simple candleholder.
+:look_meal: >
+  My stomach decides to remind me that I haven't had any food in quite a while.
+  In fact, I don't really remember when was the last time I have ate a proper
+  meal whatever that may be. Pity that there is no food here.
+:look_meal_appeared: >
+  A meal! A real meal! Should I eat it? Who knows when I will have the next one
+  just appear in front of me. I can't seem to get my gaze of it, everything else
+  seems not really interesting right now.
+:look_meal_eaten: >
+  It was just a dream... however I feel satiated, was it a dream then?
+:touch_nothing: >
+  With nothing to touch, I touch my nose.... still there.
+:touch_nothing_10th: >
+  With nothing to touch, I touch my nose, then I pick my nose for a while
+  while a ponder what to do next.
+:touch_door: >
+  A door made of wood, nothing special, just a door.
+:touch_crest: >
+  I drag the chair do the door, get on the chair so that the crest is in front
+  of me and touch it. It is made from the same material as the wall, and seems
+  as immovable as one.
+:touch_wall: >
+  It feels warm.
+:touch_ceiling: >
+  Even if I climbed on the chair I would not be able to touch it.
+:touch_brick: >
+  I touch as many bricks as I can out of boredom in hope that this room will
+  yield some secret passages but none appear.
+:touch_bed: >
+  Firm and relatively unused, it seems that nobody rested in it for awhile.
+:touch_chair: >
+  A chair made from wood, thankfully not fixed to the floor. Feels more
+  comfortable than it looks, tough the only way to be sure it so sit on it.
+:touch_desk: >
+  A wooden table, its surface is smooth with just a little roughness.
+:touch_papers: >
+  Rather not... paper cuts are a real danger.
+:touch_inkwell: >
+  A inkwell not made of wood but still immovable. I dip my finger in it and
+  feel like there is some ink left. Not knowing where to wipe it, I wipe my
+  finger on the top of the pile of papers, smugging it all over. I made a mess
+  out of, however after a little while the ink disappears. An invisible ink?
+  Maybe I should stop touching things.
+:touch_candle: >
+  I very carefully touch the candle, it feels like it is made out of wax, yet
+  none drips down.
+:touch_candleholder: >
+  Made from the same material as the inkwell, therefore not wood. I thought
+  of truing to force both candle or the candleholder out, but think better of it
+  as it seems that it is my only source of light.
+:touch_meal_appeared: >
+  I would just rather eat the food...
+:sit_nothing: >
+  Where should I sit?
+:sit_no: >
+  No I will not.
+:sit_chair: >
+  I sit on the chair and to my surprise it is comfortable. I look idly at the
+  light of the candle and time passes. Amused by the light of the candle I
+  begin to very gently blow air in its direction and look around the room as
+  the light plays trick and moves the shadows around.
+
+  The dust rises up from the desk and I sneeze at the candle, however the light
+  is not extinguished and since I have no way of relighting it I decide to stop
+  doing that and just continue to appreciate the candlelight.
+
+  What stirs me from my daze is the smell of the food right in front of me on
+  the table!
+:sit_bed: >
+  I sit on the bed and contemplate sleeping but the hunger I feel and have been
+  feeling for a while make me restless so I decide against it.
+:sit_desk: >
+  That would be just rude.
+:sit_meal_appeared: >
+  I am already sitting, with no intention of moving for now.
+:sit_overstayed: >
+  I feel like I have overstayed my welcome here, so I decide against sitting.
+:eat_nothing: >
+  What should I eat? Is there even something edible here?
+:eat_no: >
+  I am not that hungry and even if I was I would not eat that.
+:eat_meal: >
+  I whish there was a meal to eat.
+:eat_meal_appeared: >
+  It just melts perfectly in my mouth, the flavor indescribable. It is like
+  the when like tasting something you will always like to eat for the very
+  firs time, when the sensation is completely new for the senses.
+
+  With every bite I... awake.
+  It was a dream.
+
+  I rise from the bed, feeling recovered just by a little. I stretch and turn,
+  even though I was somewhat disappointed that it was a dream I feel better. I
+  notice something different about the desk.
+:extinguish_nothing: >
+  What should I extinguish?
+:extinguish_candle: >
+  Why would I extinguish my only light source in this room? There are no
+  windows in this room, and relying on whatever light to come from the opened
+  door of this room just invites more trouble.
+:extinguish_candle_end: >
+  Since I am done with this room, somewhat out of spite for the meal that never
+  was (although I did get a nice rest) I extinguish the candle. Since the room
+  is small and I know where the door is I go to the ex
+
+  Behind me.
+
+  A gentle voice says:.
+
+  "You should not have done that."
+
+  I scream.
+:extinguish_no: >
+  Nothing is on fire, if you don't count the candle.
+:obtained_shiny: >
+  I look around the room, wondering about the note but I feel that for the most
+  part my respite in this room has come to an end and that it is the time for me
+  to explore other parts and rooms of this dungeon.

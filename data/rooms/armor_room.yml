@@ -1,0 +1,151 @@
+---
+:enter: >
+  The first thing I feel, as I open the door, is the almost overwhelming
+  metallic taste, and while the door is of the standard size for this dungeon,
+  the room is much larger with the ceiling taller than... the giant armored
+  figure on the other side of the room.
+
+  I stand very still in the doorway for a while waiting for the figure to show
+  any signs or disapproval of my trespassing in its domain. A thought about
+  returning to a relative safety of the previous room occurs to me more than
+  once.
+
+  Finally, I decide to venture in, the door behind me closes suddenly and I
+  rush back to open them. And, surprisingly, the door opens. I try it a few
+  more times just to be sure and with some confidence stand a few more steps
+  away from the door, always keeping in sight the figure, which honestly is not
+  a hard task considering it size.
+:enter_visited: >
+  I am back in the room with the giant armored figure.
+:enter_battle_done: >
+  The door will not open because a big part of the defeted giant blocks it,
+  knowing that I have no way of proceeding forward I return to the previous
+  room.
+:look_nothing: >
+  With nothing specific to look at, I take in the scene. In front of me there is
+  a giant armor, in the center of the room there is a black square pedestal.
+:look_to_left: >
+  Asaide from the wall there is pretty much nothing there.
+:look_to_right: >
+  Nothing much going on there.
+:look_ahead: >
+  A pedestal and behind it an armored figure.
+:look_origin: >
+  A door between two pillars.
+:look_armor: >
+  It is gigantic, on closer inspection it seems that it is just some armor for
+  a gigantic being rather than a giant itself, thankfully. I would rather keep
+  my distance even so.  But even this far I can see that much work on detail
+  has been spent on detailed but unreadable inscriptions. The armor itself is
+  gray adorned with golden stripes where one part of the armor covers another
+  one.
+:look_pedestal: >
+  It is not really square, it is more of a rectangular cuboid... anyway it is
+  perfectly shaped with a black surface that seems to devour the light around
+  it. Only odd thing is a shiny peace on top of it. Considering what I have
+  seen up to this point an ominous rectangular cuboid with an obvious shiny on
+  top of it doesn't really count as odd.
+:look_shiny: >
+  It is a shiny piece.
+:look_door: >
+  A only door out from this place adorned by two stone pillars, made from the
+  similar material as the surrounding walls. Slightly above the door a rather old
+  %{crest} crest with no remarkable features.
+:look_crest: >
+  A %{crest} crest, nothing special about it.
+:look_wall: >
+  The wall of this, if I can even call it, room is covered by huge blocks not
+  much different from those outside of the dungeon.
+:look_pillar: >
+  Since my attention has been fixated on the giant armor I didn't really notice
+  another giant armor this one much older and made from stone, more like a giant
+  statue really. Which is probably why I have mistook his legs for simple
+  pillars.
+:look_stone: >
+  This side of the room is darker than the one where the giant armor is so
+  aside from its legs I can see only vague shape that resembles the other giant
+  armor.  This giant however in his hands has what it seems to be a sword and a
+  shield. I can only guess this from the basic outline that the shape makes.
+:touch_nothing: >
+  With nothing specific to touch I touch my left hand.
+:touch_armor: >
+  Risking way too much I approach the giant armored figure and touch it. It is
+  cold to the touch and the air feels different around it. I also hear a very
+  low hum deep inside. It also doesn't seem hollow yet I can't feel any
+  presence inside.
+:touch_pedestal: >
+  Usually when one touches or taps on something it gives some sort of response
+  mostly trough either sound or some sort of vibration. This thing gives none,
+  it is as if it swallows everything around it.
+:touch_shiny: >
+  I touch the shiny. It feels ordinary almost plain.
+:touch_door: >
+  Like most doors in this dungeon, nothing really out of the ordinary.
+:touch_crest: >
+  Can't really reach it, but even if I could I doubt it would be of use.
+:touch_wall: >
+  The wall here looks as reinforced as the one outside of the dungeon.
+:touch_pillar: >
+  It displays the same warmth as the walls.
+:touch_stone: >
+  Where the other giant armor is cold to the touch this one is warm. I can feel
+  some sort of presence within, like I instinctively know there is something
+  there but have no way of proving it.
+:obtained_shiny: >
+  A room with a shiny in the middle, whatever can go wrong?
+
+  Well several things actually.
+
+  First, the room lights up, allowing me to see more of it, the pedestal
+  decides that it doesn't want to be here for whats to come so it descends into
+  the floor disappearing completely. It would be nice if I could do that just
+  about now.
+
+  Second, the giant armor comes to life and kneels placing its left hand on the
+  floor near me palm facing up, its right arm on the right knee, looking like
+  knight bowing to his lord, at any other situation I would be impressed and
+  deeply moved by this.
+
+  Third, the other stone armor giant comes to life at the same time, voicing
+  displeasure, probably, about my recent action. Its eyes glowing red now
+  definitely fixated on me. I chuckle a little, amused and terrified by the
+  current situation.
+
+  It seems that I am offered a quite limited amount of choices here. Going to
+  the giant armor's inviting hand seems like an option but so does exiting this
+  room, maybe I can out maneuver the stone giant, it doesn't look like it can
+  move fast enough.
+:go_nothing: >
+  Where should I?
+:go_wall: >
+  I attempt going near the wall in order to out maneuver the opponent, thinking
+  that there is no way for a stone giant to move fast enough to do any harm.
+
+  At lest I got educated that bigger doesn't mean slower.
+:go_pedestal: >
+  I stay in the center of the room, hoping that I will also sink into the
+  ground and go somewhere else. But it seems that you have to be of the black
+  lifeless cuboid disposition to do that.
+
+  Instead I become a red stain.
+:go_door: >
+  I rush towards the door in hopes that the stone giant is not fast enough to
+  notice and horribly deal with me.
+
+  Stone giant is fast enough.
+
+  And horribly deals with me.
+:go_pillar: >
+  The stone giant probably can't stomp me if I am close to his legs.
+
+  I was wrong.
+:go_stone: >
+  In the act of desperation and lack of sanity I face the stone giant face to
+  foot.
+
+  Foot wins.
+:go_satchel: >
+  Climbing into my satchel... just might work! If I can't see the enemy then
+  the enemy can't see me.
+
+  Wrong planet it seems.
