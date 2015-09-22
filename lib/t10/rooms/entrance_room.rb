@@ -129,9 +129,12 @@ module T10
         desc << Book.entrance_room[:enter_gate] %
           [hero_max_hp_m1: Hero::MAX_HP - 1]
         desc << Book.entrance_room[:obtain_satchel]
+
+        @hero.obtain_satchel
+
         desc << next_room.interact([:enter],[], nroom_modifiers)
 
-        @hero.obtain_satchel if next_room.hero_here?
+        # @hero.obtain_satchel if next_room.hero_here?
         @hero = nil if next_room.hero_here?
         desc
       end

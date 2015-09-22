@@ -1,6 +1,10 @@
+require "t10/rooms/under_construction"
+
 module T10
   module Rooms
     class MachineryRoom < Room
+      include Rooms::UnderConstruction
+
       DOORS = 3
 
       def initialize

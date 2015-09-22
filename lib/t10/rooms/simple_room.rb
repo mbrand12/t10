@@ -1,4 +1,5 @@
 module T10
+
   module Rooms
     # Simple room is first room made to test how the items are obtained as well
     # as the satchel functionality. The goal here is to get the shiny piece by

@@ -1,0 +1,12 @@
+---
+:enter: >
+  I enter a strange space with a sign before me which reads:
+
+  "UNDER CONSTRUCTION.", written in large frendly letters.
+
+  Well at least I got a shiny piece out of it.
+
+:enter_visited: >
+  I am back in the "UNDER CONSTRUCTION" sign room.
+:item_obtained: >
+  [dev_note: use exit left, right, ahead or back to navigate trough rooms :)]

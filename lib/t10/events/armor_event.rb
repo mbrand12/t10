@@ -19,7 +19,7 @@ module T10
 
       MODIFIERS = {
         horizontal: %i(horizontal horizontally cleave),
-        vertical: %i(vertical verticaly),
+        vertical: %i(vertical vertically),
         thrust: %i(thrust spear),
         kick: %i(kick),
         nanomist: %i(nanomist repair nano mist)

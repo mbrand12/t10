@@ -80,9 +80,9 @@ module T10
         if @battle_done
           desc = [Book.armor_room[:enter_battle_done]]
           if modifiers.include?(:game_load)
-            desc << send(:exit, [], [:origin, :no_save])
+            desc << send(:exit, [], [:origin, :no_save, :battle_over])
           end
-          des
+          desc
         elsif @visited
           Book.armor_room[:enter_visited]
         else

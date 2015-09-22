@@ -71,6 +71,8 @@ module T10
           else
             Book.end_room["look_#{modifiers.first}".to_sym]
           end
+          else
+            Book.end_room["look_#{nouns.first}".to_sym]
         end
       end
 

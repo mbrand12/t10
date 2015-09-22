@@ -6,6 +6,8 @@ file. This change log is based upon [keep-a-changelog]. This project adheres to
 
 ## Unreleased
 
+## 0.0.1
+
 ###Added
 
 - README, contains short info abut this project.
@@ -14,6 +16,13 @@ file. This change log is based upon [keep-a-changelog]. This project adheres to
 - MIT LICENCE
 - Basic project folder and file structure (bin, lib, test).
 - Rakefile for tests and Gemfile.
-
+- [**feature**] Hero, a miserable little pile of numbers.
+- [**feature**] Room, a place where the Hero looks at things and such.
+- [**feature**] Dungeon, which randomly places rooms for each new adventure.
+- [**feature**] Book, because keeping a bunch of strings with logic is not fun.
+- [**feature**] Satchel and Item, where the hero can place items obtained.
+- [**feature**] Event, which the Hero can trigger while in some of the rooms.
+- Documentation, for most classes and features.
+- Placeholders, for rooms not yet implemented, at least you get a shiny.
 [keep-a-changelog]: https://github.com/olivierlacan/keep-a-changelog
 [Semantic Versioning]: http://semver.org/
