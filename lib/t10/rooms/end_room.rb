@@ -12,7 +12,8 @@ module T10
 
       NOUNS = {
         wall: %i(wall),
-        hole: %i(hole opening crevice)
+        hole: %i(hole opening crevice),
+        crest: %i(crest)
       }
 
       MODIFIERS = {}
@@ -71,7 +72,13 @@ module T10
           else
             Book.end_room["look_#{modifiers.first}".to_sym]
           end
-          else
+        elsif nouns.include?(:door)
+          Book.end_room[:look_door] %
+               [crest: get_desc_crest_from_relative(:origin)]
+        elsif nouns.include?(:crest)
+          Book.end_room[:look_crest] %
+               [crest: get_desc_crest_from_relative(:origin)]
+        else
             Book.end_room["look_#{nouns.first}".to_sym]
         end
       end

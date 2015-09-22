@@ -15,6 +15,10 @@
   something familiar.
 :look_origin: >
   The is a door to my back.
+:look_door: >
+  Nothing special about the door nor the the old %{crest} crest above it.
+:look_crest: >
+  An old %{crest} shaped crest.
 :look_wall: >
   The wall on the sides in pretty much the typical wall in here. The wall in
   front of me is somewhat different but not by much, bar the hole in the middle

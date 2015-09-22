@@ -11,7 +11,7 @@ class BookTest < Minitest::Test
       "The description should contain the phrase 'ancient habit'."
   end
 
-  def test_save_event
+  def test_event_text
     assert T10::Book.save_event[:save_intro].match(/remember/),
       "The description should contain the phrase."
   end

@@ -6,7 +6,7 @@ file. This change log is based upon [keep-a-changelog]. This project adheres to
 
 ## Unreleased
 
-## 0.0.1
+## 0.0.1 - 2015-09-22
 
 ###Added
 
