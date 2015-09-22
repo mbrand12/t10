@@ -4,7 +4,7 @@ class EntranceRoomTest < Minitest::Test
 
   def setup
     @en_room = T10::Rooms::EntranceRoom.new
-    @next_room = T10::Rooms::ArmorRoom.new
+    @next_room = T10::Room.new
     @hero = T10::Hero.new
 
     @en_room.connect_to(nil)
@@ -42,5 +42,10 @@ class EntranceRoomTest < Minitest::Test
 
     refute @en_room.hero_here? && @next_room.hero_here?,
       "Hero shouldn't be in any room once the Hero has walked the path"
+  end
+
+  def test_no_satchel
+    assert @hero.satchel.nil?,
+      "Hero shouldn't have the satchel before entering the dungeon."
   end
 end

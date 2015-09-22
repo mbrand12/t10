@@ -66,6 +66,7 @@ class RoomTest < Minitest::Test
 
   def test_cracked_orb
     hero = T10::Hero.new
+    hero.obtain_satchel
     hero.instance_variable_set(:@luck, 1000)
 
     room1 = T10::Rooms::MachineryRoom.new
