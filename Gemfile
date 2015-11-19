@@ -8,6 +8,6 @@ group :development do
 end
 
 group :test do
-  gem 'minitest',           '5.5.0'
-  gem 'minitest-reporters', '1.0.8'
+  gem 'minitest',           '5.8.0'
+  gem 'minitest-reporters', '1.1.5'
 end
