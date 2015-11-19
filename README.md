@@ -71,4 +71,4 @@ or the typical way:
 
 [YARD]: https://github.com/lsegal/yard
 [LRTHW]: http://learnrubythehardway.org/
-[gitflow]: https://github.com/nvie/gitflow
+[gitflow]: https://github.com/petervanderdoes/gitflow-avh
