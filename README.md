@@ -1,6 +1,8 @@
 # Tribute To The Tragicomic Tale Told Through Ten Trivial Tests
 > *a.k.a "T"* * *10* # the hard way ex45
 
+[![Inline docs](http://inch-ci.org/github/mbrand12/t10.svg?branch=develop)](http://inch-ci.org/github/mbrand12/t10)
+
 ## Synopsis
 
 A text adventure game as an exercise 45 from [LRTHW] by Zed Shaw. Hero will go

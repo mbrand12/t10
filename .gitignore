@@ -1,4 +1,5 @@
 .fuse*
-.yardoc
+/.yardoc
 /doc
-
+/.ruby-gemset
+/.ruby-version
