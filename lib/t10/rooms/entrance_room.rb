@@ -121,7 +121,7 @@ module T10
       def enter_dungeon
         desc = []
 
-        crest, _, _, next_room = @doors.find{|_, v| v[1] == :ahead}.flatten
+        crest, _, _, _, next_room = @doors.find{|_, v| v[-2] == :ahead}.flatten
         @doors[crest][0] = true
         nroom_modifiers = [:cracked, crest, @hero]
 

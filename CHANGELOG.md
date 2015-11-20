@@ -6,6 +6,10 @@ file. This change log is based upon [keep-a-changelog]. This project adheres to
 
 ## Unreleased
 
+### Changed
+
+- [**breaking**] Dungeon, is now a separate gem.
+
 ## 0.0.1 - 2015-09-22
 
 ###Added

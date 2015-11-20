@@ -2,13 +2,16 @@ module T10
   # The dungeon class sole responsibility is to create an array of properly
   # connected rooms following a specific algorithm.
   #
-  # In the game there are four types of rooms: Rooms with one door (door_1
-  # types), rooms with two doors (door_2 types) etc.
+  # A room is any class that includes {Traversable} module. Each room must also
+  # have a `DOORS` integer constant which currently must be greater than 4.
+  #
+  # Currently only 4 types of rooms are supported. Rooms with one door are
+  # called `door_1 types`, with two `door_2 types` etc.
   #
   # In order for algorithm to work a specific number of each types much be
   # sampled from the total number of the rooms of that type. That number is
-  # defined in {ROOM_TYPE_LIMIT}. There must me 4 rooms of door_1 type, 3 rooms
-  # of door_2 type etc.
+  # defined in {ROOM_TYPE_LIMIT}. Currently there must be 4 rooms of door_1
+  # type, 3 rooms of door_2 type etc.
   #
   # Then a room is sampled from all the types following some rules (like the
   # first room must not be door_1 type, and if there are door_2, door_3 or
@@ -17,7 +20,7 @@ module T10
   #
   # Then for that room, based on the available doors, the number of rooms are
   # sampled (also following specific rules) and connected to the origin room (see
-  # {RoomConnectingTools} for a clarification on origin rooms). Once the room
+  # {Traversable} for a clarification on origin rooms). Once the room
   # has its doors occupied the algorithm moves to the next room in the list and
   # does the same until all the rooms from the @rooms_by_type are sampled.
   #
@@ -33,6 +36,9 @@ module T10
     }
 
     @dungeon_rooms = []
+
+    @entrance_room = nil
+    @exit_room = nil
 
     # Generates a list of rooms and connects them properly.
     #
@@ -69,12 +75,15 @@ module T10
     # selected making every playtrough different.
     #
     # @return [Array<Room>] returns a array of sampled rooms properly connected.
-    def self.generate
-      populate_types
-      shuffle_rooms
+    def self.generate(rooms, entrance_room, exit_room)
 
-      starting_room = Rooms::EntranceRoom.new
-      @dungeon_rooms = [starting_room]
+      @entrance_room = entrance_room
+      @exit_room = exit_room
+
+      check(rooms)
+      populate_types_and_shuffle(rooms)
+
+      @dungeon_rooms = [@entrance_room.new]
       @dungeon_rooms[0].connect_to(nil)
 
       @dungeon_rooms.each do |current_room|
@@ -89,18 +98,27 @@ module T10
 
     private
 
-    def self.populate_types
-      @rooms_by_type.each do |k, _|
-        @rooms_by_type[k] =
-          Room.rooms.select { |r| r::DOORS == k.slice(5).to_i }
+    def self.check(rooms)
+      unless rooms.uniq.length == rooms.length
+        raise StandardError, "No duplicate classes allowed!"
       end
-
-      @rooms_by_type[:door_1].delete Rooms::EndRoom
-      @rooms_by_type[:door_2].delete Rooms::EntranceRoom
+      rooms.each do |room|
+        unless room.included_modules.include?(T10::Traversable)
+          raise StandardError, "Class #{room} did not include Traversable module"
+        end
+        unless room.const_defined? :DOORS
+          raise StandardError, "Class #{room} must have DOORS constant!"
+        end
+      end
     end
 
-    def self.shuffle_rooms
+    def self.populate_types_and_shuffle(rooms)
+
+      rooms -= [@entrance_room, @exit_room]
+
       @rooms_by_type.each do |k, _|
+        @rooms_by_type[k] =
+          rooms.select { |r| r::DOORS == k.slice(5).to_i }
         @rooms_by_type[k] =
           @rooms_by_type[k].shuffle.slice(0, ROOM_TYPE_LIMIT[k.slice(5).to_i])
       end
@@ -143,7 +161,7 @@ module T10
         if sampled_room_type
           sampled_rooms << @rooms_by_type[sampled_room_type].shift
         else
-          sampled_rooms << Rooms::EndRoom
+          sampled_rooms << @exit_room
         end
       end
       sampled_rooms

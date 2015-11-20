@@ -27,21 +27,21 @@ module T10
   #     # The second value is the internal rotation that is relative to the
   #     # :origin. The :ahead will always be the opposite cardinal direction
   #     # from the : origin, same with :to_right and :to_left. So if the :origin
-  #     # is :w_tiger (west) the :ahead is :e_dragon (east).
+  #     # is :west (west) the :ahead is :east (east).
   #     #
   #     # The third value is the reference to the instance of the room the
   #     # door leads to. Weather the value gets assigned here is dependent on
   #     # weather the room has that door via the @has_left, @has_right, and
   #     # @has_ahead boolean instance variables.
   #     @doors = {
-  #        e_dragon:  [false, :ahead, nil],
-  #        s_phoenix: [false, :to_right, nil],
-  #        w_tiger:   [false, :origin, origin_room],
-  #        n_turtle:  [false, :to_left, nil]
+  #        east:  [false, :ahead, nil],
+  #        south: [false, :to_right, nil],
+  #        west:   [false, :origin, origin_room],
+  #        north:  [false, :to_left, nil]
   #     }
   #
   # These methods are used only when generating the dungeon.
-  module RoomConnectingTools
+  module Traversable
     # Connects one room to another where the receiver is the origin room (the
     # `room` parameter's origin door will point to this room). If the `room`
     # parameter is nil then the external orientation is randomly selected (the
@@ -53,7 +53,7 @@ module T10
     # First the room (parameter) in question is added to the @doors of the
     # origin room (receiver), based
     # on weather the room has any empty doors to fill see
-    # {RoomConnectingTools#add_door_leading_to} for more details.
+    # {Traversable#add_door_leading_to} for more details.
     #
     # Then the origin door is added to the room's @door instance variable
     # and the variable internal orientation is set based on the origin room's
@@ -65,15 +65,15 @@ module T10
       return add_origin_door unless room
 
       crest_to_room = add_door_leading_to(room)
-      @doors[crest_to_room][2].add_origin_door(self, crest_to_room)
+      @doors[crest_to_room][-1].add_origin_door(self, crest_to_room)
     end
 
     protected
 
     # Method adds the origin door to the room (receiver) based on the provided
     # crest from the origin room (parameter). The method is called in
-    # {RoomConnectingTools#connect_to} and comes after
-    # {RoomConnectingTools#add_door_leading_to}.
+    # {Traversable#connect_to} and comes after
+    # {Traversable#add_door_leading_to}.
     #
     # The method raises an exception if the room first gets an origin door
     # before the origin room adds the room to the @door. This prevents from
@@ -98,37 +98,38 @@ module T10
       end
 
       unless origin_room
-        crest_to_room = [:e_dragon, :s_phoenix, :w_tiger, :n_turtle].sample
+        crest_to_room = [:east, :south, :west, :north].sample
       end
 
       case crest_to_room
-      when :e_dragon
+      when :east
         @doors = {
-          e_dragon:  [false, :ahead, nil],
-          s_phoenix: [false, :to_right, nil],
-          w_tiger:   [false, :origin, origin_room],
-          n_turtle:  [false, :to_left, nil]
+          east:  @doors[:east].push(:ahead, nil),
+          south: @doors[:south].push(:to_right, nil),
+          west:   @doors[:west].push(:origin, origin_room),
+          north:  @doors[:north].push(:to_left, nil)
         }
-      when :s_phoenix
+      when :south
         @doors = {
-          e_dragon:  [false, :to_left, nil],
-          s_phoenix: [false, :ahead, nil],
-          w_tiger:   [false, :to_right, nil],
-          n_turtle:  [false, :origin, origin_room]
+          east:  @doors[:east].push(:to_left, nil),
+          south: @doors[:south].push(:ahead, nil),
+          west:   @doors[:west].push(:to_right, nil),
+          north:  @doors[:north].push(:origin, origin_room)
         }
-      when :w_tiger
+      when :west
         @doors = {
-          e_dragon:  [false, :origin, origin_room],
-          s_phoenix: [false, :to_left, nil],
-          w_tiger:   [false, :ahead, nil],
-          n_turtle:  [false, :to_right, nil]
+          east:  @doors[:east].push(:origin, origin_room),
+          south: @doors[:south].push(:to_left, nil),
+          west:   @doors[:west].push(:ahead, nil),
+          north:  @doors[:north].push(:to_right, nil)
         }
-      when :n_turtle
+      when :north
         @doors = {
-          e_dragon:  [false, :to_right, nil],
-          s_phoenix: [false, :origin, origin_room],
-          w_tiger:   [false, :to_left, nil],
-          n_turtle:  [false, :ahead, nil]
+
+          east:  @doors[:east].push(:to_right, nil),
+          south: @doors[:south].push(:origin, origin_room),
+          west:   @doors[:west].push(:to_left, nil),
+          north:  @doors[:north].push(:ahead, nil)
         }
       end
       self
@@ -136,7 +137,7 @@ module T10
 
     # This method adds the room (parameter) to the @doors of the receiver
     # (origin room). This method is called by the
-    # {RoomConnectingTools#connect_to}.
+    # {Traversable#connect_to}.
     #
     # This method does not handle exceptions, it requires client to know
     # the total number of available doors and the number of occupied door by
@@ -152,8 +153,8 @@ module T10
     # @raise [StandardError] if all doors are occupied.
     # @return [Symbol] The crest of the door leading to room (parameter)
     def add_door_leading_to(room)
-      if @doors.find { |_, v| v[2].class == room.class }
-        fail StandardError, "Duplicate rooms now allowed!"
+      if @doors.find { |_, v| v[-1].class == room.class }
+        fail StandardError, "Duplicate rooms not allowed!"
       end
 
       left_crest  = get_crest_from_relative(:to_left) if @has_left
@@ -162,14 +163,14 @@ module T10
 
       case
       # does the room have a door to the left and is that door not occupied?
-      when @has_left && @doors[left_crest][2].nil?
-        @doors[left_crest][2] = room
+      when @has_left && @doors[left_crest][-1].nil?
+        @doors[left_crest][-1] = room
         left_crest
-      when @has_right && @doors[right_crest][2].nil?
-        @doors[right_crest][2] = room
+      when @has_right && @doors[right_crest][-1].nil?
+        @doors[right_crest][-1] = room
         right_crest
-      when @has_ahead && @doors[ahead_crest][2].nil?
-        @doors[ahead_crest][2] = room
+      when @has_ahead && @doors[ahead_crest][-1].nil?
+        @doors[ahead_crest][-1] = room
         ahead_crest
       else
         fail StandardError,
@@ -181,7 +182,7 @@ module T10
     private
 
     def get_crest_from_relative(orientation)
-      @doors.find { |_, v| v[1] == orientation }[0]
+      @doors.find { |_, v| v[-2] == orientation }[0]
     end
   end
 end
