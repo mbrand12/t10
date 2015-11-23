@@ -2,8 +2,13 @@ module T10
   # The dungeon class sole responsibility is to create an array of properly
   # connected rooms following a specific algorithm.
   #
-  # A room is any class that includes {Traversable} module. Each room must also
-  # have a `DOORS` integer constant which currently must be greater than 4.
+  # A Room is any class that includes {Traversable} module. Each room must also
+  # have a `DOORS` integer constant which currently must be equal or less than 4.
+  # The room must also have `@doors` hash instance variable, as well as
+  # `@has_left`, `@has_right`, `@has_ahead` boolean instance variables which must
+  # correspond to DOORS constant (meaning that if the room has one door, all
+  # the `@has_` values must be false, if it has two doors, one variable must be
+  # true and other false etc.)
   #
   # Currently only 4 types of rooms are supported. Rooms with one door are
   # called `door_1 types`, with two `door_2 types` etc.
@@ -24,6 +29,62 @@ module T10
   # has its doors occupied the algorithm moves to the next room in the list and
   # does the same until all the rooms from the @rooms_by_type are sampled.
   #
+  # Example of minimal requirement for a classes to be a "room":
+  #
+  #     class Room
+  #       include T10::Traversable
+  #
+  #       def initialize
+  #         @doors = {
+  #            east:  [],
+  #            south: [],
+  #            west:  [],
+  #            north: []
+  #         }
+  #       end
+  #     end
+  #
+  #     class EntranceRoom < Room
+  #       DOORS = 2
+  #
+  #       def initialize
+  #         super
+  #
+  #         @has_left = true
+  #         @has_right = false
+  #         @has_ahead = false
+  #       end
+  #
+  #       # room logic...
+  #     end
+  #
+  #     class ExitRoom < Room
+  #       DOORS = 1
+  #
+  #       def initialize()
+  #         super
+  #
+  #         @has_left = false
+  #         @has_right = false
+  #         @has_ahead = false
+  #       end
+  #
+  #       # room logic...
+  #     end
+  #
+  #     class SampleRoom < Room
+  #       DOORS = 3
+  #
+  #       def initialize
+  #         super
+  #
+  #         @has_left = true
+  #         @has_right = false
+  #         @has_ahead = true
+  #       end
+  #
+  #       # room logic...
+  #     end
   class Dungeon
     # The max number of rooms needed of a certain type.
     ROOM_TYPE_LIMIT = [0, 4, 3, 2, 1]
@@ -42,8 +103,8 @@ module T10
 
     # Generates a list of rooms and connects them properly.
     #
-    # First @rooms_by_type is populated from the list of all subclass of
-    # {Room}, excluding {Rooms::EntranceRoom} and {Rooms::EndRoom}.
+    # First @rooms_by_type is populated from the list of all rooms from `rooms`
+    # parameter.
     #
     # Example:
     #
@@ -57,23 +118,26 @@ module T10
     # After all the rooms are placed in their respective type the rooms are
     # shuffled within their type.
     #
-    # Then a {Rooms::EntranceRoom} is created, its origin room set to nil and
-    # added to the list of generated rooms.
+    # Then a `entrance_room` is created, its origin room set to nil and added
+    # to the list of generated rooms.
     #
     # Rooms are then sampled based on the current room (and its door limit)
     # following specific rules. When the rooms are sampled and properly
-    # connected they are added to the @dungeon_rooms list. Once the current
+    # connected they are added to the `@dungeon_rooms` list. Once the current
     # room has its door occupied the list goes to the next room and does all
     # this.
     #
-    # The last room connected is always the {Rooms::EndRoom} which ensures that
-    # the end room will not show near the beginning, but due to the random
-    # nature of the dungeon it won't always be the furthest room.
+    # The last room connected is always the exit_room which ensures that the
+    # exit room will not show near the beginning, but due to the random nature
+    # of the dungeon it won't always be the furthest room.
     #
     # It there are more rooms for sampling than the needed they are ignored,
     # this allows that if there are 10 type_1 rooms are present only 4 will be
     # selected making every playtrough different.
-    #
+    # @param rooms [Array<Class>] An array of rooms.
+    # @param entrance_room [Class] Dedicated entrance room (which must have
+    #   two doors).
+    # @param exit_room [Class] Dedicated exit room (which must have one door).
     # @return [Array<Room>] returns a array of sampled rooms properly connected.
     def self.generate(rooms, entrance_room, exit_room)
 
@@ -99,6 +163,10 @@ module T10
     private
 
     def self.check(rooms)
+      unless @entrance_room::DOORS == 2 && @exit_room::DOORS == 1
+        raise StandardError,
+              "Entrance room must have two doors and exit must have one door!"
+      end
       unless rooms.uniq.length == rooms.length
         raise StandardError, "No duplicate classes allowed!"
       end

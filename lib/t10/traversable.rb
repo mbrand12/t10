@@ -1,19 +1,22 @@
 module T10
-  # The methods in this module are used to connect a {Room} to another {Room}
-  # while ensuring that the connection goes both ways and takes care of
-  # internal and external orientations. The connection is assigned to the
-  # {Room} instance variable @door.
+  # The methods in this module are used to connect a Room to another Room
+  # (making them traversable) while ensuring that the connection goes both ways
+  # and takes care of internal and external orientations. The connection is
+  # assigned to the instance variable @door, which a class that includes this
+  # module must declare within the constructor (the class also must include
+  # @has_left, @has_right and @has_ahead instance variables within the
+  # constructor)
   #
   # Each room can have up to 4 doors, each door takes one cardinal direction
   # and requires that the room connected to that door follows that logic. In
   # other words if one exits via the east door it will come in the next room
   # via the west entrance.
   #
-  # An origin door leads to the room that leads to the {Rooms::EntranceRoom}
-  # (the first "room" in the dungeon). The origin door provides the means of
-  # internal orientation without being dependent on the external orientation.
-  # The narration in the room should always be made with that in mind (write
-  # the description as if the Hero is always with his back turned on the origin
+  # An origin door leads to the room that leads to the entrance room (the first
+  # room in the dungeon). The origin door provides the means of internal
+  # orientation without being dependent on the external orientation. The
+  # narration in the room should always be made with that in mind (write the
+  # description as if the Hero is always with his back turned on the origin
   # door).
   #
   # So regardless of external orientation of the room (east, west, north,
@@ -27,37 +30,48 @@ module T10
   #     # The second value is the internal rotation that is relative to the
   #     # :origin. The :ahead will always be the opposite cardinal direction
   #     # from the : origin, same with :to_right and :to_left. So if the :origin
-  #     # is :west (west) the :ahead is :east (east).
+  #     # is :west the :ahead is :east.
   #     #
   #     # The third value is the reference to the instance of the room the
   #     # door leads to. Weather the value gets assigned here is dependent on
   #     # weather the room has that door via the @has_left, @has_right, and
-  #     # @has_ahead boolean instance variables.
+  #     # @has_ahead boolean instance variables of the class that includes this
+  #     # module.
+  #
+  #
+  #     # before connecting using {connect_to}
   #     @doors = {
-  #        east:  [false, :ahead, nil],
-  #        south: [false, :to_right, nil],
-  #        west:   [false, :origin, origin_room],
-  #        north:  [false, :to_left, nil]
+  #        east:   [values],
+  #        south:  [values],
+  #        west:   [values],
+  #        north:  [values]
+  #     }
+  #     # after
+  #     @doors = {
+  #        east:   [values, :ahead, nil],
+  #        south:  [values, :to_right, nil],
+  #        west:   [values, :origin, origin_room],
+  #        north:  [values, :to_left, nil]
   #     }
   #
-  # These methods are used only when generating the dungeon.
+  # These methods are used only when generating the dungeon, and should only
+  # be used by the dungeon generator.
   module Traversable
-    # Connects one room to another where the receiver is the origin room (the
-    # `room` parameter's origin door will point to this room). If the `room`
-    # parameter is nil then the external orientation is randomly selected (the
-    # only case for this is for the {Rooms::EntranceRoom})
+    # Connects one room to another where the receiver is the origin room. If
+    # the `room` parameter is nil then the external orientation is randomly
+    # selected (the only case for this is for the entrance room).
     #
     # This is the only method that should be called in order to connect the
     # rooms.
     #
     # First the room (parameter) in question is added to the @doors of the
-    # origin room (receiver), based
-    # on weather the room has any empty doors to fill see
-    # {Traversable#add_door_leading_to} for more details.
+    # origin room (receiver), based on weather the room has any empty doors to
+    # fill see {Traversable#add_door_leading_to} for more details.
     #
     # Then the origin door is added to the room's @door instance variable
     # and the variable internal orientation is set based on the origin room's
-    # crest leading to that room.
+    # crest leading to that room see {Traversable#add_origin_door} for more
+    # details.
     #
     # @param room [Room] The room that gets assigned its origin door.
     # @return [Room] the room that was assigned its origin door.
@@ -72,8 +86,7 @@ module T10
 
     # Method adds the origin door to the room (receiver) based on the provided
     # crest from the origin room (parameter). The method is called in
-    # {Traversable#connect_to} and comes after
-    # {Traversable#add_door_leading_to}.
+    # {Traversable#connect_to}.
     #
     # The method raises an exception if the room first gets an origin door
     # before the origin room adds the room to the @door. This prevents from
@@ -136,16 +149,15 @@ module T10
     end
 
     # This method adds the room (parameter) to the @doors of the receiver
-    # (origin room). This method is called by the
-    # {Traversable#connect_to}.
+    # (origin room). This method is called by the {Traversable#connect_to}.
     #
     # This method does not handle exceptions, it requires client to know
-    # the total number of available doors and the number of occupied door by
-    # checking the subclass {Room::DOORS} constant.
+    # the total number of available doors and the number of occupied doors by
+    # checking the subclass DOORS constant.
     #
     # After adding the method in the free slot of the @doors determined by the
     # @has_left, @has_right and @has_ahead (as well as the DOORS constant) of
-    # the {Room}, the method returns the crest (or external orientation) of the
+    # the Room, the method returns the crest (or external orientation) of the
     # door that leads to the room (parameter).
     #
     # @param room [Room] A room to be added to @doors of the origin_room.
