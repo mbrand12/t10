@@ -3,7 +3,8 @@
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 't10/cli'
+require 'bundler/setup'
 require 't10'
+require 't10/cli'
 
 T10::CLI.run

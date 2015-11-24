@@ -1,5 +1,3 @@
-require 't10/traversable'
-
 module T10
   # @abstract This class is a placeholder for concrete room implementations.
   #
@@ -34,7 +32,7 @@ module T10
   # (usually for filtering user input into verbs, nouns and modifiers).
   # The method used for that is {Room#words}.
   class Room
-    include T10::Traversable
+    include T10::Dungeon::Traversable
 
     DOORS = 4
 

@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 't10-dungeon', git: "https://github.com/mbrand12/t10-dungeon.git", branch: "develop"
+
 group :development do
   gem 'rake'
   gem 'pry',           '0.10.3'
