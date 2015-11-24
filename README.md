@@ -32,10 +32,13 @@ Or read it online at: http://www.rubydoc.info/github/mbrand12/t10
 
 - Install ruby if you haven't.
 - Clone using:
+
      `$ git clone -b master git@github.com:mbrand12/t10.git`
      or
      `$ git clone -b master https://git@github.com/mbrand12/t10.git`
+
 - Run `$ ruby bin/t10` in the main project directory.
+
 ## Usage
 
 Use `enter left, right, ahead or back` to navigate trough the dungeon after
