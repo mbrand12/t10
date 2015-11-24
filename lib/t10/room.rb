@@ -1,5 +1,3 @@
-require 't10/room_connecting_tools'
-
 module T10
   # @abstract This class is a placeholder for concrete room implementations.
   #
@@ -33,9 +31,8 @@ module T10
   # specific uses and merge them with the constants of the parent on request
   # (usually for filtering user input into verbs, nouns and modifiers).
   # The method used for that is {Room#words}.
-  #
   class Room
-    include RoomConnectingTools
+    include T10::Dungeon::Traversable
 
     DOORS = 4
 
@@ -51,17 +48,17 @@ module T10
       satchel: %i(satchel inventory stash)
     }
 
-    # The :e_dragon (east), :s_phoenix (south), :w_tiger (west) and :n_turtle
-    # (north) are used for the external orientation.  For example: Enter the
-    # door with the dragon crest.
+    # The :east (dragon), :south (phoenix), :west (tiger) and :north (turtle)
+    # are used for the external orientation.  For example: Enter the door with
+    # the dragon crest.
     #
     # While the :to_left, :to_right, :ahead and :origin are used for internal
     # orientation. For example: Enter the leftmost door.
     MODIFIERS = {
-      e_dragon:  %i(dragon),
-      s_phoenix: %i(phoenix),
-      w_tiger:   %i(tiger),
-      n_turtle:  %i(turtle),
+      east:  %i(dragon),
+      south: %i(phoenix),
+      west:   %i(tiger),
+      north:  %i(turtle),
       to_left:   %i(left leftmost),
       to_right:  %i(right rightmost),
       ahead:     %i(ahead straight forward),
@@ -71,8 +68,7 @@ module T10
     # Holds the list of all the classes that will inherit this class.
     @rooms = []
     class << self
-      # Used by the {Dungeon.generate} to sample rooms from all the room
-      # subclasses.
+      # Used as a rooms list for the dungeon generator.
       # @return [Array] list of all classes that inherit {Room}
       attr_reader :rooms
     end
@@ -97,11 +93,9 @@ module T10
     #                 room must have an origin.
     # - **@doors** - [Hash] the key is the external orientation keyword the
     #                first value is the status of the healing orb in the hallway
-    #                between this room and the room in the 3rd value.
-    #                The second value is the internal orientation of the room
-    #                (more about that in the {RoomConnectingTools}). The third
-    #                value is the reference to the room that the hero goes
-    #                trough when the hero exits trough a door.
+    #                between this room and the room that it will connect to.
+    #                The second value is the name of the crest used in
+    #                descriptions.
     # - **@current_event** [{Event}] it holds the reference to the currently
     #                      triggered event, during which all the user input is
     #                      directed to the {Event#interact} trough
@@ -123,10 +117,10 @@ module T10
       @has_ahead = false
 
       @doors = {
-        e_dragon:  [false, nil, nil],
-        s_phoenix: [false, nil, nil],
-        w_tiger:   [false, nil, nil],
-        n_turtle:  [false, nil, nil]
+        east:  [false, :dragon],
+        south: [false, :phoenix],
+        west:  [false, :tiger],
+        north: [false, :turtle]
       }
 
       @hero = nil
@@ -282,7 +276,7 @@ module T10
       unless door
         return Book.room[:which_door]
       end
-      crest, orb_cracked, _, next_room = door
+      crest, orb_cracked, _, _, next_room = door
 
       unless next_room
         return Book.room[:sealed_door]
@@ -313,11 +307,11 @@ module T10
     #
     # @param orientation [Symbol] one of the [:to_left, :to_right, :ahead,
     #   :origin] symbols.
-    # @return [Symbol] one of the [:e_dragon, :w_tiger, :n_turtle, :s_phoenix]
+    # @return [Symbol] one of the [:dragon, :tiger, :turtle, :phoenix]
     #   symbols.
     def get_desc_crest_from_relative(orientation)
-      door = @doors.find { |_, v| v[1] == orientation }
-      door[0].slice(2,door[0].length-2) if door
+      door = @doors.find { |_, v| v[-2] == orientation }
+      door.flatten[2] if door
     end
 
     private
@@ -399,7 +393,7 @@ module T10
 
     def get_door_data(modifiers)
       door = @doors.find do |k, v|
-        modifiers.include?(k) || modifiers.include?(v[1])
+        modifiers.include?(k) || modifiers.include?(v[-2])
       end
       return nil unless door
       door.flatten
@@ -418,14 +412,14 @@ module T10
 
     def orient(room_crest)
       case room_crest
-      when :e_dragon
-        :w_tiger
-      when :s_phoenix
-        :n_turtle
-      when :w_tiger
-        :e_dragon
-      when :n_turtle
-        :s_phoenix
+      when :east
+        :west
+      when :south
+        :north
+      when :west
+        :east
+      when :north
+        :south
       end
     end
   end

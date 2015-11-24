@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/mbrand12/t10-dungeon.git
+  revision: 41bb7bf3b9cb1042b89b2afc9a4f1cf579e1402a
+  branch: develop
+  specs:
+    t10-dungeon (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -13,7 +20,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    posix-spawn (0.3.9)
+    posix-spawn (0.3.11)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -35,6 +42,7 @@ DEPENDENCIES
   pry (= 0.10.3)
   rake
   redcarpet (= 3.2.2)
+  t10-dungeon!
   yard (= 0.8.7.6)
 
 BUNDLED WITH

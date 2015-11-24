@@ -2,7 +2,11 @@ require 'test_helper'
 
 class DungeonTest < Minitest::Test
   def setup
-    @generated_rooms = T10::Dungeon.generate
+    @generated_rooms = T10::Dungeon.generate(T10::Room.rooms,
+                                             T10::Rooms::EntranceRoom,
+                                             T10::Rooms::EndRoom)
+    @entrance_room = T10::Rooms::EntranceRoom
+    @exit_room = T10::Rooms::EndRoom
   end
 
   def test_room_connections
@@ -41,8 +45,8 @@ class DungeonTest < Minitest::Test
 
   def test_entrance_and_end_rooms
     room_clases = @generated_rooms.map(&:class)
-    assert room_clases.include?(T10::Rooms::EntranceRoom) &&
-       room_clases.include?(T10::Rooms::EndRoom),
+    assert room_clases.include?(@entrance_room) &&
+      room_clases.include?(@exit_room),
 
       "Dungeon must have an Entrance and Exit"
   end

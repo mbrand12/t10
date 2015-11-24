@@ -18,7 +18,9 @@ module T10
       check_save_file
 
       # generates an [Array<Room>]
-      @dungeon = Dungeon.generate
+      @dungeon = T10::Dungeon.generate(T10::Room.rooms,
+                                       T10::Rooms::EntranceRoom,
+                                       T10::Rooms::EndRoom)
 
       data = {
         dungeon: []
