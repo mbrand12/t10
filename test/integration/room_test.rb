@@ -6,7 +6,7 @@ class RoomTest < Minitest::Test
     room1 = T10::Rooms::EmptyRoom.new
     room2 = T10::Rooms::SimpleRoom.new
 
-    room1.connect_to(nil)
+    room1.prepare_entrance!
 
     msg = "Room should not be able to be connected to the room that has" \
           "no doors left to be connected to."
@@ -18,7 +18,7 @@ class RoomTest < Minitest::Test
     room1 = T10::Rooms::HiddenDoorRoom.new
     room2 = T10::Rooms::TrapRoom.new
 
-    room1.connect_to(nil)
+    room1.prepare_entrance!
     room1.connect_to(room2)
 
     msg = "Should not allow adding duplicate rooms"
@@ -35,7 +35,7 @@ class RoomTest < Minitest::Test
     room1 = T10::Rooms::JungleRoom.new
     room2 = T10::Rooms::ArmorRoom.new
 
-    room1.connect_to(nil)
+    room1.prepare_entrance!
     room1.connect_to(room2)
 
     desc = []
@@ -57,7 +57,7 @@ class RoomTest < Minitest::Test
     room1 = T10::Rooms::JungleRoom.new
     room2 = T10::Rooms::EmptyRoom.new
 
-    room1.connect_to(nil)
+    room1.prepare_entrance!
     room1.connect_to(room2)
 
     assert room1.interact([:exit],[],[]).match(/which/),
@@ -72,7 +72,7 @@ class RoomTest < Minitest::Test
     room1 = T10::Rooms::MachineryRoom.new
     room2 = T10::Rooms::HallRoom.new
 
-    room1.connect_to(nil)
+    room1.prepare_entrance!
     room1.connect_to(room2)
 
     desc = []

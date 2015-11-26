@@ -7,7 +7,7 @@ class EntranceRoomTest < Minitest::Test
     @next_room = T10::Room.new
     @hero = T10::Hero.new
 
-    @en_room.connect_to(nil)
+    @en_room.prepare_entrance!
     @en_room.connect_to(@next_room)
 
   end
