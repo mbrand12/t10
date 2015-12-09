@@ -14,4 +14,5 @@ group :test do
   gem 'minitest',           '5.8.0'
   gem 'minitest-reporters', '1.1.5'
   gem 'simplecov',          '0.11.1', require: false
+  gem 'cucumber',           '2.1.0'
 end

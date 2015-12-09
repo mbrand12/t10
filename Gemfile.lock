@@ -11,7 +11,18 @@ GEM
     ansi (1.5.0)
     builder (3.2.2)
     coderay (1.1.0)
+    cucumber (2.1.0)
+      builder (>= 2.1.2)
+      cucumber-core (~> 1.3.0)
+      diff-lcs (>= 1.1.3)
+      gherkin3 (~> 3.1.0)
+      multi_json (>= 1.7.5, < 2.0)
+      multi_test (>= 0.1.2)
+    cucumber-core (1.3.0)
+      gherkin3 (~> 3.1.0)
+    diff-lcs (1.2.5)
     docile (1.1.5)
+    gherkin3 (3.1.2)
     github-markup (1.3.1)
       posix-spawn (~> 0.3.8)
     json (1.8.3)
@@ -22,6 +33,8 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    multi_json (1.11.2)
+    multi_test (0.1.2)
     posix-spawn (0.3.11)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -43,6 +56,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  cucumber (= 2.1.0)
   github-markup (= 1.3.1)
   minitest (= 5.8.0)
   minitest-reporters (= 1.1.5)
