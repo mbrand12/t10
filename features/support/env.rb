@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require "aruba/cucumber"
 
 class MinitestWorld
   extend Minitest::Assertions
