@@ -13,12 +13,12 @@ module T10
 
       scribe Book.storyteller[:intro]
 
-      if Story.ongoing_adventure?
+      if Story.ongoing_adventure?(ARGV.include?("--test"))
         scribe Book.storyteller[:load_adventure]
         loop do
           scribe Book.storyteller[:load_query], false
           print ">"
-          answer = gets.chomp
+          answer = STDIN.gets.chomp
           if answer == "yes"
             scribe Book.storyteller[:load_query_yes], false
             start_adventure
@@ -45,10 +45,11 @@ module T10
     # @param new_adventure [Boolean] if true will trigger a new adventure.
     # @return [void]
     def self.start_adventure(new_adventure = false)
+      test_mode = ARGV.include?("--test")
       if new_adventure
-        Story.new_adventure
+        Story.new_adventure(test_mode)
       else
-        Story.load_adventure
+        Story.load_adventure(test_mode)
       end
 
       if Story.current_room
@@ -59,7 +60,7 @@ module T10
         print "#{Story.current_room.desc_name} "
         print "> "
         Thesaurus.add_words(*Story.current_room.words)
-        verbs, nouns, modifiers =  Thesaurus.scan(gets.chomp)
+        verbs, nouns, modifiers =  Thesaurus.scan(STDIN.gets.chomp)
 
         scribe Story.current_room.interact(verbs, nouns, modifiers)
 

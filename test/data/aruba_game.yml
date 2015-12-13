@@ -1,0 +1,407 @@
+---
+:dungeon:
+- &1 !ruby/object:T10::Rooms::EntranceRoom
+  visited: true
+  has_left: false
+  has_right: false
+  has_ahead: true
+  doors:
+    :east:
+    - false
+    - :dragon
+    - :to_right
+    - 
+    :south:
+    - false
+    - :phoenix
+    - :origin
+    - 
+    :west:
+    - true
+    - :tiger
+    - :ahead
+    - &2 !ruby/object:T10::Rooms::HiddenDoorRoom
+      visited: true
+      has_left: true
+      has_right: false
+      has_ahead: true
+      doors:
+        :east:
+        - true
+        - :dragon
+        - :origin
+        - *1
+        :south:
+        - false
+        - :phoenix
+        - :to_left
+        - &8 !ruby/object:T10::Rooms::EmptyRoom
+          visited: false
+          has_left: false
+          has_right: false
+          has_ahead: false
+          doors:
+            :east:
+            - false
+            - :dragon
+            - :to_left
+            - 
+            :south:
+            - false
+            - :phoenix
+            - :ahead
+            - 
+            :west:
+            - false
+            - :tiger
+            - :to_right
+            - 
+            :north:
+            - false
+            - :turtle
+            - :origin
+            - *2
+          hero: 
+          current_event: 
+          room_items: []
+          key_item_slots: {}
+          shiny_obtained: false
+        :west:
+        - false
+        - :tiger
+        - :ahead
+        - &5 !ruby/object:T10::Rooms::HallRoom
+          visited: false
+          has_left: true
+          has_right: true
+          has_ahead: true
+          doors:
+            :east:
+            - false
+            - :dragon
+            - :origin
+            - *2
+            :south:
+            - false
+            - :phoenix
+            - :to_left
+            - &4 !ruby/object:T10::Rooms::MachineryRoom
+              visited: false
+              has_left: true
+              has_right: true
+              has_ahead: false
+              doors:
+                :east:
+                - false
+                - :dragon
+                - :to_left
+                - &3 !ruby/object:T10::Rooms::MazeRoom
+                  visited: false
+                  has_left: false
+                  has_right: true
+                  has_ahead: false
+                  doors:
+                    :east:
+                    - false
+                    - :dragon
+                    - :ahead
+                    - 
+                    :south:
+                    - false
+                    - :phoenix
+                    - :to_right
+                    - &11 !ruby/object:T10::Rooms::ArmorRoom
+                      visited: false
+                      has_left: false
+                      has_right: false
+                      has_ahead: false
+                      doors:
+                        :east:
+                        - false
+                        - :dragon
+                        - :to_left
+                        - 
+                        :south:
+                        - false
+                        - :phoenix
+                        - :ahead
+                        - 
+                        :west:
+                        - false
+                        - :tiger
+                        - :to_right
+                        - 
+                        :north:
+                        - false
+                        - :turtle
+                        - :origin
+                        - *3
+                      hero: 
+                      current_event: 
+                      room_items:
+                      - !ruby/class 'T10::Items::ShinyItem'
+                      key_item_slots: {}
+                      shiny_obtained: false
+                      battle_done: false
+                    :west:
+                    - false
+                    - :tiger
+                    - :origin
+                    - *4
+                    :north:
+                    - false
+                    - :turtle
+                    - :to_left
+                    - 
+                  hero: 
+                  current_event: 
+                  room_items: []
+                  key_item_slots: {}
+                  shiny_obtained: false
+                :south:
+                - false
+                - :phoenix
+                - :ahead
+                - 
+                :west:
+                - false
+                - :tiger
+                - :to_right
+                - &10 !ruby/object:T10::Rooms::BossRoom
+                  visited: false
+                  has_left: false
+                  has_right: false
+                  has_ahead: false
+                  doors:
+                    :east:
+                    - false
+                    - :dragon
+                    - :origin
+                    - *4
+                    :south:
+                    - false
+                    - :phoenix
+                    - :to_left
+                    - 
+                    :west:
+                    - false
+                    - :tiger
+                    - :ahead
+                    - 
+                    :north:
+                    - false
+                    - :turtle
+                    - :to_right
+                    - 
+                  hero: 
+                  current_event: 
+                  room_items: []
+                  key_item_slots: {}
+                  shiny_obtained: false
+                :north:
+                - false
+                - :turtle
+                - :origin
+                - *5
+              hero: 
+              current_event: 
+              room_items: []
+              key_item_slots: {}
+              shiny_obtained: false
+            :west:
+            - false
+            - :tiger
+            - :ahead
+            - &6 !ruby/object:T10::Rooms::TrapRoom
+              visited: false
+              has_left: false
+              has_right: false
+              has_ahead: true
+              doors:
+                :east:
+                - false
+                - :dragon
+                - :origin
+                - *5
+                :south:
+                - false
+                - :phoenix
+                - :to_left
+                - 
+                :west:
+                - false
+                - :tiger
+                - :ahead
+                - &7 !ruby/object:T10::Rooms::JungleRoom
+                  visited: false
+                  has_left: true
+                  has_right: false
+                  has_ahead: false
+                  doors:
+                    :east:
+                    - false
+                    - :dragon
+                    - :origin
+                    - *6
+                    :south:
+                    - false
+                    - :phoenix
+                    - :to_left
+                    - &12 !ruby/object:T10::Rooms::EndRoom
+                      visited: false
+                      has_left: false
+                      has_right: false
+                      has_ahead: false
+                      doors:
+                        :east:
+                        - false
+                        - :dragon
+                        - :to_left
+                        - 
+                        :south:
+                        - false
+                        - :phoenix
+                        - :ahead
+                        - 
+                        :west:
+                        - false
+                        - :tiger
+                        - :to_right
+                        - 
+                        :north:
+                        - false
+                        - :turtle
+                        - :origin
+                        - *7
+                      hero: 
+                      current_event: 
+                      room_items: []
+                      key_item_slots:
+                        :amulet:
+                        - :hole
+                        - :wall
+                      shiny_obtained: false
+                    :west:
+                    - false
+                    - :tiger
+                    - :ahead
+                    - 
+                    :north:
+                    - false
+                    - :turtle
+                    - :to_right
+                    - 
+                  hero: 
+                  current_event: 
+                  room_items: []
+                  key_item_slots: {}
+                  shiny_obtained: false
+                :north:
+                - false
+                - :turtle
+                - :to_right
+                - 
+              hero: 
+              current_event: 
+              room_items: []
+              key_item_slots: {}
+              shiny_obtained: false
+            :north:
+            - false
+            - :turtle
+            - :to_right
+            - &9 !ruby/object:T10::Rooms::SimpleRoom
+              visited: false
+              has_left: false
+              has_right: false
+              has_ahead: false
+              doors:
+                :east:
+                - false
+                - :dragon
+                - :to_right
+                - 
+                :south:
+                - false
+                - :phoenix
+                - :origin
+                - *5
+                :west:
+                - false
+                - :tiger
+                - :to_left
+                - 
+                :north:
+                - false
+                - :turtle
+                - :ahead
+                - 
+              hero: 
+              current_event: 
+              room_items: []
+              key_item_slots: {}
+              shiny_obtained: false
+              touch_counter: 0
+              meal_appeared: false
+              meal_eaten: false
+          hero: 
+          current_event: 
+          room_items: []
+          key_item_slots: {}
+          shiny_obtained: false
+        :north:
+        - false
+        - :turtle
+        - :to_right
+        - 
+      hero: !ruby/object:T10::Hero
+        hit_points: 3
+        dead: false
+        luck: 10
+        satchel: !ruby/object:T10::Satchel
+          inventory:
+          - !ruby/object:T10::Items::AmuletItem
+            quantity: 1
+            quality: 0
+            max_quality: 10
+            max_quantity: 1
+          - !ruby/object:T10::Items::ShinyItem
+            quantity: 1
+            quality: 0
+            max_quality: 0
+            max_quantity: 10
+          recipes:
+            :amulet:
+            - :amulet
+            - :shiny
+      current_event: !ruby/object:T10::Events::SaveEvent
+        get_back_data:
+        - :exit
+        - []
+        - - :origin
+        complete: false
+      room_items: []
+      key_item_slots: {}
+      shiny_obtained: true
+    :north:
+    - false
+    - :turtle
+    - :to_left
+    - 
+  hero: 
+  current_event: 
+  room_items: []
+  key_item_slots: {}
+  shiny_obtained: false
+  gate_open: false
+- *2
+- *8
+- *5
+- *4
+- *9
+- *6
+- *3
+- *10
+- *7
+- *11
+- *12

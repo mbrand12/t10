@@ -6,13 +6,15 @@ module T10
   class Story
 
     @save_path = File.expand_path('../../../data/game.yml', __FILE__)
+    @test_path = File.expand_path('../../../test/data/aruba_game.yml', __FILE__)
     @dungeon = nil
 
     # Generates a new dungeon and clears the save file defined by the
     # `@save_path` class instance variable.
     #
     # @return [void]
-    def self.new_adventure
+    def self.new_adventure(test_mode)
+      @save_path = @test_path if test_mode 
       # checks weather the save file exists in the location provided by
       # the @save_path, if that isn't the case it throws an exception.
       check_save_file
@@ -45,7 +47,8 @@ module T10
     #
     # @raise [RuntimeError] if the file is not found.
     # @return [void]
-    def self.load_adventure
+    def self.load_adventure(test_mode)
+      @save_path = @test_path if test_mode
       check_save_file
       data = YAML.load_file(@save_path)
       @dungeon = data[:dungeon]
@@ -62,7 +65,8 @@ module T10
     #
     # @raise [RuntimeError] if the file is not found.
     # @return [Boolean]
-    def self.ongoing_adventure?
+    def self.ongoing_adventure?(test_mode)
+      @save_path = @test_path if test_mode
       check_save_file
       data = YAML.load_file(@save_path)
       return false unless data.is_a?(Hash)
